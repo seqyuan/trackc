@@ -22,10 +22,10 @@ tracks:
       abs.bed: ../../test_data/hg19_chr7_40000_abs.bed
       matrix: ../../test_data/h2cell_chr7_400_730_40k_raw.mat
       resolution: 40000
-      show_distance: 2000000
+      show_distance: 2500000
       chrom: chr7
       start: 17000000
-      end: 28940000
+      end: 28000000
 
   - name: 8-cell
     type: triView
@@ -40,10 +40,10 @@ tracks:
       abs.bed: ../../test_data/hg19_chr7_40000_abs.bed
       matrix: ../../test_data/h8cell_chr7_400_730_40k_raw.mat
       resolution: 40000
-      show_distance: 2000000
+      show_distance: 2500000
       chrom: chr7
       start: 17000000
-      end: 28940000
+      end: 28000000
 
   - name: Morula
     type: triView
@@ -58,10 +58,10 @@ tracks:
       abs.bed: ../../test_data/hg19_chr7_40000_abs.bed
       matrix: ../../test_data/morula_chr7_400_730_40k_raw.mat
       resolution: 40000
-      show_distance: 2000000
+      show_distance: 2500000
       chrom: chr7
       start: 17000000
-      end: 28940000
+      end: 28000000
 
   - name: Blastocyst
     type: triView
@@ -76,10 +76,10 @@ tracks:
       abs.bed: ../../test_data/hg19_chr7_40000_abs.bed
       matrix: ../../test_data/blastocyst_chr7_400_730_40k_raw.mat
       resolution: 40000
-      show_distance: 2000000
+      show_distance: 2500000
       chrom: chr7
       start: 17000000
-      end: 28940000
+      end: 28000000
 
   - name: 6-week
     type: triView
@@ -94,10 +94,10 @@ tracks:
       abs.bed: ../../test_data/hg19_chr7_40000_abs.bed
       matrix: ../../test_data/h6week_chr7_400_730_40k_raw.mat
       resolution: 40000
-      show_distance: 2000000
+      show_distance: 2500000
       chrom: chr7
       start: 17000000
-      end: 28940000
+      end: 28000000
 
   - name: H1 hESC
     type: triView
@@ -112,10 +112,10 @@ tracks:
       abs.bed: ../../test_data/hg19_chr7_40000_abs.bed
       matrix: ../../test_data/H1ESC_chr7_400_730_40k_raw.mat
       resolution: 40000
-      show_distance: 2000000
+      show_distance: 2500000
       chrom: chr7
       start: 17000000
-      end: 28940000
+      end: 28000000
 
 
 

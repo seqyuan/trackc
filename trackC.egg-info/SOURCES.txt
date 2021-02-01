@@ -15,6 +15,7 @@ trackC.egg-info/PKG-INFO
 trackC.egg-info/SOURCES.txt
 trackC.egg-info/dependency_links.txt
 trackC.egg-info/top_level.txt
+trackc/__init__.py
 trackc/_version.py
 trackc/heatmap.py
 trackc/__pycache__/heatmap.cpython-36.pyc

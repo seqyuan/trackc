@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: trackC
-Version: 0.0.1
+Version: 0.0.4
 Summary: Base functions to plot Xomics data tracks
 Home-page: https://github.com/seqyuan/trackC
 Author: ahworld

@@ -200,7 +200,7 @@ def plot_xticks(ax, chrom, start, end):
     ax.axhline(y=2.5, c="k", ls="-", lw=1.5)
     ax.text(start, 3.5,"{0}:{1}-{2}".format(chrom, start, end), fontsize=15)
     ax.set_xlim([start, end])
-    ax.set_ylim([-5,14])
+    ax.set_ylim([-10,10])
 
 def plot_bottom_label(ax, plot_start, plot_end, tick_start, tick_end, gene_start, gene_end, gene_name):
     ax.plot([tick_start, tick_start],[0,2],'r-',lw=0.5)
