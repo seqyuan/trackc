@@ -87,6 +87,9 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+import sphinx_rtd_theme
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
 html_theme = 'rtd-dropdown'
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -201,8 +204,8 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-import sphinx_rtd_theme
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+#import sphinx_rtd_theme
+#html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 
 
