@@ -18,6 +18,7 @@
 
 
 # -- Project information -----------------------------------------------------
+from recommonmark.parser import CommonMarkParser
 
 project = 'trackC'
 copyright = '2021, ahworld'
@@ -56,8 +57,11 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.md'
+source_parsers = {
+    '.md': CommonMarkParser,
+}
+source_suffix = ['.rst', '.md']
+#source_suffix = '.md'
 
 # The master toctree document.
 master_doc = 'index'
@@ -199,4 +203,6 @@ todo_include_todos = True
 
 import sphinx_rtd_theme
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
+
 

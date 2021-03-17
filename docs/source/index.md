@@ -10,7 +10,7 @@ Welcome to trackC's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   gene_track.md
 
 Indices and tables
 ==================
