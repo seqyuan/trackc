@@ -9,3 +9,4 @@ sphinxemoji
 
 # crate-docs-theme
 sphinx-rtd-theme
+mkdocs-rtd-dropdown

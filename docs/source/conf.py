@@ -91,9 +91,11 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 import sphinx_rtd_theme
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+import mkdocs-rtd-dropdown
+html_theme_path = [mkdocs-rtd-dropdown.get_html_theme_path(), sphinx_rtd_theme.get_html_theme_path()]
 
-html_theme = 'sphinx_rtd_theme'
+
+html_theme = 'rtd-dropdown'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
