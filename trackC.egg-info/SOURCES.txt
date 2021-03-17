@@ -2,7 +2,11 @@ README.md
 environment.yml
 requirements.txt
 setup.py
+dist/trackC-0.0.3.tar.gz
+dist/trackC-0.0.4.tar.gz
 example/heatmaps/config.yml
+example/heatmaps/heatmap.pdf
+example/heatmaps/heatmap.png
 example/heatmaps/trackC.py
 test_data/H1ESC_chr7_400_730_40k_raw.mat
 test_data/blastocyst_chr7_400_730_40k_raw.mat
@@ -18,4 +22,5 @@ trackC.egg-info/top_level.txt
 trackc/__init__.py
 trackc/_version.py
 trackc/heatmap.py
+trackc/tracks.py
 trackc/__pycache__/heatmap.cpython-36.pyc

@@ -1,0 +1,65 @@
+
+
+
+
+### 基本信息
+* 模块名：bw_track
+* 模块功能：plot bw track
+* 模块版本： v1.0.0
+* 作者：zanyuan
+* 邮箱：zanyuan@genome.cn
+
+
+### 软件环境
+
+
+### 输入参数
+* file : 必填参数,conffile 
+* outdir : 可选参数,程序运行时输出目录,Result 
+* prefix : 可选参数,outfileprefix,test_bw_track 
+* mount : 必填参数,程序挂载路径 
+* reportdir : 可选参数,oss指定的输出目录 
+* workid : 可选参数,oss任务id,用于生成报告 
+* config_json : 必填参数,模块配置文件json格式 
+
+
+### 输入文件示例
+config.yml
+
+```
+figure:
+  size: 
+    width: 8
+    height: 3
+
+  row: 3
+  col: 1
+
+tracks:
+  - name: M2
+    type: bw
+    gs:
+      row:
+        from: 0
+        to: 
+      col: 
+        from: 0
+        to:
+
+    pars:
+      bwfile: ./M2A.bw
+      chrom: chr13
+      start: 72000000
+      end: 76000000
+      color: '#464451'
+      resolution: 5000
+
+```
+
+
+
+### 输出文件
+
+bw track图
+
+### 注意事项
