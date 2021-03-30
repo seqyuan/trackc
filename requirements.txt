@@ -4,4 +4,4 @@ warnings
 matplotlib
 scipy
 mpl_toolkits
-
+sphinx-rtd-theme

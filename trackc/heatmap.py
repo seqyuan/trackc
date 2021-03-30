@@ -46,7 +46,7 @@ def mat2Triangular(raw_mat=None):
         n+=1
     return tri_mat
 
-def subset2triMat(mat,start=17000000,end=28940000,resolution=40000,show_distance=2500000):
+def triMatSubset(mat,start=17000000,end=28940000,resolution=40000,show_distance=2500000):
     distance = int(show_distance/resolution)
     start_bin = int(start/resolution)
     end_bin = int(end/resolution)
@@ -55,6 +55,15 @@ def subset2triMat(mat,start=17000000,end=28940000,resolution=40000,show_distance
         
     plot_mat = mat[0:distance, start_bin*2:end_bin*2]
     return plot_mat, start_bin*2, end_bin*2
+
+def MatSubset(mat,start=17000000,end=28940000,resolution=40000):
+    start_bin = int(start/resolution)
+    end_bin = int(end/resolution)
+    if end%resolution > 0:
+        end_bin = end_bin + 1
+        
+    plot_mat = mat[start_bin:end_bin, start_bin:end_bin]
+    return plot_mat, start_bin, end_bin
 
     
 def getData2Map(mat, maxrange=None, minrange=None, logdata=True, trim_range=0.98):
