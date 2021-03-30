@@ -1,2 +1,3 @@
-theme: rtd-dropdown
+theme: sphinx-rtd-theme
+#rtd-dropdown
 site_name: trackC
