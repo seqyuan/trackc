@@ -105,7 +105,7 @@ def bw_track(bw,
     va = 'top'
     if invert_y == True:
         va='bottom'
-    ax.text(0, max_y, "[{0}, {1}]".format(tick_fl % min_y, tick_fl % max_y), verticalalignment=va, fontsize=tick_fontsize)
+    ax.text(0, max_y, " [{0}, {1}]".format(tick_fl % min_y, tick_fl % max_y), verticalalignment=va, fontsize=tick_fontsize)
     
     ax.set_ylabel(ylabel, fontsize=label_fontsize, rotation=label_rotation, horizontalalignment='right', verticalalignment='center')
      
