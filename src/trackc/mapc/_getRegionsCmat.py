@@ -73,7 +73,7 @@ class RegionsCmat:
 def extractContactRegions(
         clr: cooler.Cooler, 
         balance: bool = False,
-        divisive_weights = None,
+        #divisive_weights = None,
         row_regions: Union[Sequence[str], str, None] = None,
         col_regions: Union[Sequence[str], str, None] = None, 
         ) -> RegionsCmat:
@@ -173,7 +173,7 @@ def extractContactRegions(
         
 # import extractCisRegion as subsetCisRegion
 
-def extractCisRegion(
+def extractCisContact(
         clr: cooler.Cooler,
         region: str,
         extend: int = 0,
