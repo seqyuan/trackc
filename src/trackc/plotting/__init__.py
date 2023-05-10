@@ -10,6 +10,7 @@ from .mapc import (
     getData2Map
 )
 
+
 __doc__ = """\
 Plotting API
 ============
@@ -26,7 +27,7 @@ Generic
 
 .. autosummary::
    :toctree: .
-
+   pl.getData2Map
    pl.mapC
    pl.gene_track
    pl.mapc_markline
@@ -36,6 +37,4 @@ Generic
    pl.bw_compartment
    pl.bed_track
    pl.multi_scale_track
-   pl.scale_track
-   
 """
