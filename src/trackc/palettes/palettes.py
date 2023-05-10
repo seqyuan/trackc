@@ -2,6 +2,10 @@
 
 from matplotlib import cm, colors
 
+
+trackcl_9 = ['#EC6F5D', '#73C8DB', '#4EB4A2', '#6676A0', '#F5AE9B', '#9EA7C6', '#A7DBCC', '#E63634', '#9B806E']
+trackcl_11 = ['#332488', '#347834', '#4AAB9A', '#88CCEE', '#DDCC77', '#CD6777', '#AA449A', '#892355', '#2572B2', '#D55F30', '#E6A03D']
+    
 # Colorblindness adjusted vega_10
 
 vega_10 = list(map(colors.to_hex, cm.tab10.colors))
@@ -69,7 +73,8 @@ def _plot_color_cycle(clists: Mapping[str, Sequence[str]]):
     import matplotlib.pyplot as plt
     from matplotlib.colors import ListedColormap, BoundaryNorm
 
-    fig, axes = plt.subplots(nrows=len(clists))  # type: plt.Figure, plt.Axes
+    fig, axes = plt.subplots(nrows=len(clists))  
+    # type: plt.Figure, plt.Axes
     fig.subplots_adjust(top=.95, bottom=.01, left=.3, right=.99)
     axes[0].set_title('Color Maps/Cycles', fontsize=14)
 
@@ -91,10 +96,12 @@ def _plot_color_cycle(clists: Mapping[str, Sequence[str]]):
         ax.set_axis_off()
     fig.show()
 
-
+"""
 if __name__ == '__main__':
     _plot_color_cycle({
         name: colors
         for name, colors in globals().items()
         if isinstance(colors, list)
     })
+
+"""

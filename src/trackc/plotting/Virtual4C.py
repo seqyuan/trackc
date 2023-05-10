@@ -1,5 +1,5 @@
-from .mapc._getRegionsCmat import extractContactRegions
-from .mapc.mapc import mapC, getData2Map
+from ..tools._getRegionsCmat import extractContactRegions
+from .mapc import mapC, getData2Map
 from matplotlib.axes import Axes
 from typing import Union, Sequence, Optional
 from matplotlib.colors import Colormap
@@ -8,7 +8,6 @@ import numpy as np
 import cooler
 import seaborn as sns
 fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
-
 
 def plot4C_line_bar(data,
                 ax,
@@ -26,7 +25,7 @@ def plot4C_line_bar(data,
         data = np.log2(data)
     
     if track_type=='line':
-        ax.plot(range(len(data[0,:])), data[0,:], color=color)
+        ax.plot(range(len(data[0,:])), data[0,:], color=color, solid_capstyle='butt')
 
     if track_type=='bar':
         ax.bar(x=range(len(data[0,:])), height=data[0,:], bottom=minrange, width=1, color=color, align='edge')
@@ -40,6 +39,7 @@ def get_pets(df, binsize=10000):
     
     chroms = []
     bins = []
+    
     for i, row in pets.iterrows():
         chroms.extend([row['chrom']] * row['cbins'])
          

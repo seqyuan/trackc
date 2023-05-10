@@ -1,10 +1,8 @@
 from matplotlib.axes import Axes
-from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
-import matplotlib.pyplot as plt
-from matplotlib import cm
+from typing import Union, Optional, Sequence
 import pandas as pd
-import numpy as np
-from .mapc._getRegionsCmat import GenomeRegion
+from ..tools import GenomeRegion
+from ..palettes import trackcl_11
 
 def scale_ticks(ticks, scale='bp', tick_fl='%0.2f'):
     if scale == 'Mb':
@@ -84,13 +82,14 @@ def multi_scale_track(ax: Optional[Axes] = None,
                       tick_fl: Union[str, None] ='%0.2f',
                       tick_fontsize: Union[int, None] = 8,
                       tick_rotation: Union[int, None] = 0,
-
                 ):
-    
-    track_colors2= ['#EC6F5D', '#73C8DB', '#4EB4A2', '#6676A0', '#F5AE9B', '#9EA7C6', '#A7DBCC', '#E63634', '#9B806E']
-    track_colors = ['#332488', '#347834', '#4AAB9A', '#88CCEE', '#DDCC77', '#CD6777', '#AA449A', '#892355', '#2572B2', '#D55F30', '#E6A03D']
+    """\
+    """
+
     if colors != None:
         track_colors  = colors
+    else:
+        track_colors = trackcl_11
 
     if isinstance(regions, list):
         line_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in regions])

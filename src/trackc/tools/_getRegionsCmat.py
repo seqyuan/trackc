@@ -2,9 +2,8 @@ import logging
 import cooler
 import pandas as pd
 import numpy as np
-from typing import Union, List, Sequence, Tuple, Collection, Optional
-#from .._utils import GenomeRegion
-import sys
+from typing import Union, List, Sequence
+import cooler
 
 class GenomeRegion:
     region = None
@@ -167,6 +166,11 @@ def extractContactRegions(
             col_GenomeRegions.loc[ii, "cbins"] = cmat_shape[1]
             
     #print(col_GenomeRegions)
+    row_GenomeRegions['chrom'] = row_GenomeRegions['chrom'].astype(str)
+    col_GenomeRegions['chrom'] = col_GenomeRegions['chrom'].astype(str)
+    #row_GenomeRegions['fetch_start'] = row_GenomeRegions['fetch_start'].astype(int)
+    #col_GenomeRegions['fetch_start'] = col_GenomeRegions['fetch_start'].astype(int)
+
     r_l_regions_cMat = RegionsCmat(cmat=cMat, row_regions=row_GenomeRegions, col_regions=col_GenomeRegions)
     
     return r_l_regions_cMat

@@ -1,10 +1,9 @@
 from matplotlib.axes import Axes
-import pyBigWig
-from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
+from typing import Union, Optional, Sequence
 import pandas as pd
 import numpy as np
-from ..mapc._getRegionsCmat import GenomeRegion
-from ..bigwig.bigwig import make_multi_region_ax
+from ..tools._getRegionsCmat import GenomeRegion
+from .bigwig import make_multi_region_ax
 
 
 def two_degree_bc(x_l=10, x_r=90, y_lr=0, y2=10, dots_num=100): 
@@ -43,7 +42,7 @@ def plot_loop(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor,
         
         xt, yt = two_degree_bc(x_l=row[left_anchor], x_r=row[right_anchor], y_lr=0, y2=top, dots_num=100)
     
-        ax.plot(xt, yt, color=color, linewidth=0.5)
+        ax.plot(xt, yt, color=color, linewidth=0.5, solid_capstyle='butt')
         if max(yt) > top_y:
             top_y = max(yt)
             

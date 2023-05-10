@@ -5,21 +5,8 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm #,CenteredNorm, SymLogNorm,PowerNorm, Normalize  
-from matplotlib.cm import get_cmap
 from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
-import seaborn as sns
-
-#import sys
-#import cooler
-#import collections.abc as cabc
-#import matplotlib as mpl
-#from ..plotting._utils import panel_grid, ColorLike
-#from matplotlib import rcParams, patheffects
-#from copy import copy
-
-
-fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
-fruitpunch2 = sns.blend_palette(['white', 'blue'], as_cmap=True)
+from ..palettes import fruitpunch
 
 ColorLike = Union[str, Tuple[float, ...]]
 
@@ -68,41 +55,6 @@ def getData2Map(mat, maxrange=None, minrange=None, trim_range=0.99, inplace=Fals
     else:
         print ("Warning: max data <0, no data to plot")
 
-def hex2rgb(value):
-    # convert hex to rgb
-    value = value.lstrip('#')
-    lv = len(value)
-    rgb = tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-    return np.array([rgb[0]/255, rgb[1]/255, rgb[2]/255, 1])
-
-def colorC(cname="RdBu_r", 
-           bottom_color="#ffffff", 
-           bad_color="white", 
-           over_color="white", 
-           under_color="white", 
-           alpha=0):
-    #cname = ["twilight_shifted", "jet", "RdBu_r", "RdGy_r", "BrBG_r", "hot_r", "Spectral_r"]
-    #cname = ["terrain_r", "ocean", "gist_earth", "gist_stern_r", "tab20b", "twilight"]
-    from matplotlib.colors import ListedColormap
-    if isinstance(cname, str):
-        cmap=plt.get_cmap(cname)
-    else:
-        cmap=cname
-
-    cmap.set_bad(color=bad_color, alpha=alpha)
-    cmap.set_over(color=over_color, alpha=alpha)
-    cmap.set_under(color=under_color, alpha=alpha)
-
-    if bottom_color==None:
-        return cmap
-
-    bottom_color = hex2rgb(bottom_color)
-    newcolors = cmap(np.linspace(0, 1, 256))
-    #white = np.array([1, 1, 1, 1])
-    newcolors[0, :] = bottom_color
-    newcmap = ListedColormap(newcolors)
-
-    return newcmap
 
 def plot_pcolormesh( 
     mat: np.ndarray,
@@ -343,7 +295,7 @@ def mapC(
     symmetric: bool
         If there is one of ``mat`` and ``mat2`` para is None, 
         value ``True`` means the  symmetric heatmap
-
+    
     """
 
     #cmap = copy(get_cmap(cmap))
@@ -372,7 +324,13 @@ def mapC(
     if isinstance(mat, np.ndarray) and isinstance(mat2, np.ndarray):
         map_order = 0
         map_order2 = 1
- 
+    elif isinstance(mat, np.ndarray):
+        map_order = 0
+    elif isinstance(mat2, np.ndarray):
+        map_order2 = 1
+    else:
+        pass
+
     if isinstance(mat, np.ndarray):
         im = mapC_triview(
             mat=mat,
@@ -492,51 +450,6 @@ def mapC(
     ax.set_yticks([]) 
     if ax_on==False:
         ax.axis('off')
-
-def plot_contact_regions_line(ax, 
-                              rl_regions, 
-                              map_order=0, 
-                              mapType='triangle', 
-                              trans_XY=False, 
-                              linewidth=1, 
-                              linestyle='--', 
-                              linecolor='k'):
-    if trans_XY == True:
-        print('trans_XY should be False')
-
-    xA, yA, xB, yB = 0,0,0,0
-    xA2, yA2, xB2, yB2 = 0,0,0,0
-    rl_regions = rl_regions.query('chrom == chrom')
-
-    cbins = rl_regions['cbins'].to_list()
-    full_len = sum(cbins)
-    v_sum = 0
-    for i, v in enumerate(cbins):
-        v_sum = v_sum+v
-
-        if i == len(cbins)-1:
-            break
-
-        #v2 = cbins[i+1]
-
-        if mapType == 'triangle':
-            if map_order==0:
-                xA, yA, xB, yB = v_sum/2, v_sum, v_sum, 0
-                xA2, yA2, xB2, yB2 = v_sum, 0, v_sum+(full_len-v_sum)/2, full_len-v_sum
-            else:
-                xA, yA, xB, yB = v_sum/2, -v_sum, v_sum, 0
-                xA2, yA2, xB2, yB2 = v_sum, 0, v_sum+(full_len-v_sum)/2, -(full_len-v_sum)
-        
-        if mapType == 'square':
-            if map_order==0:
-                xA, yA, xB, yB = v_sum-0.5, -0.5, v_sum-0.5, v_sum-0.5
-                xA2, yA2, xB2, yB2 = v_sum-0.5, v_sum-0.5, full_len-0.5, v_sum-0.5
-            else:
-                xA, yA, xB, yB = -0.5, v_sum-0.5, v_sum-0.5, v_sum-0.5
-                xA2, yA2, xB2, yB2 = v_sum-0.5, v_sum-0.5, v_sum-0.5, full_len-0.5
-
-        ax.plot([xA, xB], [yA, yB], linestyle, linewidth=linewidth, color=linecolor)
-        ax.plot([xA2, xB2], [yA2, yB2], linestyle, linewidth=linewidth, color=linecolor)
 
 
 

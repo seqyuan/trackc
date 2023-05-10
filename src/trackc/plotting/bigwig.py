@@ -1,8 +1,8 @@
 from matplotlib.axes import Axes
-import pyBigWig
+#import pyBigWig
 from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
 import pandas as pd
-from ..mapc._getRegionsCmat import GenomeRegion
+from ..tools._getRegionsCmat import GenomeRegion
 
 def make_multi_region_ax(ax, lineGenomeRegions):
     lineGenomeRegions['len'] = lineGenomeRegions['fetch_end']-lineGenomeRegions['fetch_start']
@@ -121,7 +121,7 @@ def bw_track(bw,
     ax.set_yticks([])
     ax.set_yticklabels('')
     
-def plot_compartment(compartment_bw, ax, chrom, start, end, ylabel, xticklabel=False, Acolor="#3271B2", Bcolor="#FBD23C", binsize=100000):
+def bw_compartment(compartment_bw, ax, chrom, start, end, ylabel, xticklabel=False, Acolor="#3271B2", Bcolor="#FBD23C", binsize=100000):
     chrsize = compartment_bw.chroms()[chrom]
     xbins = int(chrsize/binsize)
     if chrsize % binsize > 0:
@@ -150,7 +150,7 @@ def plot_compartment(compartment_bw, ax, chrom, start, end, ylabel, xticklabel=F
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
     ax.spines['bottom'].set_color('none')
-    ax.plot([0, chrsize], [0,0], '-', label='', linewidth=1, color='black')
+    ax.plot([0, chrsize], [0,0], '-', label='', linewidth=1, color='black', solid_capstyle='butt')
     #ax.set_yticklabels('')
     ax.set_ylabel(ylabel, fontsize=10, rotation='horizontal', horizontalalignment='right',verticalalignment='center')
     #ax.set_ylim([-1,1])

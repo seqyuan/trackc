@@ -1,8 +1,14 @@
-from . import palettes
-
-from ._utils import matrix
-from ._utils import timeseries, timeseries_subplot, timeseries_as_heatmap
-
+from .scale import multi_scale_track, scale_track
+from .bed import bed_track
+from .bigwig import bw_track, bw_compartment
+from .links import links_track
+from .Virtual4C import virtual4C
+from .mapc_markline import mapc_markline
+from .gene import gene_track
+from .mapc import (
+    mapC,
+    getData2Map
+)
 
 __doc__ = """\
 Plotting API
@@ -11,7 +17,7 @@ Plotting API
 .. currentmodule:: trackc
 
 .. note::
-   See the :ref:`settings` section for all important plotting configurations.
+   See the :ref:`API` section for all important plotting configurations.
 
 .. _pl-generic: 
 
@@ -22,82 +28,14 @@ Generic
    :toctree: .
 
    pl.mapC
-   pl.trackBw
-   pl.trackBed
-   pl.trackGene
-   pl.arc
-   pl.insulation
-   pl.compartment
-
-
-
-Classes
--------
-
-These classes allow fine tuning of visual parameters. 
-
-.. autosummary::
-   :toctree: .
-
-    pl.DotPlot
-    pl.MatrixPlot
-    pl.StackedViolin
-
-
-Tools
------
-
-Methods that extract and visualize tool-specific annotation in an
-:class:`~anndata.AnnData` object.  For any method in module ``tl``, there is
-a method with the same name in ``pl``.
-
-PCA
-~~~
-.. autosummary::
-   :toctree: .
-
-   pl.pca
-   pl.pca_loadings
-   pl.pca_variance_ratio
-   pl.pca_overview
-
-Embeddings
-~~~~~~~~~~
-.. autosummary::
-   :toctree: .
-
-   pl.tsne
-   pl.umap
-   pl.diffmap
-   pl.draw_graph
-   pl.spatial
-   pl.embedding
-
-Compute densities on embeddings.
-
-.. autosummary::
-   :toctree: .
-
-   pl.embedding_density
-
-Branching trajectories and pseudotime, clustering
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Visualize clusters using one of the embedding methods passing ``color='louvain'``.
-
-.. autosummary::
-   :toctree: .
-
-   pl.dpt_groups_pseudotime
-   pl.dpt_timeseries
-   pl.paga
-   pl.paga_path
-   pl.paga_compare
-
-
-Simulations
-~~~~~~~~~~~
-.. autosummary::
-   :toctree: .
-
-   pl.sim
+   pl.gene_track
+   pl.mapc_markline
+   pl.virtual4C
+   pl.links_track
+   pl.bw_track
+   pl.bw_compartment
+   pl.bed_track
+   pl.multi_scale_track
+   pl.scale_track
+   
 """

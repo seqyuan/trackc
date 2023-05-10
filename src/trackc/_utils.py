@@ -4,49 +4,10 @@ import sys
 import inspect
 import warnings
 import pandas as pd
-
-class GenomeRegion:
-    region = None
-    chrom = None
-    start = None
-    end = None
-    length = None
-    isReverse = False
-    
-    def __init__(self, region: str):
-        self.region = region
-        tmp = region.split(":")
-        self.chrom = tmp[0]
-        if len(tmp)==2:
-            self.start = int(tmp[1].split("-")[0])
-            self.end = int(tmp[1].split("-")[1])
-            if self.start > self.end:
-                self.isReverse = True
-            self.length = abs(self.start - self.end)
-        
-    def GenomeRegion2df(self):
-        region4coolFetch = self.chrom + ":" + str(self.start) + '-' + str(self.end)
-        if self.start == None:
-            region4coolFetch = self.chrom
-        else:
-            if self.start > self.end:
-                region4coolFetch = self.chrom + ":" + str(self.end) + '-' + str(self.start)
-
-        df = pd.DataFrame(
-            {'chrom':[self.chrom], 
-            'start':[self.start],
-            'end':[self.end],
-            'isReverse':[self.isReverse],
-            'region4coolFetch': [region4coolFetch]
-            }, 
-            index=[self.region])
-
-        return df
-
-my23colors = ['#53868B','#00F5FF','#C1FFC1','#0000FF','#7B68EE',
-                  '#CDCD00','#FFF68F','#CD9B1D','#8B658B','#FF6A6A','#8B3A3A',
-                  '#1E90FF','#FF69B4','#8DB6CD','#CAE1FF','#EECFA1','#8B7B8B',
-                  '#4F4F4F','#FF4500','#BC8F8F','#FFA500','#228B22','#8B4513']
+from typing import Union, Callable, Optional, Mapping, Any, Dict, Tuple
+from types import ModuleType, MethodType
+from weakref import WeakSet
+from functools import partial, wraps
 
 
 def getdoc(c_or_f: Union[Callable, type]) -> Optional[str]:
@@ -102,35 +63,5 @@ def annotate_doc_types(mod: ModuleType, root: str):
     for c_or_f in descend_classes_and_funcs(mod, root):
         c_or_f.getdoc = partial(getdoc, c_or_f)
 
-
-def _doc_params(**kwds):
-    """\
-    Docstrings should start with "\" in the first line for proper formatting.
-    """
-
-    def dec(obj):
-        obj.__orig_doc__ = obj.__doc__
-        obj.__doc__ = dedent(obj.__doc__).format_map(kwds)
-        return obj
-
-    return dec
-
-
-def _check_array_function_arguments(**kwargs):
-    """Checks for invalid arguments when an array is passed.
-
-    Helper for functions that work on either AnnData objects or array-likes.
-    """
-    # TODO: Figure out a better solution for documenting dispatched functions
-    invalid_args = [k for k, v in kwargs.items() if v is not None]
-    if len(invalid_args) > 0:
-        raise TypeError(
-            f"Arguments {invalid_args} are only valid if an AnnData object is passed."
-        )
-
-
-# --------------------------------------------------------------------------------
-# xx stuff
-# --------------------------------------------------------------------------------
 
 

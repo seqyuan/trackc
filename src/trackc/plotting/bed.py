@@ -1,5 +1,5 @@
 from matplotlib.axes import Axes
-from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
+from typing import Union, Optional, Sequence
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
 from matplotlib.colors import Colormap
@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 import pandas as pd
 import numpy as np
-from .mapc._getRegionsCmat import GenomeRegion
-from .bigwig.bigwig import make_multi_region_ax
+from ..tools._getRegionsCmat import GenomeRegion
+from .bigwig import make_multi_region_ax
 
 def bed_track(bed: pd.DataFrame,
               ax: Optional[Axes] = None,
@@ -41,7 +41,7 @@ def bed_track(bed: pd.DataFrame,
             column3: chromEnd
                 The ending position of the feature in the chromosome or scaffold.
             column4: name
-                Defines the name of the BED line. Either "." (=no strand), or other string
+                Defines the name of the BED line. Either "." (=no name), or other string
             column5: score
                 Defines the name of the BED line. if nessasary, can be set as ``.``,
                 if track_type/style is one of bar/line/heatmap 
@@ -150,7 +150,7 @@ def bed_track(bed: pd.DataFrame,
         for axi in axs:
             axi.set_ylim(ymin, ymax)
         ax.set_ylim(ymin, ymax)
-        ax.text(0, max_y, " [{0}, {1}]".format(tick_fl % min_y, tick_fl % max_y), va='top', fontsize=tick_fontsize)
+        ax.text(0, ymax, " [{0}, {1}]".format(tick_fl % ymin, tick_fl % ymax), va='top', fontsize=tick_fontsize)
 
 
 def make_tri_data(start, end):
@@ -175,11 +175,11 @@ def plot_bed_tri(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, 
         
     patches = []
     bed = bed.reset_index()
-    print(colors[0])
+    #print(colors[0])
     #print(colors[1])
 
     for i, row in bed.iterrows():
-        polygon = Polygon(make_tri_data(row['start'], row['end']), True, color=colors[i])
+        polygon = Polygon(make_tri_data(row['start'], row['end']), True, color=colors)
         patches.append(polygon)
     
     p = PatchCollection(patches, alpha=alpha, match_original=True)
@@ -241,7 +241,7 @@ def plot_bed_bar_l(ax, bed, start, end, needReverse, style='bar', color='tab:blu
         ax.bar(x=bed['start'], width=bed['end']-bed['start'], height=bed['score'], color=color, alpha=alpha, align='edge')
     
     if style == 'line':
-        ax.plot(bed['start'], bed['score'], color=color, alpha=alpha)
+        ax.plot(bed['start'], bed['score'], color=color, alpha=alpha, solid_capstyle='butt')
     
     xlim_s = start
     xlim_e = end

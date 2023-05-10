@@ -1,8 +1,8 @@
 from matplotlib.axes import Axes
-from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
+from typing import Union, Optional, Sequence
 import pandas as pd
-from .mapc._getRegionsCmat import GenomeRegion
-from .bigwig.bigwig import make_multi_region_ax
+from ..tools._getRegionsCmat import GenomeRegion
+from .bigwig import make_multi_region_ax
 
 
 def gene_track(gene_bed: pd.DataFrame,
@@ -68,9 +68,6 @@ def gene_track(gene_bed: pd.DataFrame,
         if track_type == "gene":
              plot_gene(axs[ix], gene_bed, row['chrom'], row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], pos_strand_gene_color=pos_strand_gene_color, neg_strand_gene_color=neg_strand_gene_color, line=line, fontszie=gene_fontszie)
     
-    
-
-    
 def plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_gene_color='#3366CC', neg_strand_gene_color='#EECFA1', line=1, fontszie=5):
     gene_bed = gene_bed[gene_bed['chrom']==chrom]
     gene_bed_plot = gene_bed[((gene_bed['start'] >= start) & (gene_bed['start'] <= end)) | ((gene_bed['end'] >= start) & (gene_bed['end'] <= end))]
@@ -91,7 +88,7 @@ def plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_gen
         #text_col = col
         plot_y = ii%line
         
-        ax.plot((row['start'], row['end']), (plot_y + 0.5, plot_y+0.5), color='k', linewidth=1)
+        ax.plot((row['start'], row['end']), (plot_y + 0.5, plot_y+0.5), color='k', linewidth=1, solid_capstyle='butt')
         starts = [int(x) for x in row["blockStarts"].split(",")]
         widths = [int(x) for x in row["blockSizes"].split(",")]
         
