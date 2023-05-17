@@ -50,21 +50,3 @@ GrigSpec
    tc.make_spec,
    tc.tenon
 
-Palettes
-~~~~~~~
-
-.. module:: trackc.pa
-.. currentmodule:: trackc
-
-.. autosummary::
-   :toctree: api
-
-   pa.fruitpunch,
-   pa.fruitpunch2,
-   pa.colorC,
-   pa.trackcl_9,
-   pa.trackcl_11,
-   pa.vega_10_trackc,
-   pa.default_20,
-   pa.zeileis_28,
-   pa.default_102
