@@ -17,5 +17,4 @@ nbconvert>=6.4.5
 # very slow build
 pyenchant>=3.1.1
 cooler
-bigwig
 
