@@ -60,11 +60,12 @@ github_nb_repo = "trackc_notebooks"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    #'sphinx_rtd_theme',
+    'sphinx_rtd_theme',
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'nbsphinx',
+    "sphinx.ext.viewcode",
     #'nbsphinx-link'
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
@@ -72,6 +73,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx_gallery.load_style",
     "typed_returns",
+    "sphinx_design",
     "IPython.sphinxext.ipython_console_highlighting",
     *[p.stem for p in (HERE / "extensions").glob("*.py")],
 ]
@@ -108,8 +110,21 @@ exclude_patterns = ['Thumbs.db',
                     "**.ipynb_checkpoints",
                     ]
 
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = None
+
+# -- Options for HTML output -------------------------------------------------
+
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+autosummary_generate = True
+autodoc_member_order = "groupwise"
+autodoc_typehints = "signature"
+autodoc_docstring_signature = True
+napoleon_google_docstring = False
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = False
+napoleon_use_rtype = True
+napoleon_use_param = True
+todo_include_todos = False
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -232,20 +247,7 @@ epub_exclude_files = ['search.html']
 #sys.path.insert(1, '/staging/leuven/stg_00002/lcb/sdewin/Programs/anaconda3/envs/SCENIC+/lib/python3.7/site-packages')
 
 
-# -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-autosummary_generate = True
-autodoc_member_order = "groupwise"
-autodoc_typehints = "signature"
-autodoc_docstring_signature = True
-napoleon_google_docstring = False
-napoleon_numpy_docstring = True
-napoleon_include_init_with_doc = False
-napoleon_use_rtype = True
-napoleon_use_param = True
-todo_include_todos = False
 
 def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["src_dir"] = str(HERE)
