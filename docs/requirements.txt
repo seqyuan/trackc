@@ -3,7 +3,7 @@ nbsphinx_link
 sphinx_links
 sphinx_book_theme
 sphinx_gallery>=0.8.2,<0.11
-sphinx-autodoc2
+sphinx-autodoc
 sphinx-autodoc-annotation
 sphinx-autodoc-typehints>=1.10.3
 sphinx_last_updated_by_git
