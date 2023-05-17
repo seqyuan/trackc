@@ -8,38 +8,38 @@ Import trackc as::
 Tool
 ~~~~~
 
-.. module:: trackc.tl
+.. module:: trackc.tool
 .. currentmodule:: trackc
 
 .. autosummary::
    :toctree: api
 
-   tl.GenomeRegion,
-   tl.RegionsCmat,
-   tl.extractContactRegions,
-   tl.extractCisContact
+   tool.GenomeRegion,
+   tool.RegionsCmat,
+   tool.extractContactRegions,
+   tool.extractCisContact
 
 Plotting
 ~~~~~~~~~
 
-.. module:: trackc.pl
+.. module:: trackc.plotting
 .. currentmodule:: trackc
 
 .. autosummary::
    :toctree: api
 
-   pl.scale_track,
-   pl.multi_scale_track,
-   pl.bed_track,
-   pl.bw_track,
-   pl.bw_compartment,
-   pl.virtual4C,
-   pl.links_track,
-   pl.zoomin,
-   pl.mapc_markline,
-   pl.gene_track,
-   pl.getData2Map,
-   pl.mapC
+   plotting.scale_track,
+   plotting.multi_scale_track,
+   plotting.bed_track,
+   plotting.bw_track,
+   plotting.bw_compartment,
+   plotting.virtual4C,
+   plotting.links_track,
+   plotting.zoomin,
+   plotting.mapc_markline,
+   plotting.gene_track,
+   plotting.getData2Map,
+   plotting.mapC
 
 GrigSpec
 ~~~~~~~~
@@ -50,3 +50,21 @@ GrigSpec
    tc.make_spec,
    tc.tenon
 
+Palettes
+~~~~~~~
+
+.. module:: trackc.palettes
+.. currentmodule:: trackc
+
+.. autosummary::
+   :toctree: api
+
+   palettes.fruitpunch,
+   palettes.fruitpunch2,
+   palettes.colorC,
+   palettes.trackcl_9,
+   palettes.trackcl_11,
+   palettes.vega_10_trackc,
+   palettes.default_20,
+   palettes.zeileis_28,
+   palettes.default_102

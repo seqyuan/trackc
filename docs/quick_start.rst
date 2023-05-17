@@ -7,3 +7,9 @@ Analysis of Hi-C using :mod:`trackc`
 This section contains tutorials showcasing core trackc functionalities by applying them
 to a diverse set of different Hi-C datasets.
 
+.. nbgallery::
+
+    notebooks/bw_track_tutorial
+    notebooks/mapc_eg
+    notebooks/zoomin_heatmap
+    
