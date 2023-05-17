@@ -12,21 +12,42 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+from datetime import datetime
+from pathlib import Path
+#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../src'))
+sys.path.insert(0, os.path.abspath("_ext"))
+HERE = Path(__file__).parent
+sys.path.insert(0, str(HERE.parent.parent))  
+sys.path.insert(0, str(HERE / "extensions"))
+
+from sphinx.application import Sphinx
+from sphinx_gallery.gen_gallery import DEFAULT_GALLERY_CONF
+from sphinx_gallery.directives import MiniGallery
+
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'sigc'
-copyright = 'Zan Yuan'
+project = 'trackc'
+copyright = 'seqyuan'
 author = 'Zan Yuan'
 
 # The short X.Y version
 version = '0.1.1'
 # The full version, including alpha/beta/rc tags
 release = '0.1.1'
+
+
+copyright = f"{datetime.now():%Y}, {author}"  # noqa: A001
+
+github_org = "seqyuan"
+github_repo = "trackc"
+github_ref = "main"
+github_nb_repo = "trackc_notebooks"
+#_fetch_notebooks(repo_url=f"https://github.com/{github_org}/{github_nb_repo}")
 
 
 # -- General configuration ---------------------------------------------------
@@ -44,7 +65,15 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'nbsphinx',
-    'nbsphinx_link'
+    #'sphinx-link'
+    #"sphinx.ext.napoleon",
+    #"sphinx_autodoc_typehints",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.autosummary",
+    "sphinx_gallery.load_style",
+    "typed_returns",
+    "IPython.sphinxext.ipython_console_highlighting",
+    *[p.stem for p in (HERE / "extensions").glob("*.py")],
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -88,7 +117,7 @@ html_theme = 'sphinx_book_theme'
 # documentation.
 #
 # html_theme_options = {}
-html_logo = 'images/sigc_logo.png'
+html_logo = 'images/trackc_logo.png'
 html_theme_options = {
     'logo_only': True,
     'display_version': False,
@@ -114,7 +143,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'sigcdoc'
+htmlhelp_basename = 'trackcdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -141,8 +170,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'sigc.tex', 'sigc Documentation',
-     'Zzn Yuan', 'manual'),
+    (master_doc, 'trackc.tex', 'trackc Documentation',
+     'Zan Yuan', 'manual'),
 ]
 
 
@@ -151,7 +180,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'sigc', 'sigc Documentation',
+    (master_doc, 'trackc', 'trackc Documentation',
      [author], 1)
 ]
 
@@ -162,7 +191,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'sigc', 'sigc Documentation',
+    (master_doc, 'trackc', 'trackc Documentation',
      author, 'seqyuan', 'One line description of project.',
      'hello'),
 ]
@@ -188,6 +217,25 @@ epub_exclude_files = ['search.html']
 
 # -- Extension configuration -------------------------------------------------
 # add sourcecode to path
-import sys, os
-sys.path.insert(0, os.path.abspath('../src'))
+#import sys, os
+#sys.path.insert(0, os.path.abspath('../src'))
 #sys.path.insert(1, '/staging/leuven/stg_00002/lcb/sdewin/Programs/anaconda3/envs/SCENIC+/lib/python3.7/site-packages')
+
+
+
+def setup(app: Sphinx) -> None:
+    DEFAULT_GALLERY_CONF["src_dir"] = str(HERE)
+    #DEFAULT_GALLERY_CONF["backreferences_dir"] = "gen_modules/backreferences"
+    DEFAULT_GALLERY_CONF["download_all_examples"] = False
+    DEFAULT_GALLERY_CONF["show_signature"] = False
+    DEFAULT_GALLERY_CONF["log_level"] = {"backreference_missing": "info"}
+    DEFAULT_GALLERY_CONF["gallery_dirs"] = ["auto_examples", "auto_tutorials"]
+    DEFAULT_GALLERY_CONF["default_thumb_file"] = "docs/source/_static/img/squidpy_vertical.png"
+
+    app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
+    app.add_directive("minigallery", MiniGallery)
+    app.add_css_file("css/custom.css")
+    app.add_css_file("css/sphinx_gallery.css")
+    app.add_css_file("css/nbsphinx.css")
+    app.add_css_file("css/dataframe.css")  # had to add this manually
+

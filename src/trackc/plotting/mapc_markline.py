@@ -14,10 +14,11 @@ def mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symm
         ---> ln1
         |ln3 |ln2
         ---->ln4 
-        (pos1) _____ (pos4)
+        
+        (pos1)   _____ (pos4)
                 |     |
                 |     |
-        (pos2) _____ (pos3)
+        (pos2)   _____ (pos3)
         """
         ln1, = ax.plot((x0, x1), (x0, x0), linestyle=linestyle, color=linecolor, linewidth=linewidth, solid_capstyle='butt')
         ln2, = ax.plot((x1, x1), (x0, x1), linestyle=linestyle, color=linecolor, linewidth=linewidth, solid_capstyle='butt')
@@ -124,7 +125,7 @@ def mark_contact_regions(row_regions,
                          markRegions, 
                          binsize,
                          ax, 
-                         mapType, 
+                         map_type, 
                          map_order,
                          symmetric, 
                          linestyle, 
@@ -150,9 +151,9 @@ def mark_contact_regions(row_regions,
         if one_region.shape[0] > 0:
             plot_region_df.loc[one_region.index, i] = 1
 
-    if mapType == "square":
+    if map_type == "square":
         mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis)
-    elif mapType == "triangle":
+    elif map_type == "triangle":
         mark_contact_regions_triangle(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis)
     else:
         pass
@@ -162,9 +163,10 @@ def mapc_markline(row_regions: Union[pd.DataFrame, None] = None,
                   mark_regions: Union[Sequence[str], str, None] = None,
                   binsize: Union[int, None] = 10000,
                   ax: Optional[Axes] = None,
-                  mapType: Union[str, None] = 'square',
+                  map_type: Union[str, None] = 'square',
                   map_order: int = 0,
                   symmetric: bool = False,
+                  trans_ax: bool = False,
                   only_cis: bool = False,
                   linestyle: Union[str, None]='--',
                   linecolor: Union[str, None]='k',
@@ -175,23 +177,28 @@ def mapc_markline(row_regions: Union[pd.DataFrame, None] = None,
     map_order:
         mapc mat or mat2
     """
-
+    if map_order == 1:
+        for child in ax.get_children():
+            if isinstance(child, Axes):
+                ax = child
+                break
+        
     if mark_regions != None:
-        mark_contact_regions(row_regions, mark_regions, binsize, ax, mapType, map_order, symmetric, linestyle, linecolor, linewidth, only_cis)
+        mark_contact_regions(row_regions, mark_regions, binsize, ax, map_type, map_order, symmetric, linestyle, linecolor, linewidth, only_cis)
 
     if show_regions_edge==True:
-        plot_contact_regions_line(ax, row_regions, map_order, mapType, False, linewidth, linestyle, linecolor)
+        plot_contact_regions_line(ax, row_regions, map_order, map_type, False, linewidth, linestyle, linecolor)
 
 def plot_contact_regions_line(ax, 
                               rl_regions, 
                               map_order=0, 
-                              mapType='triangle', 
-                              trans_XY=False, 
+                              map_type='triangle', 
+                              trans_ax=False, 
                               linewidth=1, 
                               linestyle='--', 
                               linecolor='k'):
-    if trans_XY == True:
-        print('trans_XY should be False')
+    if trans_ax == True:
+        print('trans_ax should be False')
 
     xA, yA, xB, yB = 0,0,0,0
     xA2, yA2, xB2, yB2 = 0,0,0,0
@@ -208,7 +215,7 @@ def plot_contact_regions_line(ax,
 
         #v2 = cbins[i+1]
 
-        if mapType == 'triangle':
+        if map_type == 'triangle':
             if map_order==0:
                 xA, yA, xB, yB = v_sum/2, v_sum, v_sum, 0
                 xA2, yA2, xB2, yB2 = v_sum, 0, v_sum+(full_len-v_sum)/2, full_len-v_sum
@@ -216,7 +223,7 @@ def plot_contact_regions_line(ax,
                 xA, yA, xB, yB = v_sum/2, -v_sum, v_sum, 0
                 xA2, yA2, xB2, yB2 = v_sum, 0, v_sum+(full_len-v_sum)/2, -(full_len-v_sum)
         
-        if mapType == 'square':
+        if map_type == 'square':
             if map_order==0:
                 xA, yA, xB, yB = v_sum-0.5, -0.5, v_sum-0.5, v_sum-0.5
                 xA2, yA2, xB2, yB2 = v_sum-0.5, v_sum-0.5, full_len-0.5, v_sum-0.5

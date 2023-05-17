@@ -4,7 +4,7 @@ from . import plotting as pl
 from . import palettes as pa
 from .gs import (
     make_spec,
-    lego,
+    tenon,
     savefig
 )
 

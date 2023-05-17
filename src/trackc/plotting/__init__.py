@@ -9,7 +9,7 @@ from .mapc import (
     mapC,
     getData2Map
 )
-
+from .zoomin import zoomin
 
 __doc__ = """\
 Plotting API

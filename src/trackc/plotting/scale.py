@@ -15,7 +15,9 @@ def scale_ticks(ticks, scale='bp', tick_fl='%0.2f'):
         return ticks
     return ticks
 def scale_track(ax: Optional[Axes] = None,
-                regions: Union[Sequence[str], str, None] = None,
+                region: Union[str, None] = None,
+                tick_pos: str = 'bottom',
+                ratio2ax: float = 0.5,
                 chrom_fontsize: Union[int, None] = 10,
                 scale_adjust: Union[str, None] = 'kb',
                 tick_fl: Union[str, None] ='%0.2f',
@@ -30,13 +32,17 @@ def scale_track(ax: Optional[Axes] = None,
         ``str``: should be one of [kb, Mb, bp]
             adjust the scale unit to make it pretty
     tick_fl
-        ``str``: The position label retains the number of decimal places                       
+        ``str``: The position label retains the number of decimal places  
+    tick_pos
+        one of ['top', 'bottom', 'left', 'right']                   
 
     """
-    if isinstance(regions, list):
-        line_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in regions])
+    line_GenomeRegions = None
+    if isinstance(region, list):
+        print('scale_track is only for one region')
+        return
     else:
-        line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
+        line_GenomeRegions = GenomeRegion(region).GenomeRegion2df()
 
     line_GenomeRegions = line_GenomeRegions.reset_index()
 
@@ -44,33 +50,62 @@ def scale_track(ax: Optional[Axes] = None,
     start = line_GenomeRegions.loc[0, "start"]
     end = line_GenomeRegions.loc[0, "end"]
 
-    ax.set_xlim([start, end])
+    pos_dic = {
+        'left': [-ratio2ax,	0, ratio2ax, 1],
+        'right': [1, 0,	ratio2ax, 1],
+        'top': [0, 1, 1, ratio2ax],
+        'bottom': [0, -ratio2ax, 1, ratio2ax]
+    }
 
-    xticks = ax.get_xticks()
-    xtick_labels = xticks
-    if scale_adjust == 'Mb':
-        xtick_labels = xtick_labels/1000000
-        xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
-        ax.set_xticks(xticks, xtick_labels, fontsize=tick_fontsize, rotation=tick_rotation)
-        ax.spines['bottom'].set_position(('data', 0))
-        ax.text(end-(abs(end-start)*0.05), -1, 'Mb', fontsize=chrom_fontsize)
-    elif scale_adjust == 'kb':
-        xtick_labels = xtick_labels/1000
-        xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
-        ax.set_xticks(xticks, xtick_labels, fontsize=tick_fontsize, rotation=tick_rotation)
-        ax.text(end-(abs(end-start)*0.05), -1, 'kb', fontsize=chrom_fontsize)
-        ax.spines['bottom'].set_position(('data', 0))
-    else:
-        pass
+    ax2 = ax.inset_axes(pos_dic[tick_pos], facecolor='none')
+    ax = ax2
+    print(1111, start, end)
+    if tick_pos in ['top', 'bottom']:
+        ax.set_xlim([start, end])
 
-    spines = ['top', 'right', 'left']
-    for i in spines:
-        ax.spines[i].set_visible(False)
+        xticks = ax.get_xticks()
+        xtick_labels = xticks
+        if scale_adjust == 'Mb':
+            xtick_labels = xtick_labels/1000000
+            xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
+            ax.set_xticks(xticks, xtick_labels, fontsize=tick_fontsize, rotation=tick_rotation)
+            ax.spines['bottom'].set_position(('data', 0))
+            #ax.text(end-(abs(end-start)*0.05), -1, 'Mb', fontsize=chrom_fontsize)
+        elif scale_adjust == 'kb':
+            xtick_labels = xtick_labels/1000
+            xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
+            ax.set_xticks(xticks, xtick_labels, fontsize=tick_fontsize, rotation=tick_rotation)
+            #ax.text(end-(abs(end-start)*0.05), -1, 'kb', fontsize=chrom_fontsize)
+            ax.spines['bottom'].set_position(('data', 0))
+        else:
+            pass
 
-    ax.set_yticks([])
-    ax.set_yticklabels('')  
-    ax.set_xlabel(chrom, fontsize=chrom_fontsize)
-    ax.set_ylim([-1, 1])
+        spines = ['bottom', 'top', 'right', 'left']
+        chrom_x = start + (end-start)/2
+        chrom_y = 1
+        va = 'top'
+        
+        if tick_pos=='bottom':
+            del spines[1]
+            ax.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
+            chrom_y = 0
+            va = 'bottom'
+            
+        if tick_pos=='top':
+            del spines[0]
+            ax.tick_params(top=False, labeltop=False, bottom=True, labelbottom=True)
+        for i in spines:
+            ax.spines[i].set_visible(False)
+
+        ax.text(chrom_x, chrom_y, chrom, fontsize=chrom_fontsize, ha='center', va=va)
+        labels = [label.get_text() for label in ax.get_xticklabels()]
+        labels[-1] += '({0})'.format(scale_adjust)
+        ax.set_xticklabels(labels)
+
+        ax.tick_params(which='major', direction='in', pad=-16) 
+        ax.set_yticks([])
+        ax.set_yticklabels('')  
+    
 
 
 def multi_scale_track(ax: Optional[Axes] = None,
@@ -148,7 +183,7 @@ def multi_scale_track(ax: Optional[Axes] = None,
 
 
     ax.set_xlim([0, sum_len])
-    ax.set_ylim([-0.5, intervals-0.5])
+    ax.set_ylim([-0.7, intervals-0.3])
 
     for i in ['bottom', 'top','right', 'left']:
         ax.spines[i].set_color('none')

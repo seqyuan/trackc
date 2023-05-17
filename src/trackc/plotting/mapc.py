@@ -6,7 +6,9 @@ from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm #,CenteredNorm, SymLogNorm,PowerNorm, Normalize  
 from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
-from ..palettes import fruitpunch
+from ..palettes import fruitpunch, fruitpunch2
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 ColorLike = Union[str, Tuple[float, ...]]
 
@@ -62,7 +64,7 @@ def plot_pcolormesh(
     norm=None,
     clim=None,
     cmap: Union[Colormap, str, None] = None,
-    trans_XY: bool=False
+    trans_ax: bool=False
     ):
 
     N = mat.shape[1]
@@ -75,7 +77,7 @@ def plot_pcolormesh(
     X = A[:, 1].reshape(N + 1, N + 1)
     Y = A[:, 0].reshape(N + 1, N + 1)
 
-    if trans_XY==False:
+    if trans_ax==False:
         caxes = ax.pcolormesh(X, Y, np.flipud(C), cmap=cmap, edgecolor='none', norm=norm, clim=clim, snap=True, linewidth=.001)
     else:
         caxes = ax.pcolormesh(Y, X, np.flipud(C), cmap=cmap, edgecolor='none', norm=norm, clim=clim, snap=True, linewidth=.001)
@@ -94,8 +96,8 @@ def mapC_triview(
     maxrange: float = None,
     minrange: float = None,
     height: int = 0,
-    trans_XY: bool = False,
-    mapType: Union[str, None] = 'triangle',
+    trans_ax: bool = False,
+    map_type: Union[str, None] = 'triangle',
     map_order: int = 0,
     symmetric: bool = False,
     k = 1
@@ -107,11 +109,11 @@ def mapC_triview(
     mat:
 
     cmap
-    mapType
+    map_type
         contact heatmap type, can be one of ``['square', 'triangle', 'rectangle']``,
         if select ``rectangle`` the ``mapHeight`` parameter should be set.
     mapHeight: int or None
-        Parameter for ``mapType: rectangle'``, ``mapType: triangle'`` also can be set.
+        Parameter for ``map_type: rectangle'``, ``map_type: triangle'`` also can be set.
         it means the heapmap hight bin number
 
     map_order: int
@@ -139,20 +141,20 @@ def mapC_triview(
         norm=LogNorm()
     
     clim = (minrange, maxrange)
-    if mapType=='square':
+    if map_type=='square':
         im = ax.matshow(mat, cmap=cmap, norm=norm, clim=clim)
     else:
-        if mapType=='triangle':
-            im = plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_XY=trans_XY)
+        if map_type=='triangle':
+            im = plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_ax=trans_ax)
  
-        if mapType=='rectangle':
-            im = plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_XY=trans_XY)
+        if map_type=='rectangle':
+            im = plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_ax=trans_ax)
 
-    mapC_colorbar(ax, im, trans_XY, map_order, height, mapType)
+    mapC_colorbar(ax, im, trans_ax, map_order, height, map_type)
 
     return im
 
-def mapC_label(ax, label, trans_XY, map_order, mapType, height, fontsize= 10, color='k', Pair_mat=False):
+def mapC_label(ax, label, trans_ax, map_order, map_type, height, fontsize= 10, color='k', Pair_mat=False):
     xmin, xmax = ax.get_xlim() 
     ymin, ymax = ax.get_ylim() 
 
@@ -160,7 +162,7 @@ def mapC_label(ax, label, trans_XY, map_order, mapType, height, fontsize= 10, co
     verticalalignment = 'top'
     horizontalalignment = 'right'
 
-    if mapType == "square":
+    if map_type == "square":
         if map_order==0:
             x, y = xmax, ymax
         else:
@@ -169,14 +171,14 @@ def mapC_label(ax, label, trans_XY, map_order, mapType, height, fontsize= 10, co
             horizontalalignment ='left'
     else: # triangle, rectangle
         if Pair_mat==False:
-            if trans_XY == True:
+            if trans_ax == True:
                 ax.set_xlabel(label, fontsize=fontsize, color=color)
             else:
                 ax.set_ylabel(label, fontsize=fontsize, color=color)
             
             return
         
-        if trans_XY == True:
+        if trans_ax == True:
             y = ymax
             if map_order==0:
                 x = xmax
@@ -202,9 +204,9 @@ def mapC_label(ax, label, trans_XY, map_order, mapType, height, fontsize= 10, co
             bbox = bbox_props
             )
 
-def mapC_colorbar(ax, im, trans_XY, map_order, height, mapType):
+def mapC_colorbar(ax, im, trans_ax, map_order, height, map_type):
     x0, y0, x0_width, y0_height = 0, 1.015, 1, 0.015
-    if trans_XY == False:
+    if trans_ax == False:
         x0, y0, x0_width, y0_height = 1.015, 0, 0.015, 1
         if map_order in [0, 1]:
             y0_height = 0.45
@@ -237,12 +239,12 @@ def mapC_colorbar(ax, im, trans_XY, map_order, height, mapType):
                 y0_height = 0.012
 
     orientation = 'vertical'
-    if trans_XY:
+    if trans_ax:
         orientation = 'horizontal'
     
     cax = ax.inset_axes([x0, y0, x0_width, y0_height])
     cbar = plt.colorbar(im, ax=ax, cax=cax, orientation=orientation)
-    if trans_XY:
+    if trans_ax:
         cbar.ax.xaxis.tick_top()
         cbar.ax.tick_params(axis='x', labelrotation=90)
     else:
@@ -255,13 +257,16 @@ def paraPair(para):
     else:
         if len(para)==1:
             para[1] = para[0]
+        else:
+            return para
     return para
+
 
 def mapC(
     mat: Union[np.ndarray, None]  = None,
     mat2: Union[np.ndarray, None] = None,
 
-    cmap: Union[Sequence[Colormap], Sequence[str], Colormap, str, None] = fruitpunch,
+    cmap: Union[Sequence[Colormap], Sequence[str], Colormap, str, None] = [fruitpunch, 'YlOrRd'],
     label: Union[Sequence[str], str, None] = None,
     label_fontsize: Union[Sequence[int], int] = 10,
     label_color: Union[Sequence[str], str, None] = 'k',
@@ -272,12 +277,12 @@ def mapC(
     trim_range: Union[Sequence[float], float]=0.99,
 
     ax: Optional[Axes] = None,
-    #na_color: ColorLike = None,
-    mapType: Union[str, None] = 'triangle',
+    map_type: Union[str, None] = 'triangle',
     height: int = 0,
-    trans_XY: bool = False,
+    trans_ax: bool = False,
     symmetric: bool = False,
-    ax_on=True
+    ax_on: bool =True,
+    aspect: Union[str, float]='auto'
     ):
     """\
     Draw triangle view of the C data
@@ -286,16 +291,16 @@ def mapC(
     mat:
 
     cmap
-    mapType
+    map_type
         contact heatmap type, can be one of ``['square', 'triangle', 'rectangle']``,
         if select ``rectangle`` the ``mapHeight`` parameter should be set.
     mapHeight: int or None
-        Parameter for ``mapType: rectangle'``, ``mapType: triangle'`` also can be set.
+        Parameter for ``map_type: rectangle'``, ``map_type: triangle'`` also can be set.
         it means the heapmap hight bin number
     symmetric: bool
         If there is one of ``mat`` and ``mat2`` para is None, 
         value ``True`` means the  symmetric heatmap
-    
+    aspect: 'auto' or 1
     """
 
     #cmap = copy(get_cmap(cmap))
@@ -313,23 +318,27 @@ def mapC(
 
     k = 1
     k2 = -1
-    map_order = None
-    map_order2 = None
 
     if isinstance(mat, np.ndarray)==False:
         k2 = 0
     if isinstance(mat2, np.ndarray)==False:
         k = 0
 
+    #ax2 = ax
+    Pair_mat = False
+    ax2 = ax.inset_axes([0, 0, 1, 1], facecolor='none')
+    ax2.set_zorder(1)
+    ax2.set_xticklabels([])
+    ax2.set_xticks([])
+    ax2.set_yticklabels([])
+    ax2.set_yticks([]) 
+
+
     if isinstance(mat, np.ndarray) and isinstance(mat2, np.ndarray):
-        map_order = 0
-        map_order2 = 1
-    elif isinstance(mat, np.ndarray):
-        map_order = 0
-    elif isinstance(mat2, np.ndarray):
-        map_order2 = 1
-    else:
-        pass
+        #ax2 = ax.inset_axes([0, 0, 1, 1], facecolor='none')
+        #ax2.set_zorder(-1)
+        symmetric = False
+        Pair_mat = True
 
     if isinstance(mat, np.ndarray):
         im = mapC_triview(
@@ -342,17 +351,20 @@ def mapC(
             minrange = minrange[0],
             trim_range=trim_range[0],
             height=height,
-            trans_XY=trans_XY,
-            mapType=mapType,
-            map_order=map_order,
+            trans_ax=trans_ax,
+            map_type=map_type,
+            map_order=0,
             symmetric=symmetric,
             k = k
         )
 
     if isinstance(mat2, np.ndarray):
+        #ax2 = ax.inset_axes([0, 0, 1, 1], facecolor='none')
+        #ax2.set_zorder(-1)
+        
         im2 = mapC_triview(
             mat=mat2,
-            ax=ax,
+            ax=ax2,
             cmap=cmap[1],
             label=label[1],
             logdata=logdata[1], 
@@ -360,98 +372,68 @@ def mapC(
             minrange = minrange[1],
             trim_range=trim_range[1],
             height=height,
-            trans_XY=trans_XY,
-            mapType=mapType,
-            map_order=map_order2,
+            trans_ax=trans_ax,
+            map_type=map_type,
+            map_order=1,
             symmetric=symmetric,
             k = k2
         )
-   
-    if mapType in ['triangle', 'rectangle']:
-        if isinstance(mat2, np.ndarray)==False:
-            if symmetric==False:
-                if height > 0:
-                    if trans_XY==False:
-                        ax.set_ylim(0,height)
-                        if mapType == 'rectangle':
-                            ax.set_xlim(height, mat.shape[0]-height)
-                    else:
-                        ax.set_xlim(0,height)
-                        if mapType == 'rectangle':
-                            ax.set_ylim(height, mat.shape[0]-height)
-                else:
-                    if trans_XY==False:
-                        ax.set_ylim(bottom=0)
-                    else:
-                        ax.set_xlim(left=0)
-            else:
-                if height > 0:
-                    if trans_XY==False:
-                        ax.set_ylim(-height, height)
-                        if mapType == 'rectangle':
-                            ax.set_xlim(height, mat.shape[0]-height)
-                    else:
-                        ax.set_xlim(-height, height)
-                        if mapType == 'rectangle':
-                            ax.set_ylim(height, mat.shape[0]-height)
+        
+    xylim_conf = pd.read_table(os.path.join(basedir,'mapc_xylim.txt'), header=0)
 
-        if isinstance(mat, np.ndarray)==False:
-            if symmetric==False:
-                if height > 0:
-                    if trans_XY==False:
-                        ax.set_ylim(-height, 0)
-                        if mapType == 'rectangle':
-                            ax.set_xlim(height, mat2.shape[0]-height)
-                    else:
-                        ax.set_xlim(-height,0)
-                        if mapType == 'rectangle':
-                            ax.set_ylim(height, mat2.shape[0]-height)
-                else:
-                    if trans_XY==False:
-                        ax.set_ylim(top=0)
-                    else:
-                        ax.set_xlim(right=0)
-
-            else:
-                if height > 0:
-                    if trans_XY==False:
-                        ax.set_ylim(-height, height)
-                        if mapType == 'rectangle':
-                            ax.set_xlim(height, mat2.shape[0]-height)
-                    else:
-                        ax.set_xlim(-height, height)
-                        if mapType == 'rectangle':
-                            ax.set_ylim(height, mat2.shape[0]-height)
-
-    Pair_mat = False
     if isinstance(mat, np.ndarray) and isinstance(mat2, np.ndarray):
-        if height > 0:
-            if trans_XY==False:
-                ax.set_ylim(-height, height)
-            else:
-                ax.set_xlim(-height, height)
-            
-        if mapType == 'rectangle':
-            if trans_XY==False:
-                ax.set_xlim(height, mat2.shape[0]-height)
-            else:
-                ax.set_ylim(height, mat2.shape[0]-height)
+        set_xylim(ax, xylim_conf, map_type, 0, symmetric, trans_ax, Pair_mat, mat, height)
+        set_xylim(ax2, xylim_conf, map_type, 1, symmetric, trans_ax, Pair_mat, mat2, height)
 
-        Pair_mat = True
+        ax.set_aspect(aspect)
+        ax2.set_aspect(aspect)
+        
+    elif isinstance(mat, np.ndarray):
+        set_xylim(ax, xylim_conf, map_type, 0, symmetric, trans_ax, Pair_mat, mat, height)
+        ax.set_aspect(aspect)
+    elif isinstance(mat2, np.ndarray):
+        set_xylim(ax, xylim_conf, map_type, 1, symmetric, trans_ax, Pair_mat, mat2, height)
+        set_xylim(ax2, xylim_conf, map_type, 1, symmetric, trans_ax, Pair_mat, mat2, height)
+        ax.set_aspect(aspect)
+        ax2.set_aspect(aspect)
+    else:
+        pass
 
-    if isinstance(mat, np.ndarray):
-        mapC_label(ax, label[0], trans_XY, 0, mapType, height, fontsize=label_fontsize[0], color=label_color[0], Pair_mat=Pair_mat)
-    if isinstance(mat2, np.ndarray):
-        mapC_label(ax, label[1], trans_XY, 1, mapType, height, fontsize=label_fontsize[1], color=label_color[1], Pair_mat=Pair_mat)
-
-    ax.set_xticklabels([])
-    ax.set_xticks([])
-    ax.set_yticklabels([])
-    ax.set_yticks([]) 
     if ax_on==False:
         ax.axis('off')
+        ax2.axis('off')
 
+    if isinstance(mat, np.ndarray):
+        mapC_label(ax, label[0], trans_ax, 0, map_type, height, fontsize=label_fontsize[0], color=label_color[0], Pair_mat=Pair_mat)
+    if isinstance(mat2, np.ndarray):
+        mapC_label(ax2, label[1], trans_ax, 1, map_type, height, fontsize=label_fontsize[1], color=label_color[1], Pair_mat=Pair_mat)
 
+def set_xylim(axs, conf, map_type, map_order, symmetric, trans_ax, pair_mat, matx, height):
+    conf = conf[(conf['map_type']==map_type) & (conf['map_order']==map_order) & (conf['symmetric']==symmetric) & (conf['trans_ax']==trans_ax) & (conf['pair_mat']==pair_mat)]
+    if height == 0:
+        height = matx.shape[0]
+    
+    conf_values = {'mat_w': matx.shape[0], 'mat_h': matx.shape[1], 'height': height, 'height_m': -height, 
+                   'mat_w_height': matx.shape[0]-height, '0':0}
+    
+    if conf.shape[0] == 0:
+        print('type not set xylim')
+    else:
+        ix = conf.index[0]
+        xmin = conf_values[conf.loc[ix, 'xlim_left']]
+        xmax = conf_values[conf.loc[ix, 'xlim_right']]
+        ymin = conf_values[conf.loc[ix, 'ylim_bottom']]
+        ymax = conf_values[conf.loc[ix, 'ylim_top']]
+        axs.set_xlim([xmin, xmax])
+        axs.set_ylim([ymin, ymax])
+
+    
+    axs.set_xticklabels([])
+    axs.set_xticks([])
+    axs.set_yticklabels([])
+    axs.set_yticks([]) 
+    
+    
 
 def plot_heatmap_triangle_xticks(ax, regin1_binN, regin2_binN, chrom1, start1, end1, chrom2, start2, end2, showXticks):
     #ax.set_xticks([])
@@ -482,31 +464,6 @@ def colorbar_triangle(axm,im,ymax):
     cbar.ax.spines['left'].set_color('none')
 
 
-"""
-def plot_chrom_arrow(ax, region_len, rev_region, regions, colors=my23colors[3:22]):
-    ax.axis("off")
-    ax.set_xlim(0,sum(region_len))
-    ax.set_ylim(-2,2)
-    
-    start = 0
-    for i, v in enumerate(region_len):
-        if rev_region[i] == True:
-            arrow = mpatches.FancyArrowPatch((start+v+1, 0), (start-1, 0), mutation_scale=30, color=colors[i])
-            ax.add_patch(arrow) 
-        else:
-            arrow = mpatches.FancyArrowPatch((start-1, 0), (start+v+1, 0), mutation_scale=30, color=colors[i])
-            ax.add_patch(arrow) 
-            
-        #ax.add_patch(arrow)    
-        chrom, start_str, end_str = split_region(regions[i])
-        #ax.text(start+region_len[i]/2, -1.5, chrom, horizontalalignment='center', verticalalignment='top', fontsize=10, color=colors[i])
-        ax.text(start+region_len[i]/2, 0, chrom, horizontalalignment='center', verticalalignment='center', fontsize=10, color="black")
-        
-        ax.text(start, -1.5, start_str, horizontalalignment='left', verticalalignment='top', fontsize=9, color=colors[i], rotation=90)
-        ax.text(start+region_len[i], -1.5, end_str, horizontalalignment='right', verticalalignment='top', fontsize=9, color=colors[i], rotation=90)
-        start = start + v
 
-"""    
-    
         
 

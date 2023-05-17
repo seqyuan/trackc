@@ -1,7 +1,7 @@
 from .cmaps import (
     colorC,
     fruitpunch,
-
+    fruitpunch2
 )
 
 from .palettes import (

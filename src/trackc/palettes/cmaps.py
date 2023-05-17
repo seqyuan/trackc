@@ -42,8 +42,8 @@ def colorC(cname="RdBu_r",
     return newcmap
 
 fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
-fruitpunch2 = sns.blend_palette(['white', 'blue'], as_cmap=True)
-
+#fruitpunch2 = sns.blend_palette(['white', 'blue'], as_cmap=True)
+fruitpunch2 = sns.blend_palette(['white', 'purple'], as_cmap=True)
 
 
 

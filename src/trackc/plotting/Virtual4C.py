@@ -44,8 +44,8 @@ def get_pets(df, binsize=10000):
         chroms.extend([row['chrom']] * row['cbins'])
          
         bin_s = int(row['fetch_start']/binsize)
-        if row['fetch_start']%binsize > 0:
-            bin_s = bin_s + 1
+        #if row['fetch_start']%binsize > 0:
+        #    bin_s = bin_s
 
         bin_e = int(row['fetch_end']/binsize)
         if row['fetch_end']%binsize > 0:
@@ -109,7 +109,7 @@ def virtual4C(clr: cooler.Cooler,
     if track_type == 'heatmap':
         mapC(mat=data.cmat, cmap=cmap, logdata=logdata, 
              trim_range=trim_range, minrange=minrange, maxrange=maxrange, 
-             ax=ax, mapType='square', ax_on=False)
+             ax=ax, map_type='square', ax_on=False)
         ax.set_aspect(aspect='auto')
     
     

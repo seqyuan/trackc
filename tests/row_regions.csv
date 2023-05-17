@@ -1,0 +1,2 @@
+	chrom	start	end	isReverse	fetch_start	fetch_end	region4coolFetch	cbins
+18:45000000-78077248	18	45000000	78077248	False	45000000	78077248	18:45000000-78077248	662

@@ -233,6 +233,6 @@ def extractCisContact(
             logging.error("Error: extend is larger than chrom length, set extend=0 is ok\n")
             #sys.exit(1)
     
-    df = clr.matrix(balance=balance, divisive_weights=divisive_weights).fetch(genome_region.fetchRegion())
+    df = clr.matrix(balance=balance).fetch(genome_region.fetchRegion())
     return df
 
