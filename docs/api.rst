@@ -44,14 +44,14 @@ Plotting
 GrigSpec
 ~~~~~~~~
 
-.. module:: trackc.gs
+.. module:: trackc
 .. currentmodule:: trackc
 
 .. autosummary::
    :toctree: api
 
-   gs.make_spec,
-   gs.tenon
+   trackc.make_spec,
+   trackc.tenon
 
 Palettes
 ~~~~~~~
