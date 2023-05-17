@@ -1,15 +1,15 @@
-from .scale import multi_scale_track, scale_track
-from .bed import bed_track
-from .bigwig import bw_track, bw_compartment
-from .links import links_track
-from .Virtual4C import virtual4C
-from .mapc_markline import mapc_markline
-from .gene import gene_track
-from .mapc import (
+from trackc.plotting.scale import multi_scale_track, scale_track
+from trackc.plotting.bed import bed_track
+from trackc.plotting.bigwig import bw_track, bw_compartment
+from trackc.plotting.links import links_track
+from trackc.plotting.Virtual4C import virtual4C
+from trackc.plotting.mapc_markline import mapc_markline
+from trackc.plotting.gene import gene_track
+from trackc.plotting.mapc import (
     mapC,
     getData2Map
 )
-from .zoomin import zoomin
+from trackc.plotting.zoomin import zoomin
 
 __doc__ = """\
 Plotting API
