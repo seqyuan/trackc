@@ -20,9 +20,8 @@ cooler
 matplotlib
 pandas
 seaborn
-warnings
-typing
-weakref
-functools
+#typing
+#weakref
+#functools
 
 
