@@ -1,12 +1,20 @@
 # the actual API
-from . import tools as tl
-from . import plotting as pl
-from . import palettes as pa
-from .gs import (
+from trackc import tools as tl
+from trackc import plotting as pl
+from trackc import palettes as pa
+from trackc.gs import (
     make_spec,
     tenon,
     savefig
 )
+
+__all__ = [
+    "tl",
+	"pl",
+    "pa",
+    "make_spec",
+    "tenon"
+]
 
 """
 import sys
