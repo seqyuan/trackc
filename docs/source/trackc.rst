@@ -7,9 +7,9 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   trackc.palettes
-   trackc.plotting
-   trackc.tools
+   trackc.pa
+   trackc.pl
+   trackc.tl
 
 Submodules
 ----------
