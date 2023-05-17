@@ -44,9 +44,6 @@ Plotting
 GrigSpec
 ~~~~~~~~
 
-.. module:: trackc
-.. currentmodule:: trackc
-
 .. autosummary::
    :toctree: api
 
