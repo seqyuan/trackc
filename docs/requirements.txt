@@ -19,4 +19,11 @@ pyenchant>=3.1.1
 cooler
 matplotlib
 pandas
+seaborn
+inspect
+warnings
+typing
+weakref
+functools
+
 
