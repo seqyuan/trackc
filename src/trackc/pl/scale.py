@@ -1,8 +1,8 @@
 from matplotlib.axes import Axes
 from typing import Union, Optional, Sequence
 import pandas as pd
-from ..tools import GenomeRegion
-from ..palettes import trackcl_11
+from trackc.tl import GenomeRegion
+from trackc.pa import trackcl_11
 
 def scale_ticks(ticks, scale='bp', tick_fl='%0.2f'):
     if scale == 'Mb':

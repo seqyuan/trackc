@@ -1,4 +1,4 @@
-from ..tools._getRegionsCmat import extractContactRegions
+from trackc.tl._getRegionsCmat import extractContactRegions
 from .mapc import mapC, getData2Map
 from matplotlib.axes import Axes
 from typing import Union, Sequence, Optional

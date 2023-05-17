@@ -2,7 +2,7 @@ from matplotlib.axes import Axes
 #import pyBigWig
 from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
 import pandas as pd
-from ..tools._getRegionsCmat import GenomeRegion
+from trackc.tl._getRegionsCmat import GenomeRegion
 
 def make_multi_region_ax(ax, lineGenomeRegions):
     lineGenomeRegions['len'] = lineGenomeRegions['fetch_end']-lineGenomeRegions['fetch_start']

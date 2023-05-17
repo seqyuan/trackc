@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 import pandas as pd
 import numpy as np
-from ..tools._getRegionsCmat import GenomeRegion
+from trackc.tl._getRegionsCmat import GenomeRegion
 from .bigwig import make_multi_region_ax
 
 def bed_track(bed: pd.DataFrame,

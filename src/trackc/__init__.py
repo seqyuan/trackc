@@ -1,5 +1,5 @@
 # the actual API
-from trackc tl, pl, pa
+from trackc import tl, pl, pa
 from trackc.gs import (
     make_spec,
     tenon,

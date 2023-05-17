@@ -2,7 +2,7 @@ from matplotlib.axes import Axes
 from typing import Union, Optional, Sequence
 import pandas as pd
 import numpy as np
-from ..tools._getRegionsCmat import GenomeRegion
+from trackc.tl._getRegionsCmat import GenomeRegion
 from .bigwig import make_multi_region_ax
 
 

@@ -6,7 +6,7 @@ from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm #,CenteredNorm, SymLogNorm,PowerNorm, Normalize  
 from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
-from ..palettes import fruitpunch, fruitpunch2
+from trackc.pa import fruitpunch, fruitpunch2
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 

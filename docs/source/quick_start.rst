@@ -9,7 +9,7 @@ to a diverse set of different Hi-C datasets.
 
 .. nbgallery:
 
-    notebooks/bw_track_tutorial
-    notebooks/mapc_eg
-    notebooks/zoomin_heatmap
+    notebooks/bw_track_tutorial.ipynb
+    notebooks/mapc_eg.ipynb
+    notebooks/zoomin_heatmap.ipynb
     

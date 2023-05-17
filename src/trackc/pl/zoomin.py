@@ -1,8 +1,8 @@
-from ..tools._getRegionsCmat import GenomeRegion
+from trackc.tl._getRegionsCmat import GenomeRegion
 from matplotlib.axes import Axes
 from typing import Union, Sequence, Optional
 import pandas as pd
-from ..palettes import trackcl_11
+from trackc.pa import trackcl_11
 
 def zoomin(ax: Optional[Axes] = None,
            row_regions: Union[pd.DataFrame, None] = None,

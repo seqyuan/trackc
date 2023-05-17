@@ -1,4 +1,4 @@
-from ..tools._getRegionsCmat import GenomeRegion
+from trackc.tl._getRegionsCmat import GenomeRegion
 from .Virtual4C import get_pets
 from matplotlib.axes import Axes
 from typing import Union, Sequence, Optional
