@@ -65,9 +65,9 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'nbsphinx',
-    #'sphinx-link'
-    #"sphinx.ext.napoleon",
-    #"sphinx_autodoc_typehints",
+    'sphinx-link'
+    "sphinx.ext.napoleon",
+    "sphinx_autodoc_typehints",
     "sphinx.ext.intersphinx",
     "sphinx.ext.autosummary",
     "sphinx_gallery.load_style",
