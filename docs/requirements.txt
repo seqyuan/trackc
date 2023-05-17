@@ -1,5 +1,5 @@
 nbsphinx
-nbsphinx_link
+#nbsphinx_link
 sphinx_book_theme
 #sphinx-autodoc2
 sphinx-autodoc-annotation
