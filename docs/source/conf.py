@@ -111,14 +111,15 @@ exclude_patterns = ['Thumbs.db',
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
-html_theme = 'sphinx_book_theme'
+#html_theme = 'sphinx_book_theme'
+html_theme = 'sphinx_rtd_theme'
+html_show_sphinx = False
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -129,6 +130,7 @@ html_logo = 'images/trackc_logo.png'
 html_theme_options = {
     'logo_only': True,
     'display_version': False,
+    "navigation_depth": 4
 }
 
 
