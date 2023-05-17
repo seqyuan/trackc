@@ -1,10 +1,10 @@
-from trackc.pa.cmaps import (
+from .cmaps import (
     colorC,
     fruitpunch,
     fruitpunch2
 )
 
-from trackc.pa.palettes import (
+from .palettes import (
     trackcl_9,
     trackcl_11,
     vega_10_trackc,

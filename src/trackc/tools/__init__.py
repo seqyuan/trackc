@@ -1,4 +1,4 @@
-from trackc.tl._getRegionsCmat import (
+from ._getRegionsCmat import (
     GenomeRegion,
     RegionsCmat,
     extractContactRegions,
