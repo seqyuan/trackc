@@ -22,6 +22,12 @@ Install trackc via Conda as::
 
     conda install -c conda-forge trackc
 
+Development version
+-------------------
+To install Squidpy from GitHub, run::
+
+    pip install git+https://github.com/seqyuan/trackc@main
+
 Checking version
 ================
 
