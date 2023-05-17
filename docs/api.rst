@@ -47,8 +47,8 @@ GrigSpec
 .. autosummary::
    :toctree: api
 
-   trackc.make_spec,
-   trackc.tenon
+   make_spec,
+   tenon
 
 Palettes
 ~~~~~~~
