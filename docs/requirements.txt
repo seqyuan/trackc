@@ -20,7 +20,6 @@ cooler
 matplotlib
 pandas
 seaborn
-inspect
 warnings
 typing
 weakref
