@@ -41,14 +41,6 @@ Plotting
    pl.getData2Map,
    pl.mapC
 
-GrigSpec
-~~~~~~~~
-
-.. autosummary::
-   :toctree: api
-
-   make_spec,
-   tenon
 
 Palettes
 ~~~~~~~
