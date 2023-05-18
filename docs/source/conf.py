@@ -60,22 +60,17 @@ github_nb_repo = "trackc_notebooks"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx_rtd_theme',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'nbsphinx',
-    "sphinx.ext.viewcode",
-    #'nbsphinx-link'
+    "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
     "sphinx.ext.intersphinx",
     "sphinx.ext.autosummary",
     "sphinx_gallery.load_style",
+    "nbsphinx",
+    "sphinxcontrib.bibtex",
     "typed_returns",
-    "sphinx_design",
     "IPython.sphinxext.ipython_console_highlighting",
-    *[p.stem for p in (HERE / "extensions").glob("*.py")],
 ]
 
 # Add any paths that contain templates here, relative to this directory.
