@@ -121,6 +121,11 @@ napoleon_use_rtype = True
 napoleon_use_param = True
 todo_include_todos = False
 
+# bibliography
+bibtex_bibfiles = ["references.bib"]
+bibtex_reference_style = "author_year"
+bibtex_default_style = "alpha"
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
