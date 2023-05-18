@@ -4,7 +4,7 @@ trackc requires Python version >= 3.8 to run.
 
 PyPI
 ----
-Install trackc by running::
+Install trackc by running:
 
 .. code-block:: bash
 
@@ -29,12 +29,12 @@ To install Squidpy from GitHub, run::
     pip install git+https://github.com/seqyuan/trackc@main
 
 Checking version
-================
+----------------
 
 To check your trackc version
 
 .. code-block:: python
 
-    import trackc
-    trackc.__version__
+    import trackc as tc
+    tc.__version__
 

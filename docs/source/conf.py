@@ -26,8 +26,9 @@ sys.path.insert(0, str(HERE / "extensions"))
 from sphinx.application import Sphinx
 from sphinx_gallery.gen_gallery import DEFAULT_GALLERY_CONF
 from sphinx_gallery.directives import MiniGallery
-
-
+from docs.source.utils import ( 
+    _fetch_notebooks,
+)
 
 # -- Project information -----------------------------------------------------
 

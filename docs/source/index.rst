@@ -5,7 +5,7 @@ trackc - track view of chromosome conformation and multi-omics data
 It builds on top of `matplotlib`, from which it allow for flexible adjustments.
 
 
-.. image:: https://raw.githubusercontent.com/seqyuan/trackc/main/docs/images/trackc_logo.png
+.. image:: https://raw.githubusercontent.com/seqyuan/trackc/main/docs/source/images/trackc_logo.png
     :alt: trackc title figure
     :width: 100px
     :align: center
@@ -23,7 +23,7 @@ Trackc's key applications
 
 Getting started with trackc
 ----------------------------
-- Browse :doc:`quick start </quick start>`, :doc:`available tracks types </available tracks types>` and :doc:`gallary </gallary>`.
+- Browse :doc:`quick start </quick_start>`, :doc:`available tracks types </available_track_types>` and :doc:`gallary </gallary>`.
 - Discuss usage on `discourse`_ and development on `github`_.
 
 Contributing to trackc
@@ -52,7 +52,17 @@ We are happy about any contributions! Before you start, check out our `contribut
 
    releases
    faq
-   citation
 
 
 .. _github: https://github.com/seqyuan/trackc
+
+
+
+Citation
+---------
+
+Please cite trackc as follows:
+
+Zan Yuan, Yang Chen, Guoliang Li.
+**trackc: a Package for Flexible Visualization of rearrangement 3D Genome and Multiomics, Bioinformatics**, Bioinformatics, Volume 48, Issue W1, 1 July 2023, Pages W177–W184, https://doi.org/10.1093/nar/gkaa220
+

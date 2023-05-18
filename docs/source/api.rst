@@ -19,6 +19,15 @@ Tool
    tl.extractContactRegions
    tl.extractCisContact
 
+GrigSpec
+~~~~~~~~~
+
+.. autosummary::
+   :toctree: api
+
+   trackc.make_spec
+   trackc.tenon
+
 Plotting
 ~~~~~~~~~
 
