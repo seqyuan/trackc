@@ -14,9 +14,9 @@ Tool
 .. autosummary::
    :toctree: api
 
-   tl.GenomeRegion,
-   tl.RegionsCmat,
-   tl.extractContactRegions,
+   tl.GenomeRegion
+   tl.RegionsCmat
+   tl.extractContactRegions
    tl.extractCisContact
 
 Plotting
@@ -28,17 +28,17 @@ Plotting
 .. autosummary::
    :toctree: api
 
-   pl.scale_track,
-   pl.multi_scale_track,
-   pl.bed_track,
-   pl.bw_track,
-   pl.bw_compartment,
-   pl.virtual4C,
-   pl.links_track,
-   pl.zoomin,
-   pl.mapc_markline,
-   pl.gene_track,
-   pl.getData2Map,
+   pl.scale_track
+   pl.multi_scale_track
+   pl.bed_track
+   pl.bw_track
+   pl.bw_compartment
+   pl.virtual4C
+   pl.links_track
+   pl.zoomin
+   pl.mapc_markline
+   pl.gene_track
+   pl.getData2Map
    pl.mapC
 
 
@@ -51,12 +51,12 @@ Palettes
 .. autosummary::
    :toctree: api
 
-   pa.fruitpunch,
-   pa.fruitpunch2,
-   pa.colorC,
-   pa.trackcl_9,
-   pa.trackcl_11,
-   pa.vega_10_trackc,
-   pa.default_20,
-   pa.zeileis_28,
+   pa.fruitpunch
+   pa.fruitpunch2
+   pa.colorC
+   pa.trackcl_9
+   pa.trackcl_11
+   pa.vega_10_trackc
+   pa.default_20
+   pa.zeileis_28
    pa.default_102
