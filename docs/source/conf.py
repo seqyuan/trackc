@@ -18,7 +18,8 @@ from datetime import datetime
 from pathlib import Path
 #sys.path.insert(0, os.path.abspath('.'))
 
-HERE = Path(__file__).parent
+HERE = os.path.abspath(os.path.dirname(__file__))
+
 sys.path.insert(0, HERE)
 sys.path.insert(0, str(HERE / "_ext"))
 #sys.path.insert(0, str(HERE.parent.parent))    
@@ -357,8 +358,8 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/dataframe.css")  # had to add this manually
 
 #setup(Sphinx)
-Sphinx.add_css_file(str(HERE+"/css/custom.css"))
-Sphinx.add_css_file(str(HERE+"/css/sphinx_gallery.css"))
-Sphinx.add_css_file(str(HERE+"/css/nbsphinx.css"))
-Sphinx.add_css_file(str(HERE+"/css/dataframe.css"))
+Sphinx.add_css_file(str(HERE / "css/custom.css"))
+Sphinx.add_css_file(str(HERE / "css/sphinx_gallery.css"))
+Sphinx.add_css_file(str(HERE / "css/nbsphinx.css"))
+Sphinx.add_css_file(str(HERE / "css/dataframe.css"))
 
