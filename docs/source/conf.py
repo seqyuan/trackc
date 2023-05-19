@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath("_ext"))
 #sys.path.insert(0, str(HERE.parent.parent))    
 sys.path.insert(0, str(HERE / "extensions"))
 package_dir = os.path.abspath(os.path.join(HERE, '..', '..', 'src'))
-print(11111, package_dir)
+
 sys.path.insert(0, package_dir) # this way, we don't have to install squidpy
 
 #sys.path.insert(0, os.path.abspath('../src'))
@@ -74,6 +74,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.autosummary",
     "sphinx_gallery.load_style",
+    "sphinx_gallery.gen_gallery",
     "nbsphinx",
     "sphinxcontrib.bibtex",
     'sphinx_last_updated_by_git',  # get "last updated" from Git
@@ -140,6 +141,59 @@ napoleon_include_init_with_doc = False
 napoleon_use_rtype = True
 napoleon_use_param = True
 todo_include_todos = False
+
+
+
+def reset_matplotlib(_gallery_conf, _fname):
+    import matplotlib as mpl
+
+    mpl.use("agg")
+
+    import matplotlib.pyplot as plt
+
+    plt.rcdefaults()
+    mpl.rcParams["savefig.bbox"] = "tight"
+    mpl.rcParams["savefig.transparent"] = True
+    mpl.rcParams["figure.figsize"] = (12, 8)
+    mpl.rcParams["figure.dpi"] = 96
+    mpl.rcParams["figure.autolayout"] = True
+                 
+_root = Path(__file__).parent.parent.parent
+sphinx_gallery_conf = {
+    "image_scrapers": "matplotlib",
+    "reset_modules": (
+        "seaborn",
+        reset_matplotlib,
+    ),
+    "filename_pattern": f"{os.path.sep}(compute_|plot_|tutorial_)",
+    "examples_dirs": [_root / "examples"],
+    "gallery_dirs": ["auto_examples", "tutorials"],
+    "abort_on_example_error": True,
+    "show_memory": True,
+    "reference_url": {
+        "sphinx_gallery": None,
+    },
+    "line_numbers": False,
+    "compress_images": (
+        "images",
+        "thumbnails",
+        "-o3",
+    ),
+    "remove_config_comments": True,
+    "inspect_global_variables": False,
+    "backreferences_dir": "gen_modules/backreferences",
+    "doc_module": "squidpy",
+    "download_all_examples": False,
+    "show_signature": False,
+    "pypandoc": {
+        "extra_args": [
+            "--mathjax",
+        ],
+        "filters": [str(_root / ".scripts" / "filters" / "strip_interpreted_text.py")],
+    },
+    "default_thumb_file": "docs/source/_static/img/squidpy_vertical.png",
+    "plot_gallery": "'True'",  # https://github.com/sphinx-gallery/sphinx-gallery/issues/913
+}
 
 nbsphinx_thumbnails = {
     'notebooks/zoomin_heatmap': 'notebooks/zoomin_heatmap.png',
@@ -271,7 +325,19 @@ epub_exclude_files = ['search.html']
 #sys.path.insert(0, os.path.abspath('../src'))
 #sys.path.insert(1, '/staging/leuven/stg_00002/lcb/sdewin/Programs/anaconda3/envs/SCENIC+/lib/python3.7/site-packages')
 
+if 'html_theme' not in globals():
+    try:
+        import insipid_sphinx_theme
+    except ImportError:
+        pass
+    else:
+        html_theme = 'insipid'
+        html_copy_source = False
+        html_permalinks_icon = '#'
 
+#if globals().get('html_theme') == 'insipid':
+    # This controls optional content in index.rst:
+#    tags.add('insipid')
 
 def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["src_dir"] = str(HERE)
@@ -282,7 +348,7 @@ def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["gallery_dirs"] = ["auto_examples", "auto_tutorials"]
     DEFAULT_GALLERY_CONF["default_thumb_file"] = "docs/source/_static/img/squidpy_vertical.png"
 
-    app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
+    #app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
     #app.add_directive("minigallery", MiniGallery)
     app.add_css_file("css/custom.css")
     app.add_css_file("css/sphinx_gallery.css")
