@@ -349,7 +349,7 @@ def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["gallery_dirs"] = ["auto_examples", "auto_tutorials"]
     DEFAULT_GALLERY_CONF["default_thumb_file"] = "docs/source/_static/img/squidpy_vertical.png"
 
-    app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
+    #app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
     #app.add_directive("minigallery", MiniGallery)
     app.add_css_file("css/custom.css")
     app.add_css_file("css/sphinx_gallery.css")
