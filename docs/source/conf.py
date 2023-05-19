@@ -85,13 +85,13 @@ extensions = [
 
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+#templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = [".rst", ".ipynb"]
+#source_suffix = [".rst", ".ipynb"]
 # Don't add .txt suffix to source files:
 html_sourcelink_suffix = ''
 
@@ -267,6 +267,7 @@ epub_exclude_files = ['search.html']
 #sys.path.insert(0, os.path.abspath('../src'))
 #sys.path.insert(1, '/staging/leuven/stg_00002/lcb/sdewin/Programs/anaconda3/envs/SCENIC+/lib/python3.7/site-packages')
 
+"""
 
 def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["src_dir"] = str(HERE)
@@ -284,6 +285,7 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/nbsphinx.css")
     app.add_css_file("css/dataframe.css")  # had to add this manually
 
+"""
 
 nbsphinx_thumbnails = {
     'notebooks/zoomin_heatmap': 'notebooks/zoomin_heatmap.png',
