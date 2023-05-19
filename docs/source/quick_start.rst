@@ -11,6 +11,6 @@ to a diverse set of different Hi-C datasets.
     :caption: A few links
     :name: rst-link-gallery
 
-    notebooks/mapc_eg
-    notebooks/zoomin_heatmap
+    notebooks/mapc_eg.ipynb
+    notebooks/zoomin_heatmap.ipynb
     
