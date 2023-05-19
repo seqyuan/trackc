@@ -23,6 +23,7 @@ pandas
 seaborn
 jupytext
 sphinx_codeautolink
+google-api-python-client>=2.34.0
 #typing
 #weakref
 #functools
