@@ -81,7 +81,7 @@ extensions = [
 
 
 # Add any paths that contain templates here, relative to this directory.
-#templates_path = ['_templates']
+templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -110,7 +110,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-"""
+
 exclude_patterns = ['Thumbs.db', 
                     '.DS_Store',
                     "auto_*/**.ipynb",
@@ -120,7 +120,7 @@ exclude_patterns = ['Thumbs.db',
                     "**.ipynb_checkpoints",
                     ]
 
-"""
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -169,7 +169,7 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-#html_static_path = ['_static']
+html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -263,8 +263,6 @@ epub_exclude_files = ['search.html']
 #sys.path.insert(0, os.path.abspath('../src'))
 #sys.path.insert(1, '/staging/leuven/stg_00002/lcb/sdewin/Programs/anaconda3/envs/SCENIC+/lib/python3.7/site-packages')
 
-"""
-
 
 def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["src_dir"] = str(HERE)
@@ -281,7 +279,7 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/sphinx_gallery.css")
     app.add_css_file("css/nbsphinx.css")
     app.add_css_file("css/dataframe.css")  # had to add this manually
-"""
+
 
 sys.path.insert(0, os.path.abspath('../src'))
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'src')))
