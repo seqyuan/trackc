@@ -22,6 +22,7 @@ matplotlib
 pandas
 seaborn
 jupytext
+sphinx_codeautolink
 #typing
 #weakref
 #functools
