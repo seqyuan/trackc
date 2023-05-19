@@ -68,7 +68,7 @@ github_nb_repo = "trackc_notebooks"
 # ones.
 
 extensions = [
-    "sphinx_rtd_theme",
+    #"sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
@@ -76,7 +76,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.autosummary",
     "sphinx_gallery.load_style",
-    "sphinx_gallery.gen_gallery",
+    #"sphinx_gallery.gen_gallery",
     "nbsphinx",
     "sphinxcontrib.bibtex",
     'sphinx_last_updated_by_git',  # get "last updated" from Git
@@ -357,14 +357,3 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/sphinx_gallery.css")
     app.add_css_file("css/nbsphinx.css")
     app.add_css_file("css/dataframe.css")  # had to add this manually
-
-#setup(Sphinx)
-"""
-print(HERE)
-Sphinx.add_css_file(filename="css/custom.css")
-print(11111)
-Sphinx.add_css_file(HERE + "/_static/css/sphinx_gallery.css")
-Sphinx.add_css_file(HERE + "/_static/css/nbsphinx.css")
-Sphinx.add_css_file(HERE + "/_static/css/dataframe.css")
-
-"""
