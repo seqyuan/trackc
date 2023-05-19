@@ -349,8 +349,8 @@ def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["log_level"] = {"backreference_missing": "info"}
     DEFAULT_GALLERY_CONF["gallery_dirs"] = ["auto_examples", "auto_tutorials"]
     DEFAULT_GALLERY_CONF["default_thumb_file"] = "docs/source/_static/img/squidpy_vertical.png"
-
-    #app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
+    print(11111111111)
+    app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
     #app.add_directive("minigallery", MiniGallery)
     app.add_css_file("css/custom.css")
     app.add_css_file("css/sphinx_gallery.css")
@@ -358,6 +358,7 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/dataframe.css")  # had to add this manually
 
 #setup(Sphinx)
+"""
 print(HERE)
 Sphinx.add_css_file(filename="css/custom.css")
 print(11111)
@@ -365,3 +366,4 @@ Sphinx.add_css_file(HERE + "/_static/css/sphinx_gallery.css")
 Sphinx.add_css_file(HERE + "/_static/css/nbsphinx.css")
 Sphinx.add_css_file(HERE + "/_static/css/dataframe.css")
 
+"""

@@ -24,6 +24,7 @@ seaborn
 jupytext
 sphinx_codeautolink
 google-api-python-client>=2.34.0
+insipid_sphinx_theme
 #typing
 #weakref
 #functools
