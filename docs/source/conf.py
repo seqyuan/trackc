@@ -87,7 +87,7 @@ extensions = [
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-#source_suffix = [".rst", ".ipynb"]
+source_suffix = [".rst", ".ipynb"]
 # Don't add .txt suffix to source files:
 html_sourcelink_suffix = ''
 
@@ -125,7 +125,7 @@ exclude_patterns = ['Thumbs.db',
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-"""
+
 autosummary_generate = True
 autodoc_member_order = "groupwise"
 autodoc_typehints = "signature"
@@ -136,7 +136,7 @@ napoleon_include_init_with_doc = False
 napoleon_use_rtype = True
 napoleon_use_param = True
 todo_include_todos = False
-"""
+
 
 # bibliography
 bibtex_bibfiles = ["references.bib"]
@@ -151,7 +151,7 @@ bibtex_default_style = "alpha"
 #html_theme = 'alabaster'
 #html_theme = 'sphinx_book_theme'
 html_theme = 'sphinx_rtd_theme'
-#html_show_sphinx = False
+html_show_sphinx = False
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
