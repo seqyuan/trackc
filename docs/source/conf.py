@@ -159,7 +159,8 @@ def reset_matplotlib(_gallery_conf, _fname):
     mpl.rcParams["figure.figsize"] = (12, 8)
     mpl.rcParams["figure.dpi"] = 96
     mpl.rcParams["figure.autolayout"] = True
-                 
+
+"""       
 _root = Path(__file__).parent.parent.parent
 sphinx_gallery_conf = {
     "image_scrapers": "matplotlib",
@@ -196,7 +197,7 @@ sphinx_gallery_conf = {
     "default_thumb_file": "docs/source/_static/img/squidpy_vertical.png",
     "plot_gallery": "'True'",  # https://github.com/sphinx-gallery/sphinx-gallery/issues/913
 }
-
+"""
 nbsphinx_thumbnails = {
     'notebooks/zoomin_heatmap': 'notebooks/zoomin_heatmap.png',
 }
