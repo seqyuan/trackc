@@ -48,7 +48,7 @@ github_org = "seqyuan"
 github_repo = "trackc"
 github_ref = "main"
 github_nb_repo = "trackc_notebooks"
-#_fetch_notebooks(repo_url=f"https://github.com/{github_org}/{github_nb_repo}")
+_fetch_notebooks(repo_url=f"https://github.com/{github_org}/{github_nb_repo}")
 
 
 # -- General configuration ---------------------------------------------------
