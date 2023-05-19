@@ -21,6 +21,7 @@ cooler
 matplotlib
 pandas
 seaborn
+jupytext
 #typing
 #weakref
 #functools
