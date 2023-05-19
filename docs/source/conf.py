@@ -358,8 +358,8 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/dataframe.css")  # had to add this manually
 
 #setup(Sphinx)
-Sphinx.add_css_file(str(HERE / "css/custom.css"))
-Sphinx.add_css_file(str(HERE / "css/sphinx_gallery.css"))
-Sphinx.add_css_file(str(HERE / "css/nbsphinx.css"))
-Sphinx.add_css_file(str(HERE / "css/dataframe.css"))
+Sphinx.add_css_file(HERE + "/css/custom.css")
+Sphinx.add_css_file(HERE + "/css/sphinx_gallery.css")
+Sphinx.add_css_file(HERE + "/css/nbsphinx.css")
+Sphinx.add_css_file(HERE + "/css/dataframe.css")
 
