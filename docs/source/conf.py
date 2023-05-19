@@ -356,5 +356,5 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/nbsphinx.css")
     app.add_css_file("css/dataframe.css")  # had to add this manually
 
-setup(Sphinx)
+#setup(Sphinx)
 
