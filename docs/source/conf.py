@@ -20,12 +20,12 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.abspath("_ext"))
+sys.path.insert(0, str(HERE / "_ext"))
 #sys.path.insert(0, str(HERE.parent.parent))    
 sys.path.insert(0, str(HERE / "extensions"))
 package_dir = os.path.abspath(os.path.join(HERE, '..', '..', 'src'))
 
-sys.path.insert(0, package_dir) # this way, we don't have to install squidpy
+sys.path.insert(0, str(package_dir)) # this way, we don't have to install squidpy
 
 #sys.path.insert(0, os.path.abspath('../src'))
 from sphinx.application import Sphinx
@@ -357,8 +357,8 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/dataframe.css")  # had to add this manually
 
 #setup(Sphinx)
-Sphinx.add_css_file(HERE+"/css/custom.css")
-Sphinx.add_css_file(HERE+"/css/sphinx_gallery.css")
-Sphinx.add_css_file(HERE+"/css/nbsphinx.css")
-Sphinx.add_css_file(HERE+"/css/dataframe.css")
+Sphinx.add_css_file(str(HERE+"/css/custom.css"))
+Sphinx.add_css_file(str(HERE+"/css/sphinx_gallery.css"))
+Sphinx.add_css_file(str(HERE+"/css/nbsphinx.css"))
+Sphinx.add_css_file(str(HERE+"/css/dataframe.css"))
 
