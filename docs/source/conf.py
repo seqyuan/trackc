@@ -60,7 +60,7 @@ github_nb_repo = "trackc_notebooks"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-"""
+
 extensions = [
     "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
@@ -72,18 +72,11 @@ extensions = [
     "sphinx_gallery.load_style",
     "nbsphinx",
     "sphinxcontrib.bibtex",
+    'sphinx_last_updated_by_git',  # get "last updated" from Git
     "typed_returns",
+    'sphinxcontrib.rsvgconverter',  # for SVG->PDF conversion in LaTeX output
     "IPython.sphinxext.ipython_console_highlighting",
     'sphinx_codeautolink',  # automatic links from code to documentation
-]
-"""
-extensions = [
-    'nbsphinx',
-    'sphinxcontrib.bibtex',  # for bibliographic references
-    'sphinxcontrib.rsvgconverter',  # for SVG->PDF conversion in LaTeX output
-    'sphinx_last_updated_by_git',  # get "last updated" from Git
-    'sphinx_codeautolink',  # automatic links from code to documentation
-    'sphinx.ext.intersphinx',  # links to other Sphinx projects (e.g. NumPy)
 ]
 
 
