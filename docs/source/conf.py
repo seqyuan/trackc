@@ -19,6 +19,7 @@ from pathlib import Path
 #sys.path.insert(0, os.path.abspath('.'))
 
 HERE = Path(__file__).parent
+sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.abspath("_ext"))
 #sys.path.insert(0, str(HERE.parent.parent))    
 sys.path.insert(0, str(HERE / "extensions"))
@@ -348,7 +349,7 @@ def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["gallery_dirs"] = ["auto_examples", "auto_tutorials"]
     DEFAULT_GALLERY_CONF["default_thumb_file"] = "docs/source/_static/img/squidpy_vertical.png"
 
-    #app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
+    app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
     #app.add_directive("minigallery", MiniGallery)
     app.add_css_file("css/custom.css")
     app.add_css_file("css/sphinx_gallery.css")
