@@ -145,7 +145,7 @@ napoleon_use_param = True
 todo_include_todos = False
 
 
-
+"""  
 def reset_matplotlib(_gallery_conf, _fname):
     import matplotlib as mpl
 
@@ -160,7 +160,7 @@ def reset_matplotlib(_gallery_conf, _fname):
     mpl.rcParams["figure.dpi"] = 96
     mpl.rcParams["figure.autolayout"] = True
 
-"""       
+     
 _root = Path(__file__).parent.parent.parent
 sphinx_gallery_conf = {
     "image_scrapers": "matplotlib",

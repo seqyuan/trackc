@@ -8,7 +8,7 @@ This section contains tutorials showcasing core trackc functionalities by applyi
 to a diverse set of different Hi-C datasets.
 
 .. nblinkgallery::
-    :caption: Available track types
+    :caption: Available_track_types
     :name: trackc-vailable-types
 
     notebooks/bw_track_tutorial

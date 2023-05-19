@@ -33,7 +33,7 @@ We are happy about any contributions! Before you start, check out our `contribut
 
 .. toctree::
    :caption: General:
-   :maxdepth: 4
+   :maxdepth: 1
 
    install
    quick_start
@@ -41,14 +41,14 @@ We are happy about any contributions! Before you start, check out our `contribut
    
 .. toctree::
    :caption: Gallery:
-   :maxdepth: 4
+   :maxdepth: 1
 
    available_tracks_types
    gallary
 
 .. toctree::
    :caption: Other:
-   :maxdepth: 4
+   :maxdepth: 1
 
    releases
    faq
