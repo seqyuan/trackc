@@ -359,7 +359,7 @@ def setup(app: Sphinx) -> None:
 
 #setup(Sphinx)
 print(HERE)
-Sphinx.add_css_file(HERE + "/_static/css/custom.css")
+Sphinx.add_css_file("css/custom.css")
 print(11111)
 Sphinx.add_css_file(HERE + "/_static/css/sphinx_gallery.css")
 Sphinx.add_css_file(HERE + "/_static/css/nbsphinx.css")
