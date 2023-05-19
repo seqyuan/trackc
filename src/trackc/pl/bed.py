@@ -8,7 +8,7 @@ from matplotlib import cm
 import pandas as pd
 import numpy as np
 from trackc.tl._getRegionsCmat import GenomeRegion
-from .bigwig import make_multi_region_ax
+from .bigwig import _make_multi_region_ax
 
 def bed_track(bed: pd.DataFrame,
               ax: Optional[Axes] = None,
@@ -67,7 +67,7 @@ def bed_track(bed: pd.DataFrame,
     else:
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
 
-    axs = make_multi_region_ax(ax, line_GenomeRegions)
+    axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()
     if isinstance(color, list)==False:
         color = [color]
@@ -134,13 +134,13 @@ def bed_track(bed: pd.DataFrame,
         if track_style == "line":
             plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='line', color=color[ix], alpha=alpha)    
         if track_style == "bar":
-            plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='bar', color=color[ix], alpha=alpha)
+            _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='bar', color=color[ix], alpha=alpha)
         if track_style == "rec":
-            plot_bed_rec(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
+            _plot_bed_rec(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
                          needReverse=row['isReverse'], color=color[ix], cname=cmap[ix], 
                          alpha=alpha, min=ymin, max=ymax, score_label=score_label, intervals=intervals, score_label_size=score_label_size)
         if track_style == "triangle":
-            plot_bed_tri(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
+            _plot_bed_tri(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
                          needReverse=row['isReverse'], color=color[ix], cname=cmap[ix], 
                          alpha=alpha, min=ymin, max=ymax, score_label=score_label, score_label_size=score_label_size)
             
@@ -153,11 +153,11 @@ def bed_track(bed: pd.DataFrame,
         ax.text(0, ymax, " [{0}, {1}]".format(tick_fl % ymin, tick_fl % ymax), va='top', fontsize=tick_fontsize)
 
 
-def make_tri_data(start, end):
+def _make_tri_data(start, end):
     data = np.array([[start, 0], [end, 0], [start+(end-start)/2, (end-start)/2]])
     return data
 
-def plot_bed_tri(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, min, max, score_label=None, score_label_size=8):
+def _plot_bed_tri(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, min, max, score_label=None, score_label_size=8):
     colors = color
     norm = None
     if cname != None:
@@ -179,7 +179,7 @@ def plot_bed_tri(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, 
     #print(colors[1])
 
     for i, row in bed.iterrows():
-        polygon = Polygon(make_tri_data(row['start'], row['end']), True, color=colors)
+        polygon = Polygon(_make_tri_data(row['start'], row['end']), True, color=colors)
         patches.append(polygon)
     
     p = PatchCollection(patches, alpha=alpha, match_original=True)
@@ -198,7 +198,7 @@ def plot_bed_tri(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, 
         cb = plt.colorbar(sm, ax=mainAX, cax=cax, label=score_label)
         cb.set_label(score_label, fontsize=score_label_size)
 
-def plot_bed_rec(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, min, max, score_label=None, intervals=1, score_label_size=8):
+def _plot_bed_rec(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, min, max, score_label=None, intervals=1, score_label_size=8):
     colors = color
     if cname != None:
         if isinstance(cname, str):
@@ -236,7 +236,7 @@ def plot_bed_rec(mainAX, ax, bed, start, end, needReverse, color, cname, alpha, 
         cb.set_label(score_label, fontsize=score_label_size)
 
 
-def plot_bed_bar_l(ax, bed, start, end, needReverse, style='bar', color='tab:blue', alpha=1):
+def _plot_bed_bar_l(ax, bed, start, end, needReverse, style='bar', color='tab:blue', alpha=1):
     if style == 'bar':
         ax.bar(x=bed['start'], width=bed['end']-bed['start'], height=bed['score'], color=color, alpha=alpha, align='edge')
     

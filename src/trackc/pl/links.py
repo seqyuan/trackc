@@ -3,10 +3,10 @@ from typing import Union, Optional, Sequence
 import pandas as pd
 import numpy as np
 from trackc.tl._getRegionsCmat import GenomeRegion
-from .bigwig import make_multi_region_ax
+from .bigwig import _make_multi_region_ax
 
 
-def two_degree_bc(x_l=10, x_r=90, y_lr=0, y2=10, dots_num=100): 
+def _two_degree_bc(x_l=10, x_r=90, y_lr=0, y2=10, dots_num=100): 
     """
         bezier curve for loop links
     """
@@ -25,7 +25,7 @@ def two_degree_bc(x_l=10, x_r=90, y_lr=0, y2=10, dots_num=100):
         yt.append(y)
     return (xt, yt)
 
-def plot_loop(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor, right_anchor):
+def _plot_loop(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor, right_anchor):
     if loop_df.shape[0] == 0:
         return
     
@@ -40,7 +40,7 @@ def plot_loop(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor,
         else:
             pass
         
-        xt, yt = two_degree_bc(x_l=row[left_anchor], x_r=row[right_anchor], y_lr=0, y2=top, dots_num=100)
+        xt, yt = _two_degree_bc(x_l=row[left_anchor], x_r=row[right_anchor], y_lr=0, y2=top, dots_num=100)
     
         ax.plot(xt, yt, color=color, linewidth=0.5, solid_capstyle='butt')
         if max(yt) > top_y:
@@ -102,7 +102,7 @@ def links_track(links_df: pd.DataFrame,
     else:
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
 
-    axs = make_multi_region_ax(ax, line_GenomeRegions)
+    axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()
 
     if isinstance(color, list)==False:
@@ -158,7 +158,7 @@ def links_track(links_df: pd.DataFrame,
    
     for ix, row in line_GenomeRegions.iterrows(): 
         if links_type == 'loop':
-            plot_loop(axs[ix], links_df_list[ix], color[ix], max_extend, invert_y, row['start'], row['end'], left_anchor, right_anchor)
+            _plot_loop(axs[ix], links_df_list[ix], color[ix], max_extend, invert_y, row['start'], row['end'], left_anchor, right_anchor)
         #if links_type == 'loop':
             #plot_triangle()
 

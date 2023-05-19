@@ -2,7 +2,7 @@ from matplotlib.axes import Axes
 from typing import Union, Optional, Sequence
 import pandas as pd
 from trackc.tl._getRegionsCmat import GenomeRegion
-from .bigwig import make_multi_region_ax
+from .bigwig import _make_multi_region_ax
 
 
 def gene_track(gene_bed: pd.DataFrame,
@@ -51,7 +51,7 @@ def gene_track(gene_bed: pd.DataFrame,
     else:
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
 
-    axs = make_multi_region_ax(ax, line_GenomeRegions)
+    axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()
 
     ax.set_ylabel(ylabel, fontsize=label_fontsize, rotation=label_rotation, horizontalalignment='right',verticalalignment='center')
@@ -66,9 +66,12 @@ def gene_track(gene_bed: pd.DataFrame,
     gene_bed.columns =['chrom','start','end','name',"score","strand","thickStart","thickEnd","itemRgb","blockCount","blockSizes","blockStarts"]
     for ix, row in line_GenomeRegions.iterrows(): 
         if track_type == "gene":
-             plot_gene(axs[ix], gene_bed, row['chrom'], row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], pos_strand_gene_color=pos_strand_gene_color, neg_strand_gene_color=neg_strand_gene_color, line=line, fontszie=gene_fontszie)
-    
-def plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_gene_color='#3366CC', neg_strand_gene_color='#EECFA1', line=1, fontszie=5):
+             _plot_gene(axs[ix], gene_bed, row['chrom'], row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], pos_strand_gene_color=pos_strand_gene_color, neg_strand_gene_color=neg_strand_gene_color, line=line, fontszie=gene_fontszie)
+        if track_type == "density":
+             print('This gene type is developping')
+        else:
+             pass
+def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_gene_color='#3366CC', neg_strand_gene_color='#EECFA1', line=1, fontszie=5):
     gene_bed = gene_bed[gene_bed['chrom']==chrom]
     gene_bed_plot = gene_bed[((gene_bed['start'] >= start) & (gene_bed['start'] <= end)) | ((gene_bed['end'] >= start) & (gene_bed['end'] <= end))]
     gene_bed_plot = gene_bed_plot.sort_values(by='end')

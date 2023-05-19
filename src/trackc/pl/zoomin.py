@@ -17,13 +17,13 @@ def zoomin(ax: Optional[Axes] = None,
         mapc mat or mat2
     """
     
-    row_GRs = region_pos(row_regions)
-    zoomin_GRs = region_pos(zoomin_regions)
+    row_GRs = _region_pos(row_regions)
+    zoomin_GRs = _region_pos(zoomin_regions)
     zoomin_GRs['ors'] = None
     zoomin_GRs['ore'] = None
     zoomin_GRs_cp = zoomin_GRs.copy()
     for i, row in zoomin_GRs_cp.iterrows():
-        start, end = get_zoom_origin_pos(row['chrom'], row['fetch_start'], row['fetch_end'], row_GRs)
+        start, end = _get_zoom_origin_pos(row['chrom'], row['fetch_start'], row['fetch_end'], row_GRs)
         ss = start
         ee = end
         if row['isReverse'] == True:
@@ -52,7 +52,7 @@ def zoomin(ax: Optional[Axes] = None,
     ax.set_xlim([0,1])
     ax.set_ylim([0,1])
 
-def region_pos(regions):
+def _region_pos(regions):
     GRs = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in regions])
     GRs['len'] = GRs['fetch_end'] - GRs['fetch_start']
     GRs['pos_e'] = GRs['len'].cumsum()
@@ -63,7 +63,7 @@ def region_pos(regions):
     return GRs
 
 
-def get_zoom_origin_pos(zoom_chrom, zooms, zoome, origin_pos_df):
+def _get_zoom_origin_pos(zoom_chrom, zooms, zoome, origin_pos_df):
     fulllen = origin_pos_df['len'].sum()
     origin_pos = origin_pos_df[origin_pos_df['chrom']==zoom_chrom]
     origin_pos = origin_pos[(zooms>=origin_pos['fetch_start']) & (zoome<=origin_pos['fetch_end'])]

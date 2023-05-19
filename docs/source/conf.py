@@ -60,6 +60,7 @@ github_nb_repo = "trackc_notebooks"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+"""
 extensions = [
     "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
@@ -75,15 +76,25 @@ extensions = [
     "IPython.sphinxext.ipython_console_highlighting",
     'sphinx_codeautolink',  # automatic links from code to documentation
 ]
+"""
+extensions = [
+    'nbsphinx',
+    'sphinxcontrib.bibtex',  # for bibliographic references
+    'sphinxcontrib.rsvgconverter',  # for SVG->PDF conversion in LaTeX output
+    'sphinx_last_updated_by_git',  # get "last updated" from Git
+    'sphinx_codeautolink',  # automatic links from code to documentation
+    'sphinx.ext.intersphinx',  # links to other Sphinx projects (e.g. NumPy)
+]
+
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+#templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = [".rst", ".ipynb"]
+#source_suffix = [".rst", ".ipynb"]
 # Don't add .txt suffix to source files:
 html_sourcelink_suffix = ''
 
@@ -106,6 +117,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
+"""
 exclude_patterns = ['Thumbs.db', 
                     '.DS_Store',
                     "auto_*/**.ipynb",
@@ -115,11 +127,12 @@ exclude_patterns = ['Thumbs.db',
                     "**.ipynb_checkpoints",
                     ]
 
-
+"""
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
+"""
 autosummary_generate = True
 autodoc_member_order = "groupwise"
 autodoc_typehints = "signature"
@@ -130,6 +143,7 @@ napoleon_include_init_with_doc = False
 napoleon_use_rtype = True
 napoleon_use_param = True
 todo_include_todos = False
+"""
 
 # bibliography
 bibtex_bibfiles = ["references.bib"]
@@ -144,7 +158,7 @@ bibtex_default_style = "alpha"
 #html_theme = 'alabaster'
 #html_theme = 'sphinx_book_theme'
 html_theme = 'sphinx_rtd_theme'
-html_show_sphinx = False
+#html_show_sphinx = False
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -162,7 +176,7 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

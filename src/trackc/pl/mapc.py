@@ -58,7 +58,7 @@ def getData2Map(mat, maxrange=None, minrange=None, trim_range=0.99, inplace=Fals
         print ("Warning: max data <0, no data to plot")
 
 
-def plot_pcolormesh( 
+def _plot_pcolormesh( 
     mat: np.ndarray,
     ax: Axes,
     norm=None,
@@ -84,7 +84,7 @@ def plot_pcolormesh(
     
     return caxes
 
-def mapC_triview(
+def _mapC_triview(
     mat: np.ndarray,
     ax: Optional[Axes] = None,
     cmap: Union[Colormap, str, None] = fruitpunch,
@@ -145,16 +145,16 @@ def mapC_triview(
         im = ax.matshow(mat, cmap=cmap, norm=norm, clim=clim)
     else:
         if map_type=='triangle':
-            im = plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_ax=trans_ax)
+            im = _plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_ax=trans_ax)
  
         if map_type=='rectangle':
-            im = plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_ax=trans_ax)
+            im = _plot_pcolormesh(mat=mat, ax=ax, norm=norm, clim=clim, cmap=cmap, trans_ax=trans_ax)
 
-    mapC_colorbar(ax, im, trans_ax, map_order, height, map_type)
+    _mapC_colorbar(ax, im, trans_ax, map_order, height, map_type)
 
     return im
 
-def mapC_label(ax, label, trans_ax, map_order, map_type, height, fontsize= 10, color='k', Pair_mat=False):
+def _mapC_label(ax, label, trans_ax, map_order, map_type, height, fontsize= 10, color='k', Pair_mat=False):
     xmin, xmax = ax.get_xlim() 
     ymin, ymax = ax.get_ylim() 
 
@@ -204,7 +204,7 @@ def mapC_label(ax, label, trans_ax, map_order, map_type, height, fontsize= 10, c
             bbox = bbox_props
             )
 
-def mapC_colorbar(ax, im, trans_ax, map_order, height, map_type):
+def _mapC_colorbar(ax, im, trans_ax, map_order, height, map_type):
     x0, y0, x0_width, y0_height = 0, 1.015, 1, 0.015
     if trans_ax == False:
         x0, y0, x0_width, y0_height = 1.015, 0, 0.015, 1
@@ -251,7 +251,7 @@ def mapC_colorbar(ax, im, trans_ax, map_order, height, map_type):
         cbar.ax.yaxis.tick_right()
     #cbar.set_label(label, fontsize=8)
 
-def paraPair(para):
+def _paraPair(para):
     if isinstance(para, list)==False:
         return([para, para])
     else:
@@ -307,14 +307,14 @@ def mapC(
     #cmap.set_bad(na_color)
     #cmap2 = copy(get_cmap(cmap2))
     #cmap2.set_bad(na_color)
-    cmap = paraPair(cmap)
-    label = paraPair(label)
-    label_fontsize = paraPair(label_fontsize)
-    label_color = paraPair(label_color)
-    logdata = paraPair(logdata)
-    maxrange = paraPair(maxrange)
-    minrange = paraPair(minrange)
-    trim_range = paraPair(trim_range)
+    cmap = _paraPair(cmap)
+    label = _paraPair(label)
+    label_fontsize = _paraPair(label_fontsize)
+    label_color = _paraPair(label_color)
+    logdata = _paraPair(logdata)
+    maxrange = _paraPair(maxrange)
+    minrange = _paraPair(minrange)
+    trim_range = _paraPair(trim_range)
 
     k = 1
     k2 = -1
@@ -341,7 +341,7 @@ def mapC(
         Pair_mat = True
 
     if isinstance(mat, np.ndarray):
-        im = mapC_triview(
+        im = _mapC_triview(
             mat=mat,
             ax=ax,
             cmap=cmap[0],
@@ -362,7 +362,7 @@ def mapC(
         #ax2 = ax.inset_axes([0, 0, 1, 1], facecolor='none')
         #ax2.set_zorder(-1)
         
-        im2 = mapC_triview(
+        im2 = _mapC_triview(
             mat=mat2,
             ax=ax2,
             cmap=cmap[1],
@@ -404,9 +404,9 @@ def mapC(
         ax2.axis('off')
 
     if isinstance(mat, np.ndarray):
-        mapC_label(ax, label[0], trans_ax, 0, map_type, height, fontsize=label_fontsize[0], color=label_color[0], Pair_mat=Pair_mat)
+        _mapC_label(ax, label[0], trans_ax, 0, map_type, height, fontsize=label_fontsize[0], color=label_color[0], Pair_mat=Pair_mat)
     if isinstance(mat2, np.ndarray):
-        mapC_label(ax2, label[1], trans_ax, 1, map_type, height, fontsize=label_fontsize[1], color=label_color[1], Pair_mat=Pair_mat)
+        _mapC_label(ax2, label[1], trans_ax, 1, map_type, height, fontsize=label_fontsize[1], color=label_color[1], Pair_mat=Pair_mat)
 
 def set_xylim(axs, conf, map_type, map_order, symmetric, trans_ax, pair_mat, matx, height):
     conf = conf[(conf['map_type']==map_type) & (conf['map_order']==map_order) & (conf['symmetric']==symmetric) & (conf['trans_ax']==trans_ax) & (conf['pair_mat']==pair_mat)]
@@ -435,7 +435,7 @@ def set_xylim(axs, conf, map_type, map_order, symmetric, trans_ax, pair_mat, mat
     
     
 
-def plot_heatmap_triangle_xticks(ax, regin1_binN, regin2_binN, chrom1, start1, end1, chrom2, start2, end2, showXticks):
+def _plot_heatmap_triangle_xticks(ax, regin1_binN, regin2_binN, chrom1, start1, end1, chrom2, start2, end2, showXticks):
     #ax.set_xticks([])
     ax.set_xticks([0, regin1_binN, regin1_binN + regin2_binN])
     ax.set_xticklabels([start1, str(end1) + " " + str(start2), end2])
@@ -450,7 +450,7 @@ def plot_heatmap_triangle_xticks(ax, regin1_binN, regin2_binN, chrom1, start1, e
     ax.spines['left'].set_color('none')
 
    
-def colorbar_triangle(axm,im,ymax):
+def _colorbar_triangle(axm,im,ymax):
     height="2%"
     width="10%"
     if ymax!=None:

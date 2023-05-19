@@ -4,7 +4,7 @@ import pandas as pd
 from trackc.tl import GenomeRegion
 from trackc.pa import trackcl_11
 
-def scale_ticks(ticks, scale='bp', tick_fl='%0.2f'):
+def _scale_ticks(ticks, scale='bp', tick_fl='%0.2f'):
     if scale == 'Mb':
         ticks = ticks/1000000
         ticks = ["{0}".format(tick_fl % i) for i in ticks]
@@ -151,8 +151,8 @@ def multi_scale_track(ax: Optional[Axes] = None,
         bottom = bottom[:line_GenomeRegions.shape[0]]
     line_GenomeRegions.loc[:, 'bottom'] = bottom
 
-    line_GenomeRegions['tick_s'] = scale_ticks(line_GenomeRegions['start'], scale=scale_adjust, tick_fl=tick_fl)
-    line_GenomeRegions['tick_e'] = scale_ticks(line_GenomeRegions['end'], scale=scale_adjust, tick_fl=tick_fl)
+    line_GenomeRegions['tick_s'] = _scale_ticks(line_GenomeRegions['start'], scale=scale_adjust, tick_fl=tick_fl)
+    line_GenomeRegions['tick_e'] = _scale_ticks(line_GenomeRegions['end'], scale=scale_adjust, tick_fl=tick_fl)
     if scale_adjust in ['Mb', 'kb']:
         line_GenomeRegions.loc[line_GenomeRegions.index[-1], "tick_e"] = line_GenomeRegions.loc[line_GenomeRegions.index[-1], "tick_e"] + "(" + scale_adjust + ")"
 

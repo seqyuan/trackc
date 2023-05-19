@@ -1,10 +1,10 @@
 from trackc.tl._getRegionsCmat import GenomeRegion
-from .Virtual4C import get_pets
+from .Virtual4C import _get_pets
 from matplotlib.axes import Axes
 from typing import Union, Sequence, Optional
 import pandas as pd
 
-def mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis):
+def _mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis):
     for i, reg in enumerate(markRegions):
         reg_pos = plot_region_df[plot_region_df[reg]==1]
         x0 = reg_pos.index[0] - 0.5
@@ -70,7 +70,7 @@ def mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symm
                         ln6.remove()
     
 
-def mark_contact_regions_triangle(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis):
+def _mark_contact_regions_triangle(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis):
     for i, reg in enumerate(markRegions):
         reg_pos = plot_region_df[plot_region_df[reg]==1]
 
@@ -121,7 +121,7 @@ def mark_contact_regions_triangle(ax, markRegions, plot_region_df, map_order, sy
                         ln5_2.remove()
                         ln6_2.remove()
                         
-def mark_contact_regions(row_regions, 
+def _mark_contact_regions(row_regions, 
                          markRegions, 
                          binsize,
                          ax, 
@@ -133,7 +133,7 @@ def mark_contact_regions(row_regions,
                          linewidth,
                          only_cis):
     
-    plot_region_df = get_pets(row_regions, binsize)
+    plot_region_df = _get_pets(row_regions, binsize)
  
     mark_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in markRegions])
     mark_GenomeRegions_cp = mark_GenomeRegions.copy()
@@ -152,9 +152,9 @@ def mark_contact_regions(row_regions,
             plot_region_df.loc[one_region.index, i] = 1
 
     if map_type == "square":
-        mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis)
+        _mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis)
     elif map_type == "triangle":
-        mark_contact_regions_triangle(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis)
+        _mark_contact_regions_triangle(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis)
     else:
         pass
        
@@ -184,12 +184,12 @@ def mapc_markline(row_regions: Union[pd.DataFrame, None] = None,
                 break
         
     if mark_regions != None:
-        mark_contact_regions(row_regions, mark_regions, binsize, ax, map_type, map_order, symmetric, linestyle, linecolor, linewidth, only_cis)
+        _mark_contact_regions(row_regions, mark_regions, binsize, ax, map_type, map_order, symmetric, linestyle, linecolor, linewidth, only_cis)
 
     if show_regions_edge==True:
-        plot_contact_regions_line(ax, row_regions, map_order, map_type, False, linewidth, linestyle, linecolor)
+        _plot_contact_regions_line(ax, row_regions, map_order, map_type, False, linewidth, linestyle, linecolor)
 
-def plot_contact_regions_line(ax, 
+def _plot_contact_regions_line(ax, 
                               rl_regions, 
                               map_order=0, 
                               map_type='triangle', 

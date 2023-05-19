@@ -4,7 +4,7 @@ from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callabl
 import pandas as pd
 from trackc.tl._getRegionsCmat import GenomeRegion
 
-def make_multi_region_ax(ax, lineGenomeRegions):
+def _make_multi_region_ax(ax, lineGenomeRegions):
     lineGenomeRegions['len'] = lineGenomeRegions['fetch_end']-lineGenomeRegions['fetch_start']
     lineGenomeRegions['ax_ratio'] = lineGenomeRegions['len']/lineGenomeRegions['len'].sum()
     lineGenomeRegions['ax_x'] = lineGenomeRegions['ax_ratio'].cumsum(axis=0) - lineGenomeRegions['ax_ratio']
@@ -58,7 +58,7 @@ def bw_track(bw,
     else:
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
 
-    axs = make_multi_region_ax(ax, line_GenomeRegions)
+    axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()
 
     if isinstance(color, list)==False:

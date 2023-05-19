@@ -9,7 +9,7 @@ import cooler
 import seaborn as sns
 fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
 
-def plot4C_line_bar(data,
+def _plot4C_line_bar(data,
                 ax,
                 color,
                 track_type,
@@ -31,7 +31,7 @@ def plot4C_line_bar(data,
         ax.bar(x=range(len(data[0,:])), height=data[0,:], bottom=minrange, width=1, color=color, align='edge')
     return (data, maxrange, minrange)
 
-def get_pets(df, binsize=10000):
+def _get_pets(df, binsize=10000):
     pets = df.reset_index()
     pets_df = pd.DataFrame(index=range(pets['cbins'].sum()))
     pets_df['chrom'] = 'None'
@@ -84,7 +84,7 @@ def virtual4C(clr: cooler.Cooler,
     data = extractContactRegions(clr, balance=balance, row_regions=target, col_regions=contact_regions)
     
     if track_type in ['line', 'bar']:
-        _, maxrange, minrange = plot4C_line_bar(data=data.cmat,
+        _, maxrange, minrange = _plot4C_line_bar(data=data.cmat,
                 ax=ax,
                 color=color,
                 track_type = track_type,
@@ -94,8 +94,8 @@ def virtual4C(clr: cooler.Cooler,
                 maxrange=maxrange, 
                 )
         
-        cols = get_pets(data.col_regions, clr.binsize)
-        rows = get_pets(data.row_regions, clr.binsize)
+        cols = _get_pets(data.col_regions, clr.binsize)
+        rows = _get_pets(data.row_regions, clr.binsize)
         cols['target'] = 0
         cols.loc[cols['chrbin'].isin(rows['chrbin']), 'target'] = 1
         targets_point = cols.query('target==1')
