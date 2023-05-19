@@ -74,7 +74,7 @@ extensions = [
     "sphinxcontrib.bibtex",
     'sphinx_last_updated_by_git',  # get "last updated" from Git
     "typed_returns",
-    'sphinxcontrib.rsvgconverter',  # for SVG->PDF conversion in LaTeX output
+    #'sphinxcontrib.rsvgconverter',  # for SVG->PDF conversion in LaTeX output
     "IPython.sphinxext.ipython_console_highlighting",
     'sphinx_codeautolink',  # automatic links from code to documentation
 ]
