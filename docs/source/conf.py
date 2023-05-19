@@ -20,17 +20,19 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 sys.path.insert(0, os.path.abspath("_ext"))
-sys.path.insert(0, str(HERE.parent.parent))    
+#sys.path.insert(0, str(HERE.parent.parent))    
 sys.path.insert(0, str(HERE / "extensions"))
-sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'src'))) # this way, we don't have to install squidpy
+package_dir = os.path.abspath(os.path.join(HERE, '..', '..', 'src'))
+print(11111, package_dir)
+sys.path.insert(0, package_dir) # this way, we don't have to install squidpy
 
 #sys.path.insert(0, os.path.abspath('../src'))
 from sphinx.application import Sphinx
 from sphinx_gallery.gen_gallery import DEFAULT_GALLERY_CONF
-from sphinx_gallery.directives import MiniGallery
-from docs.source.utils import ( 
-    _fetch_notebooks,
-)
+#from sphinx_gallery.directives import MiniGallery
+#from docs.source.utils import ( 
+#    _fetch_notebooks,
+#)
 
 # -- Project information -----------------------------------------------------
 
@@ -276,7 +278,7 @@ def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["default_thumb_file"] = "docs/source/_static/img/squidpy_vertical.png"
 
     app.add_config_value("sphinx_gallery_conf", DEFAULT_GALLERY_CONF, "html")
-    app.add_directive("minigallery", MiniGallery)
+    #app.add_directive("minigallery", MiniGallery)
     app.add_css_file("css/custom.css")
     app.add_css_file("css/sphinx_gallery.css")
     app.add_css_file("css/nbsphinx.css")

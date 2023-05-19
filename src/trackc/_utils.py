@@ -59,7 +59,7 @@ def _descend_classes_and_funcs(mod: ModuleType, root: str, encountered=None):
             yield from _descend_classes_and_funcs(obj, root, encountered)
 
 
-def _annotate_doc_types(mod: ModuleType, root: str):
+def annotate_doc_types(mod: ModuleType, root: str):
     for c_or_f in _descend_classes_and_funcs(mod, root):
         c_or_f.getdoc = partial(_getdoc, c_or_f)
 
