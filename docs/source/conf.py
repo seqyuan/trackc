@@ -342,6 +342,7 @@ if 'html_theme' not in globals():
     # This controls optional content in index.rst:
 #    tags.add('insipid')
 
+"""
 def setup(app: Sphinx) -> None:
     DEFAULT_GALLERY_CONF["src_dir"] = str(HERE)
     #DEFAULT_GALLERY_CONF["backreferences_dir"] = "gen_modules/backreferences"
@@ -357,3 +358,4 @@ def setup(app: Sphinx) -> None:
     app.add_css_file("css/sphinx_gallery.css")
     app.add_css_file("css/nbsphinx.css")
     app.add_css_file("css/dataframe.css")  # had to add this manually
+"""
