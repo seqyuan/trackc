@@ -10,8 +10,7 @@ Gallary4
 
 Here are some flexible practical examples of trackc
 
-.. toctree::
-   :hidden:
+.. nbgallery::
 
-   examples/zoomin_heatmap
-   examples/mapc_eg
+    examples/zoomin_heatmap
+    examples/mapc_eg

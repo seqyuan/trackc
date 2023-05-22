@@ -26,10 +26,9 @@ Analysis of Hi-C using :mod:`trackc`
 This section contains tutorials showcasing core trackc functionalities by applying them
 to a diverse set of different Hi-C datasets.
 
-.. toctree::
-   :hidden:
+.. nbgallery::
 
-   examples/bw_track_tutorial
-   examples/cmap-test-data
+    examples/bw_track_tutorial
+    examples/cmap-test-data
 
 
