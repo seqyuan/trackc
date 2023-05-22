@@ -330,6 +330,10 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
+nbsphinx_custom_formats = {
+    '.pct.py': ['jupytext.reads', {'fmt': 'py:percent'}],
+    '.md': ['jupytext.reads', {'fmt': 'Rmd'}],
+}
 
 # Example configuration for intersphinx: refer to the Python standard library.
 """
