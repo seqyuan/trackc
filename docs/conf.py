@@ -149,7 +149,7 @@ html_theme_options = {
     'navbar_center': ['navbar-nav'],
     'show_toc_level': 2,
     'show_nav_level': 2,
-    'navbar_end': ['theme-switcher', 'version-switcher', 'navbar-icon-links'],
+    #'navbar_end': ['theme-switcher', 'version-switcher', 'navbar-icon-links'],
     'logo': {
         'text': 'TrackC',
     },
