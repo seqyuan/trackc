@@ -441,6 +441,12 @@ def notebook_modification_function(notebook_content, notebook_filename):
         dummy_notebook_content["cells"] + notebook_content["cells"]
     )
 """
+sphinx_gallery_conf = {
+    'examples_dirs': examples_dirs,
+    'gallery_dirs': gallery_dirs,
+}
+
+
 """
 sphinx_gallery_conf = {
     'backreferences_dir': 'gen_modules/backreferences',
