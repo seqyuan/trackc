@@ -338,6 +338,8 @@ gallery_dirs = ['../examples']
 
 
 image_scrapers = ('matplotlib',)
+
+"""
 try:
     # Run the PyVista examples and find the PyVista figures if PyVista is
     # installed
@@ -369,6 +371,7 @@ else:
     plotly.io.renderers.default = 'sphinx_gallery'
     examples_dirs.append('../plotly_examples')
     gallery_dirs.append('auto_plotly_examples')
+"""
 
 min_reported_time = 0
 if 'SOURCE_DATE_EPOCH' in os.environ:
