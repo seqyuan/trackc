@@ -50,6 +50,9 @@ extensions = [
     'sphinx_gallery.gen_gallery',
     'sphinx.ext.graphviz',
     'jupyterlite_sphinx',
+    "nbsphinx",
+    "IPython.sphinxext.ipython_console_highlighting",
+    "sphinxcontrib.bibtex",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -132,6 +135,11 @@ highlight_language = 'python3'
 # The theme is set by the make target
 html_theme = 'pydata_sphinx_theme'
 html_show_sphinx = False
+
+# bibliography
+bibtex_bibfiles = ["references.bib"]
+bibtex_reference_style = "author_year"
+bibtex_default_style = "alpha"
 
 
 def setup(app):
@@ -241,7 +249,7 @@ html_show_sourcelink = False
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Sphinx-Gallerydoc'
+htmlhelp_basename = 'Trackc-Gallerydoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -471,7 +479,7 @@ sphinx_gallery_conf = {
     'capture_repr': ('_repr_html_', '__repr__'),
     'matplotlib_animations': True,
     'image_srcset': ["2x"],
-    'nested_sections': False,
+    'nested_sections': True,
     'show_api_usage': True,
 }
 
