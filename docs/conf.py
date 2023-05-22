@@ -20,6 +20,10 @@ import warnings
 from sphinx_gallery.sorting import FileNameSortKey
 from sphinx_gallery.notebook import add_markdown_cell, add_code_cell
 
+HERE = os.path.abspath(os.path.dirname(__file__))
+package_dir = os.path.join(HERE, '..', 'src')
+sys.path.insert(0, package_dir)
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -470,3 +474,4 @@ sphinx_gallery_conf = {
 warnings.filterwarnings("ignore", category=UserWarning,
                         message='Matplotlib is currently using agg, which is a'
                                 ' non-GUI backend, so cannot show the figure.')
+
