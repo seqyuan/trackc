@@ -392,7 +392,7 @@ min_reported_time = 0
 if 'SOURCE_DATE_EPOCH' in os.environ:
     min_reported_time = sys.maxint if sys.version_info[0] == 2 else sys.maxsize
 
-
+"""
 def notebook_modification_function(notebook_content, notebook_filename):
     notebook_content_str = str(notebook_content)
     warning_template = "\n".join(
@@ -448,7 +448,7 @@ def notebook_modification_function(notebook_content, notebook_filename):
     notebook_content["cells"] = (
         dummy_notebook_content["cells"] + notebook_content["cells"]
     )
-
+"""
 
 sphinx_gallery_conf = {
     'backreferences_dir': 'gen_modules/backreferences',
@@ -473,9 +473,9 @@ sphinx_gallery_conf = {
                'notebooks_dir': 'notebooks',
                'use_jupyter_lab': True,
                },
-    'jupyterlite': {
-        'notebook_modification_function': notebook_modification_function
-    },
+    #'jupyterlite': {
+    #    'notebook_modification_function': notebook_modification_function
+    #},
     'show_memory': True,
     'promote_jupyter_magic': False,
     'junit': os.path.join('sphinx-gallery', 'junit-results.xml'),

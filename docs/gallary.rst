@@ -21,3 +21,15 @@ Thumbnails gallery
 
     examples/zoomin_heatmap
     examples/mapc_eg
+
+Thumbnails galler2
+==================
+
+.. nbgallery::
+    :caption: This is a thumbnail gallery:
+    :name: rst-gallery
+    :glob:
+    :reversed:
+
+    examples/zoomin_heatmap
+    
