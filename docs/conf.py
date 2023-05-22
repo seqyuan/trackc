@@ -131,6 +131,7 @@ highlight_language = 'python3'
 
 # The theme is set by the make target
 html_theme = 'pydata_sphinx_theme'
+html_show_sphinx = False
 
 
 def setup(app):
@@ -150,17 +151,17 @@ html_theme_options = {
     'show_nav_level': 2,
     'navbar_end': ['theme-switcher', 'version-switcher', 'navbar-icon-links'],
     'logo': {
-        'text': '🖼️ Sphinx-Gallery',
+        'text': 'TrackC',
     },
-    'switcher': dict(
-        json_url='https://sphinx-gallery.github.io/dev/_static/switcher.json',
-        version_match='dev' if 'dev' in version else 'stable',
-    ),
-    "github_url": "https://github.com/sphinx-gallery/sphinx-gallery",
+    #'switcher': dict(
+    #    json_url='https://sphinx-gallery.github.io/dev/_static/switcher.json',
+    #    version_match='dev' if 'dev' in version else 'stable',
+    #),
+    "github_url": "https://github.com/seqyuan/trackc",
     "icon_links": [
         {
             "name": "PyPI",
-            "url": "https://pypi.org/project/sphinx-gallery",
+            "url": "https://pypi.org/project/trackc",
             "icon": "fa-solid fa-box",
         },
     ],
@@ -323,6 +324,7 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
+"""
 intersphinx_mapping = {
     'python': (f'https://docs.python.org/{sys.version_info.major}', None),
     'numpy': ('https://numpy.org/doc/stable/', None),
@@ -332,7 +334,7 @@ intersphinx_mapping = {
     'sphinx': ('https://www.sphinx-doc.org/en/master', None),
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
 }
-
+"""
 examples_dirs = ['../tutorials']
 gallery_dirs = ['../examples']
 

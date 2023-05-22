@@ -1,15 +1,17 @@
+##########
 Gallary
+##########
+
+Gallary3
 =======
 
-Gallary2
+Gallary4
 --------
 
 Here are some flexible practical examples of trackc
 
-.. nblinkgallery::
-    :caption: TrackcGallary
-    :name: trackc-gallery
+.. toctree::
+   :hidden:
 
-    examples/zoomin_heatmap
-    examples/mapc_eg
-
+   examples/zoomin_heatmap
+   examples/mapc_eg
