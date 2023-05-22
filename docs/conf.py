@@ -59,7 +59,7 @@ templates_path = ['_templates']
 autosummary_generate = True
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = [".rst", ".ipynb"]
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -68,7 +68,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Trackc'
+project = 'TrackC'
 copyright = '%s, Zan Yuan' % date.today().year
 
 # The version info for the project you're documenting, acts as replacement for
@@ -333,8 +333,8 @@ intersphinx_mapping = {
     'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
 }
 
-examples_dirs = ['../examples', '../tutorials']
-gallery_dirs = ['auto_examples', 'tutorials']
+examples_dirs = ['../tutorials']
+gallery_dirs = ['../examples']
 
 
 image_scrapers = ('matplotlib',)

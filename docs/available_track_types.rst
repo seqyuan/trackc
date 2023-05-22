@@ -11,5 +11,5 @@ to a diverse set of different Hi-C datasets.
     :caption: Available_track_types
     :name: trackc-vailable-types
 
-    notebooks/bw_track_tutorial
-    notebooks/cmap-test-data
+    examples/bw_track_tutorial
+    examples/cmap-test-data

@@ -10,6 +10,6 @@ Here are some flexible practical examples of trackc
     :caption: TrackcGallary
     :name: trackc-gallery
 
-    notebooks/zoomin_heatmap
-    notebooks/mapc_eg
+    examples/zoomin_heatmap
+    examples/mapc_eg
 

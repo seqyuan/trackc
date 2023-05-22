@@ -12,6 +12,6 @@ to a diverse set of different Hi-C datasets.
    :caption: tutorials:
    :maxdepth: 4
 
-   notebooks/bw_track_tutorial
-   notebooks/mapc_eg
+   examples/bw_track_tutorial
+   examples/mapc_eg
    
