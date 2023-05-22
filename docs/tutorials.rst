@@ -10,9 +10,9 @@ GridSpec
     import trackc as tc
     fig, axs = tc.make_spec(width=6, height=4, height_ratios=[1,1.5,2], hspace=0.3)
 
-.. image-sg:: /tutorials/images/grid_spec_01.png
+.. image-sg:: ../tutorials/images/grid_spec_01.png
    :alt: Neighborhood enrichment
-   :srcset: /tutorials/images/grid_spec_01.png
+   :srcset: ../tutorials/images/grid_spec_01.png
    :class: sphx-glr-single-img
 
 
