@@ -39,6 +39,7 @@ We are happy about any contributions! Before you start, check out our `contribut
    tutorials
    gallary
    api
+   developer/index
    
 
 .. _github: https://github.com/seqyuan/trackc
