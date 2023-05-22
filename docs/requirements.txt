@@ -1,7 +1,9 @@
 nbsphinx
 #nbsphinx_link
-sphinx_book_theme
+#sphinx_book_theme
 #sphinx-autodoc2
+pyvista
+joblib
 sphinx_design
 sphinx-autodoc-annotation
 sphinx_last_updated_by_git
@@ -24,7 +26,8 @@ seaborn
 jupytext
 sphinx_codeautolink
 google-api-python-client>=2.34.0
-insipid_sphinx_theme
+#insipid_sphinx_theme
+pydata_sphinx_theme
 #typing
 #weakref
 #functools
