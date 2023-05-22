@@ -447,8 +447,8 @@ sphinx_gallery_conf = {
     'compress_images': ('images', 'thumbnails'),
     # specify the order of examples to be according to filename
     'within_subsection_order': FileNameSortKey,
-    'expected_failing_examples': ['../examples/no_output/plot_raise.py',
-                                  '../examples/no_output/plot_syntaxerror.py'],
+    #'expected_failing_examples': ['../examples/no_output/plot_raise.py',
+    #                              '../examples/no_output/plot_syntaxerror.py'],
     'min_reported_time': min_reported_time,
     'binder': {'org': 'sphinx-gallery',
                'repo': 'sphinx-gallery.github.io',
