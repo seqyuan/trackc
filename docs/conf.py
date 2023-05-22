@@ -331,23 +331,15 @@ texinfo_documents = [
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
 
+"""
 nbsphinx_custom_formats = {
     '.pct.py': ['jupytext.reads', {'fmt': 'py:percent'}],
     '.md': ['jupytext.reads', {'fmt': 'Rmd'}],
 }
-
+"""
 # Example configuration for intersphinx: refer to the Python standard library.
-"""
-intersphinx_mapping = {
-    'python': (f'https://docs.python.org/{sys.version_info.major}', None),
-    'numpy': ('https://numpy.org/doc/stable/', None),
-    'matplotlib': ('https://matplotlib.org/stable', None),
-    'pyvista': ('https://docs.pyvista.org/version/stable', None),
-    'sklearn': ('https://scikit-learn.org/stable', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/master', None),
-    'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
-}
-"""
+
+
 examples_dirs = ['../tutorials']
 gallery_dirs = ['../examples']
 

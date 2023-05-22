@@ -28,7 +28,7 @@ sphinx_codeautolink
 google-api-python-client>=2.34.0
 #insipid_sphinx_theme
 pydata_sphinx_theme
-jupyterlite_sphinx
+#jupyterlite_sphinx
 #typing
 #weakref
 #functools
