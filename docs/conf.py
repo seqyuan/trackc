@@ -441,7 +441,7 @@ def notebook_modification_function(notebook_content, notebook_filename):
         dummy_notebook_content["cells"] + notebook_content["cells"]
     )
 """
-
+"""
 sphinx_gallery_conf = {
     'backreferences_dir': 'gen_modules/backreferences',
     'doc_module': ('sphinx_gallery', 'numpy'),
@@ -479,7 +479,7 @@ sphinx_gallery_conf = {
     'nested_sections': True,
     'show_api_usage': True,
 }
-
+"""
 # Remove matplotlib agg warnings from generated doc when using plt.show
 warnings.filterwarnings("ignore", category=UserWarning,
                         message='Matplotlib is currently using agg, which is a'
