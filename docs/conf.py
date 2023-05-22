@@ -48,6 +48,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx_gallery.gen_gallery',
+    'sphinx_gallery.load_style',
     'sphinx.ext.graphviz',
     'jupyterlite_sphinx',
     "nbsphinx",
