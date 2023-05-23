@@ -44,9 +44,10 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax',
+    'sphinx_copybutton',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
     'sphinx_gallery.gen_gallery',
     'sphinx_gallery.load_style',
     'sphinx.ext.graphviz',
@@ -142,6 +143,10 @@ bibtex_bibfiles = ["references.bib"]
 bibtex_reference_style = "author_year"
 bibtex_default_style = "alpha"
 
+nbsphinx_thumbnails = {
+    'examples/zoomin_heatmap': 'examples/zoomin_heatmap.png',
+    'tutorials/bw_track_tutorial': 'examples/zoomin_heatmap.png',
+}
 
 def setup(app):
     """Sphinx setup function."""
@@ -150,10 +155,11 @@ def setup(app):
                         objname='configuration value',
                         indextemplate='pair: %s; configuration value')
 
-
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
+
+
 html_theme_options = {
     'navbar_center': ['navbar-nav'],
     'show_toc_level': 2,
@@ -489,10 +495,6 @@ sphinx_gallery_conf = {
     'show_api_usage': True,
 }
 """
-nbsphinx_thumbnails = {
-    'examples/zoomin_heatmap': 'examples/zoomin_heatmap.png',
-    'tutorials/bw_track_tutorial': 'examples/zoomin_heatmap.png',
-}
 
 
 

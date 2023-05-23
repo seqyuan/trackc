@@ -2,19 +2,14 @@
 Gallary
 ##########
 
-Gallary3
-========
-
-Gallary4
---------
 
 Here are some flexible practical examples of trackc
 
-Thumbnails gallery
-==================
+Advanced Science
+=================
 
 .. nbgallery::
-    :caption: This is a tlery:
+    :caption: rearranged heatmaps 1:
     :name: rst-gallery
     :glob:
     :reversed:
@@ -22,11 +17,11 @@ Thumbnails gallery
     examples/zoomin_heatmap
     examples/mapc_eg
 
-Thumbnails galler2
-==================
+feng yue
+==========
 
 .. nbgallery::
-    :caption: This is a thumbnail gallery:
+    :caption: neo-domain:
     :name: rst-gallary
     :glob:
     :reversed:
