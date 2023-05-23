@@ -47,6 +47,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx_copybutton',
     'sphinx.ext.todo',
+    'sphinx-gallery',
     'sphinx.ext.coverage',
     'sphinx_gallery.gen_gallery',
     'sphinx_gallery.load_style',
