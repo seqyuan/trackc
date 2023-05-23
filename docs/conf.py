@@ -51,7 +51,7 @@ extensions = [
     'sphinx_gallery.load_style',
     'sphinx.ext.graphviz',
     #'jupyterlite_sphinx',
-    #"nbsphinx",
+    "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting",
     "sphinxcontrib.bibtex",
 ]
