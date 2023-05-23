@@ -489,6 +489,13 @@ sphinx_gallery_conf = {
     'show_api_usage': True,
 }
 """
+nbsphinx_thumbnails = {
+    'examples/zoomin_heatmap': 'examples/zoomin_heatmap.png',
+    'tutorials/bw_track_tutorial': 'examples/zoomin_heatmap.png',
+}
+
+
+
 # Remove matplotlib agg warnings from generated doc when using plt.show
 warnings.filterwarnings("ignore", category=UserWarning,
                         message='Matplotlib is currently using agg, which is a'

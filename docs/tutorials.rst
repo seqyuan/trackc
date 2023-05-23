@@ -34,6 +34,6 @@ examples
    :caption: Contents:
 
    tutorials/bw_track_tutorial
-   cmap-test-data
+   tutorials/cmap-test-data
 
 
