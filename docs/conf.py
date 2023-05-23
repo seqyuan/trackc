@@ -441,9 +441,12 @@ def notebook_modification_function(notebook_content, notebook_filename):
         dummy_notebook_content["cells"] + notebook_content["cells"]
     )
 """
+
+from pathlib import Path
+_root = Path(__file__).parent.parent
 sphinx_gallery_conf = {
-    'examples_dirs': examples_dirs,
-    'gallery_dirs': gallery_dirs,
+    'examples_dirs': [_root / "tutorials"],
+    'gallery_dirs': [_root / "examples"],
 }
 
 
