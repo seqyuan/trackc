@@ -14,9 +14,8 @@ def _make_multi_region_ax(ax, lineGenomeRegions):
     
     return axs
 
-def bw_track(bw, 
+def bw_track(bw,
              ax: Optional[Axes] = None,
-             ylabel: Optional[str] = None,
              regions: Union[Sequence[str], str, None] = None, 
              binsize: Optional[int] = 50000,
              averagetype: Union[str, None] = 'mean',
@@ -24,7 +23,8 @@ def bw_track(bw,
              ymax: Optional[float] = None,
              color: Union[Sequence[str], None] = '#827DBB',
              invert_y: Optional[bool] = False,
-             label_rotation=0,
+             label: Optional[str] = None,
+             label_rotation: Union[int, None] = 0,
              label_fontsize: Optional[int] = 12,
              tick_fontsize: Optional[int] = 8,
              tick_fl: Optional[str] ='%0.2f', 
@@ -107,7 +107,8 @@ def bw_track(bw,
         va='bottom'
     ax.text(0, ymax, " [{0}, {1}]".format(tick_fl % min_y, tick_fl % ymax), verticalalignment=va, fontsize=tick_fontsize)
     
-    ax.set_ylabel(ylabel, fontsize=label_fontsize, rotation=label_rotation, horizontalalignment='right', verticalalignment='center')
+    ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, 
+                  horizontalalignment='right', verticalalignment='center')
      
     spines = ['top', 'bottom', 'left', 'right']
     if invert_y == True:

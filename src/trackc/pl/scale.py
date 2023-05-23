@@ -23,6 +23,7 @@ def scale_track(ax: Optional[Axes] = None,
                 tick_fl: Union[str, None] ='%0.2f',
                 tick_fontsize: Union[int, None] = 8,
                 tick_rotation: Union[int, None] = 0,
+                space: float = 0.1,
                 ):
     """
     Parameters
@@ -53,13 +54,13 @@ def scale_track(ax: Optional[Axes] = None,
     pos_dic = {
         'left': [-ratio2ax,	0, ratio2ax, 1],
         'right': [1, 0,	ratio2ax, 1],
-        'top': [0, 1, 1, ratio2ax],
-        'bottom': [0, -ratio2ax, 1, ratio2ax]
+        'top': [0, 1+space, 1, ratio2ax],
+        'bottom': [0, -ratio2ax-space, 1, ratio2ax]
     }
 
     ax2 = ax.inset_axes(pos_dic[tick_pos], facecolor='none')
     ax = ax2
-    print(1111, start, end)
+    
     if tick_pos in ['top', 'bottom']:
         ax.set_xlim([start, end])
 

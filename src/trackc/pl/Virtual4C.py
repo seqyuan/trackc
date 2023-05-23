@@ -10,14 +10,14 @@ import seaborn as sns
 fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
 
 def _plot4C_line_bar(data,
-                ax,
-                color,
-                track_type,
-                logdata, 
-                trim_range, 
-                minrange, 
-                maxrange, 
-                ):
+                     ax,
+                     color,
+                     track_type,
+                     logdata,
+                     trim_range,
+                     minrange,
+                     maxrange,
+                     ):
     data, maxrange, minrange = getData2Map(data, maxrange=maxrange, minrange=minrange, trim_range=trim_range, inplace=False)
     print("maxrange:", maxrange ,"minrange:",minrange)
     
@@ -62,12 +62,12 @@ def _get_pets(df, binsize=10000):
     return pets_df
 
 
-def virtual4C(clr: cooler.Cooler,
+def virtual4C(ax: Optional[Axes] = None,
+              clr: cooler.Cooler = None,
               balance: bool = False,
               #divisive_weights = None,
               target: Union[str, None] = None,
               contact_regions: Union[Sequence[str], str, None] = None, 
-              ax: Optional[Axes] = None,
               track_type: Union[str, None] = 'line',
               color: Union[str, None] = 'tab:blue',
               cmap: Union[Sequence[Colormap], str, None] = fruitpunch,

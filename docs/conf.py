@@ -41,28 +41,19 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
     'sphinx.ext.viewcode',
-    'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
-    'sphinx_copybutton',
     'sphinx.ext.todo',
     #'sphinx_gallery',
     'sphinx.ext.coverage',
-    #'sphinx_gallery.gen_gallery',
-    'sphinx_gallery.load_style',
-    'sphinx.ext.graphviz',
-    #'jupyterlite_sphinx',
-    "nbsphinx",
-    "IPython.sphinxext.ipython_console_highlighting",
-    "sphinxcontrib.bibtex",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # generate autosummary even if no references
-autosummary_generate = True
+
 
 # The suffix of source filenames.
 source_suffix = [".rst", ".md"]
@@ -70,11 +61,6 @@ source_suffix = [".rst", ".md"]
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
 
-# The master toctree document.
-master_doc = 'index'
-
-# General information about the project.
-project = 'TrackC'
 copyright = '%s, Zan Yuan' % date.today().year
 
 # The version info for the project you're documenting, acts as replacement for
@@ -120,8 +106,7 @@ nitpick_ignore = [('', "Pygments lexer name 'ipython' is not known")]
 #show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
-highlight_language = 'python3'
+
 
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
@@ -136,8 +121,7 @@ highlight_language = 'python3'
 # a list of builtin themes.
 
 # The theme is set by the make target
-html_theme = 'pydata_sphinx_theme'
-html_show_sphinx = False
+
 
 # bibliography
 bibtex_bibfiles = ["references.bib"]
@@ -353,40 +337,6 @@ gallery_dirs = ['../examples']
 
 
 image_scrapers = ('matplotlib',)
-
-"""
-try:
-    # Run the PyVista examples and find the PyVista figures if PyVista is
-    # installed
-    import pyvista
-except Exception:  # can raise all sorts of errors
-    pass
-else:
-    image_scrapers += ('pyvista',)
-    examples_dirs.append('../pyvista_examples')
-    gallery_dirs.append('auto_pyvista_examples')
-    pyvista.OFF_SCREEN = True
-    # Preferred plotting style for documentation
-    pyvista.set_plot_theme('document')
-    pyvista.global_theme.window_size = [1024, 768]
-    pyvista.global_theme.font.size = 22
-    pyvista.global_theme.font.label_size = 22
-    pyvista.global_theme.font.title_size = 22
-    pyvista.global_theme.return_cpos = False
-    # necessary when building the sphinx gallery
-    pyvista.BUILDING_GALLERY = True
-    pyvista.set_jupyter_backend(None)
-
-# Set plotly renderer to capture _repr_html_ for sphinx-gallery
-try:
-    import plotly.io
-except ImportError:
-    pass
-else:
-    plotly.io.renderers.default = 'sphinx_gallery'
-    examples_dirs.append('../plotly_examples')
-    gallery_dirs.append('auto_plotly_examples')
-"""
 
 min_reported_time = 0
 if 'SOURCE_DATE_EPOCH' in os.environ:

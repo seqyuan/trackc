@@ -10,8 +10,8 @@ import numpy as np
 from trackc.tl._getRegionsCmat import GenomeRegion
 from .bigwig import _make_multi_region_ax
 
-def bed_track(bed: pd.DataFrame,
-              ax: Optional[Axes] = None,
+def bed_track(ax: Optional[Axes] = None,
+              bed: pd.DataFrame = None,
               regions: Union[Sequence[str], str, None] = None,
               track_style: Union[str, None] = 'bar',
               color: Union[Sequence[str], None] = 'tab:blue',
@@ -19,9 +19,9 @@ def bed_track(bed: pd.DataFrame,
               intervals: Union[int, None] = 1,
               #show_names: Union[bool, None] = False,
               alpha: Union[float, None] = 1,
-              title: Union[str, None] = None,
-              title_fontszie: Union[int, None] = 5,
-              title_rotation: Union[int, None] = 0,
+              label: Union[str, None] = None,
+              label_fontsize: Union[int, None] = 5,
+              label_rotation: Union[int, None] = 0,
               ymin: Optional[float] = None,
               ymax: Optional[float] = None,
               tick_fontsize: Optional[int] = 8,
@@ -81,7 +81,7 @@ def bed_track(bed: pd.DataFrame,
         repeat_times = (line_GenomeRegions.shape[0] + len(cmap) - 1) // len(cmap)
         cmap = (cmap * repeat_times)[:line_GenomeRegions.shape[0]]
 
-    ax.set_ylabel(title, fontsize=title_fontszie, rotation=title_rotation, ha='right', va='center')
+    ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, ha='right', va='center')
     spines = ['top', 'right', 'left']
     for i in spines:
         ax.spines[i].set_visible(False)

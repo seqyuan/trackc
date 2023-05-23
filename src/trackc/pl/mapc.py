@@ -261,29 +261,28 @@ def _paraPair(para):
             return para
     return para
 
-
 def mapC(
-    mat: Union[np.ndarray, None]  = None,
-    mat2: Union[np.ndarray, None] = None,
-
-    cmap: Union[Sequence[Colormap], Sequence[str], Colormap, str, None] = [fruitpunch, 'YlOrRd'],
-    label: Union[Sequence[str], str, None] = None,
-    label_fontsize: Union[Sequence[int], int] = 10,
-    label_color: Union[Sequence[str], str, None] = 'k',
-
-    logdata: Union[Sequence[bool], bool] = False, 
-    maxrange: Union[Sequence[float], float]=None,
-    minrange: Union[Sequence[float], float]=None,
-    trim_range: Union[Sequence[float], float]=0.99,
-
-    ax: Optional[Axes] = None,
-    map_type: Union[str, None] = 'triangle',
-    height: int = 0,
-    trans_ax: bool = False,
-    symmetric: bool = False,
-    ax_on: bool =True,
-    aspect: Union[str, float]='auto'
-    ):
+        ax: Optional[Axes] = None,
+        mat: Union[np.ndarray, None]  = None,
+        mat2: Union[np.ndarray, None] = None,
+        
+        cmap: Union[Sequence[Colormap], Sequence[str], Colormap, str, None] = [fruitpunch, 'YlOrRd'],
+        label: Union[Sequence[str], str, None] = None,
+        label_fontsize: Union[Sequence[int], int] = 10,
+        label_color: Union[Sequence[str], str, None] = 'k',
+        
+        logdata: Union[Sequence[bool], bool] = False, 
+        maxrange: Union[Sequence[float], float]=None,
+        minrange: Union[Sequence[float], float]=None,
+        trim_range: Union[Sequence[float], float]=0.99,
+        
+        map_type: Union[str, None] = 'triangle',
+        height: int = 0,
+        trans_ax: bool = False,
+        symmetric: bool = False,
+        ax_on: bool =True,
+        aspect: Union[str, float]='auto'
+        ):
     """\
     Draw triangle view of the C data
 

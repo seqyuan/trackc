@@ -4,7 +4,16 @@ from matplotlib.axes import Axes
 from typing import Union, Sequence, Optional
 import pandas as pd
 
-def _mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis):
+def _mark_contact_regions_square(ax, 
+                                 markRegions, 
+                                 plot_region_df, 
+                                 map_order, 
+                                 symmetric, 
+                                 linewidth, 
+                                 linestyle, 
+                                 linecolor, 
+                                 only_cis
+                                 ):
     for i, reg in enumerate(markRegions):
         reg_pos = plot_region_df[plot_region_df[reg]==1]
         x0 = reg_pos.index[0] - 0.5
@@ -70,7 +79,16 @@ def _mark_contact_regions_square(ax, markRegions, plot_region_df, map_order, sym
                         ln6.remove()
     
 
-def _mark_contact_regions_triangle(ax, markRegions, plot_region_df, map_order, symmetric, linewidth, linestyle, linecolor, only_cis):
+def _mark_contact_regions_triangle(ax, 
+                                   markRegions, 
+                                   plot_region_df, 
+                                   map_order, 
+                                   symmetric, 
+                                   linewidth, 
+                                   linestyle, 
+                                   linecolor, 
+                                   only_cis
+                                   ):
     for i, reg in enumerate(markRegions):
         reg_pos = plot_region_df[plot_region_df[reg]==1]
 
@@ -187,16 +205,16 @@ def mapc_markline(row_regions: Union[pd.DataFrame, None] = None,
         _mark_contact_regions(row_regions, mark_regions, binsize, ax, map_type, map_order, symmetric, linestyle, linecolor, linewidth, only_cis)
 
     if show_regions_edge==True:
-        _plot_contact_regions_line(ax, row_regions, map_order, map_type, False, linewidth, linestyle, linecolor)
+        _plot_contact_regions_line(ax, row_regions, map_order, map_type, trans_ax, linewidth, linestyle, linecolor)
 
 def _plot_contact_regions_line(ax, 
-                              rl_regions, 
-                              map_order=0, 
-                              map_type='triangle', 
-                              trans_ax=False, 
-                              linewidth=1, 
-                              linestyle='--', 
-                              linecolor='k'):
+                               rl_regions, 
+                               map_order=0,
+                               map_type='triangle',
+                               trans_ax=False,
+                               linewidth=1,
+                               linestyle='--',
+                               linecolor='k'):
     if trans_ax == True:
         print('trans_ax should be False')
 

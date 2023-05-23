@@ -5,15 +5,15 @@ from trackc.tl._getRegionsCmat import GenomeRegion
 from .bigwig import _make_multi_region_ax
 
 
-def gene_track(gene_bed: pd.DataFrame,
-               ax: Optional[Axes] = None,
+def gene_track(ax: Optional[Axes] = None,
+               gene_bed: pd.DataFrame = None,
                regions: Union[Sequence[str], str, None] = None,
                track_type: Union[str, None] = 'gene',
                pos_strand_gene_color: Union[str, None] = '#3366CC',
                neg_strand_gene_color: Union[str, None] = '#EECFA1',
                line: Union[int, None] = 1,
                gene_fontszie: Union[int, None] = 5,
-               ylabel: Optional[str] = None,
+               label: Optional[str] = None,
                label_rotation: Union[int, None] = 0,
                label_fontsize: Optional[int] = 12,
                ):
@@ -54,7 +54,8 @@ def gene_track(gene_bed: pd.DataFrame,
     axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()
 
-    ax.set_ylabel(ylabel, fontsize=label_fontsize, rotation=label_rotation, horizontalalignment='right',verticalalignment='center')
+    ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, 
+                  horizontalalignment='right',verticalalignment='center')
     spines = ['top', 'bottom', 'left', 'right']
     for i in spines:
         ax.spines[i].set_visible(False)

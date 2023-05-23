@@ -52,18 +52,20 @@ def _plot_loop(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor
     else:
         ax.set_ylim(0, 0.5)
 
-def links_track(links_df: pd.DataFrame, 
-              ax: Optional[Axes] = None,
-              ylabel: Optional[str] = None,
-              regions: Union[Sequence[str], str, None] = None, 
-              links_type: Union[str, None] = 'loop',
-              color: Union[Sequence[str], None] = '#66AC84',
-              maxrange: Union[int, None] = 3000000,
-              invert_y: Optional[bool] = False,
-              anchor: Union[str, None] = 'inside',
-              label_rotation: Union[int, None] = 0,
-              label_fontsize: Optional[int] = 12,
-              ):
+def links_track(
+        ax: Optional[Axes] = None,
+        links_df: pd.DataFrame = None, 
+        regions: Union[Sequence[str], str, None] = None,
+        links_type: Union[str, None] = 'loop',
+        color: Union[Sequence[str], None] = '#66AC84',
+        maxrange: Union[int, None] = 3000000,
+        invert_y: Optional[bool] = False,
+        anchor: Union[str, None] = 'inside',
+
+        label: Optional[str] = None,
+        label_rotation: Union[int, None] = 0,
+        label_fontsize: Optional[int] = 12,
+        ):
     """\
     Plot multi-regions loop or TAD links.
     
@@ -162,7 +164,8 @@ def links_track(links_df: pd.DataFrame,
         #if links_type == 'loop':
             #plot_triangle()
 
-    ax.set_ylabel(ylabel, fontsize=label_fontsize, rotation=label_rotation, horizontalalignment='right',verticalalignment='center')
+    ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, 
+                  horizontalalignment='right',verticalalignment='center')
     
     spines = ['top', 'bottom', 'left', 'right']
     if invert_y == True:
