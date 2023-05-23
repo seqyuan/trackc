@@ -13,7 +13,7 @@ It builds on top of `matplotlib`, from which it allow for flexible adjustments.
 
 Manuscript
 ----------
-Please see our manuscript :cite:`palla:22` in **Bioinformatics** to learn more.
+Please see our manuscript :cite:`yuan:23` in **Bioinformatics** to learn more.
 
 Trackc's key applications
 --------------------------
