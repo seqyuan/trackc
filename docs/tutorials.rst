@@ -33,7 +33,7 @@ examples
    :maxdepth: 2
    :caption: Contents:
 
-   examples/bw_track_tutorial
-   examples/cmap-test-data
+   tutorials/bw_track_tutorial
+   cmap-test-data
 
 
