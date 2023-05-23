@@ -47,9 +47,9 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx_copybutton',
     'sphinx.ext.todo',
-    'sphinx_gallery',
+    #'sphinx_gallery',
     'sphinx.ext.coverage',
-    'sphinx_gallery.gen_gallery',
+    #'sphinx_gallery.gen_gallery',
     'sphinx_gallery.load_style',
     'sphinx.ext.graphviz',
     #'jupyterlite_sphinx',
@@ -98,7 +98,7 @@ release = version + '-git'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', '**.ipynb_checkpoints']
 
 # See warnings about bad links
 nitpicky = True
@@ -145,6 +145,7 @@ bibtex_reference_style = "author_year"
 bibtex_default_style = "alpha"
 
 nbsphinx_thumbnails = {
+    'thumbnail_size': '400x300',
     'examples/zoomin_heatmap': 'examples/zoomin_heatmap.png',
     'tutorials/bw_track_tutorial': 'examples/zoomin_heatmap.png',
 }
