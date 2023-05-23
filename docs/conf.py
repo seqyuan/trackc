@@ -47,6 +47,13 @@ extensions = [
     'sphinx.ext.todo',
     #'sphinx_gallery',
     'sphinx.ext.coverage',
+    'sphinx_gallery.load_style',
+    'sphinx.ext.graphviz',
+    'nbsphinx',
+    'IPython.sphinxext.ipython_console_highlighting',
+    'sphinxcontrib.bibtex',
+    'sphinx.ext.autosummary',
+    'sphinx_copybutton',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
