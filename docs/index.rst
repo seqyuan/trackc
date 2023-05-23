@@ -52,5 +52,5 @@ Citation
 Please cite trackc as follows:
 
 Zan Yuan, Guoliang Li, Yang Chen.
-**trackc: a Package for Flexible Visualization of rearrangement 3D Genome and Multiomics, Bioinformatics**, Bioinformatics, Volume 48, Issue W1, 1 July 2023, Pages W177–W184, https://doi.org/10.1093/nar/gkaa220
+**trackc: a Package for Flexible Visualization of rearrangement 3D Genome and Multiomics**, Bioinformatics, Volume 48, Issue W1, 1 July 2023, Pages W177–W184, https://doi.org/10.1093/nar/gkaa220
 
