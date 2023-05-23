@@ -440,7 +440,7 @@ def notebook_modification_function(notebook_content, notebook_filename):
     notebook_content["cells"] = (
         dummy_notebook_content["cells"] + notebook_content["cells"]
     )
-"""
+
 
 from pathlib import Path
 _root = Path(__file__).parent.parent
@@ -450,7 +450,7 @@ sphinx_gallery_conf = {
 }
 
 
-"""
+
 sphinx_gallery_conf = {
     'backreferences_dir': 'gen_modules/backreferences',
     'doc_module': ('sphinx_gallery', 'numpy'),
