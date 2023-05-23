@@ -14,7 +14,7 @@ Thumbnails gallery
 ==================
 
 .. nbgallery::
-    :caption: This is a thumbnail gallery:
+    :caption: This is a tlery:
     :name: rst-gallery
     :glob:
     :reversed:
@@ -27,7 +27,7 @@ Thumbnails galler2
 
 .. nbgallery::
     :caption: This is a thumbnail gallery:
-    :name: rst-gallery
+    :name: rst-gallary
     :glob:
     :reversed:
 
