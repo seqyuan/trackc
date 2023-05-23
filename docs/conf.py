@@ -129,6 +129,15 @@ nitpick_ignore = [('', "Pygments lexer name 'ipython' is not known")]
 
 # The theme is set by the make target
 
+project = 'TrackC'
+master_doc = 'index'
+html_theme = 'pydata_sphinx_theme'
+autosummary_generate = True
+html_show_sphinx =  False
+pygments_style = 'sphinx'
+highlight_language = 'python3'
+
+
 
 # bibliography
 bibtex_bibfiles = ["references.bib"]
