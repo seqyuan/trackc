@@ -31,10 +31,10 @@ Available track types
 
 Here is an example of du_dynamic_2022 article diagram implemented by trackc.
 
-.. image:: ./docs/images/trackc_dynamic_2022.png
+
 
 Installation
-=======
+=============
 
 .. code-block:: bash
 
@@ -59,4 +59,4 @@ Citation
 If you use trackc in your analysis, Please cite trackc as follows:
 
 Zan Yuan, Guoliang Li, Yang Chen.
-**trackc: a package for flexible visualization of rearrangement 3D genome and multi-omics data**, brief in Bioinformatics, xxx
+**trackc: a package for flexible visualization of rearrangement 3D genome and multi-omics data**, Briefings In Bioinformatics, xxx
