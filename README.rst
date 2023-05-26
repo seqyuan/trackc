@@ -28,11 +28,10 @@ Available track types
 - links (interaction loops)
 - scalebar
 
-Here is an example of :cite:`du_dynamic_2022` article diagram implemented by trackc.
+Here is an example of cite du_dynamic_2022 article diagram implemented by trackc.
 
 .. image-sg:: docs/images/trackc_dynamic_2022.png
-   :srcset: docs/images/trackc_dynamic_2022.png
-
+    
 Installation
 =======
 
