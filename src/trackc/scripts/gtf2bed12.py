@@ -64,16 +64,6 @@ def _bedcol9_2dic(bedcol9, split=";"):
     return col9dic
 
 
-
-gene = None
-#gene_id="gene_id"
-gene_name_tag="gene_name"
-gene_id_tag="gene_id"
-gene_biotype_tag="gene_biotype"
-split = ";"
-biotype2bed13 = True
-
-
 def _parse_arguments(args=None):
     """
     get command line arguments
@@ -122,7 +112,7 @@ def _main(args=None):
     gene_id_tag = args.gene_id_tag
     gene_biotype_tag = args.gene_biotype_tag
     split = args.splitby
-    biotype2bed13 = args.outFileName
+    biotype2bed13 = args.biotype2bed13
 
     gene = None
     gtf_hand = open(args.gtf, "r")

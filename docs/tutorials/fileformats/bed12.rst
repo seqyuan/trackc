@@ -22,6 +22,18 @@ You can use gtf2bed to convert gene annotation files in gtf format to bed12 form
    :file: GRCh38.84.gtf.bed12
    :header-rows: 1
 
-Please note that, the bed12 from gtf2bed.pl is `based on transcript id`, each row is a transcript, the `column-4` is `transcript id` not gene name
+please note that, the bed12 from gtf2bed.pl is based on transcript id, each row is a transcript, the `column-4` is `transcript id` not gene name
 
 
+gtf2bed4trackc
+--------------
+If you have installed `trackc`, you can conver GTF to bed12 using `gtf2bed4trackc` command.
+the `column-4` of outfile is `gene name`
+
+.. code-block:: shell
+
+    gtf2bed4trackc -g GRCh38.84.gtf -o GRCh38.84.bed12
+
+.. csv-table:: bed12
+   :file: GRCh38.84.bed12
+   :header-rows: 1

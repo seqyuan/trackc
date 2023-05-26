@@ -34,8 +34,7 @@ input file formats
    :caption: Contents:
 
    tutorials/fileformats/mcool
-   tutorials/fileformats/gene
-   tutorials/cmap-test-data
+   tutorials/fileformats/bed12
 
 Available track types
 ======================
