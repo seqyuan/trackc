@@ -85,8 +85,8 @@ def _parse_arguments(args=None):
                                 required=True)
 
     parserOpt = parser.add_argument_group('Optional arguments')
-    parserOpt.add_argument('--splitby', '-s',
-                           help='tags of GTF split by which str',
+    parserOpt.add_argument('--sep', '-s',
+                           help='tags of GTF sepration by which str',
                            default=";")
     parserOpt.add_argument('--gene_name_tag', '-nt',
                            help='tags of GTF gene_name',
@@ -111,7 +111,7 @@ def _main(args=None):
     gene_name_tag = args.gene_name_tag
     gene_id_tag = args.gene_id_tag
     gene_biotype_tag = args.gene_biotype_tag
-    split = args.splitby
+    sep = args.sep
     biotype2bed13 = args.biotype2bed13
 
     gene = None
@@ -139,7 +139,7 @@ def _main(args=None):
             Gene_biotype = "yy"
             
             
-            col9dic = _bedcol9_2dic(bedtab[8], split=split)
+            col9dic = _bedcol9_2dic(bedtab[8], split=sep)
             if gene_name_tag in col9dic.keys():
                 Gene_name = col9dic[gene_name_tag]
             elif gene_id_tag in col9dic.keys():
