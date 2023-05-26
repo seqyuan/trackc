@@ -33,20 +33,6 @@ Here is an example of du_dynamic_2022 article diagram implemented by trackc.
 
 
 
-Installation
-=============
-
-.. code-block:: 
-
-    pip install trackc
-
-core usage
-===========
-
-.. code-block:: python
-
-	import trackc as tc
-
 Documentation
 =============
 Our documentation provide the full list of possible track types and gallary guidelines for users.
