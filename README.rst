@@ -21,17 +21,16 @@ Available track types
 - multi Hi-C heatmap
 - Virtual4C
 - bigwig signal
-- bed position (ChIP-seq or ATAC-seq peaks, TAD domains, SVs)
+- bed position, ChIP-seq or ATAC-seq peaks, TAD domains, SVs
 - mark region on heatmap
 - zoomin
 - gene
-- links (interaction loops)
+- links, interaction loops
 - scalebar
 
 Here is an example of cite du_dynamic_2022 article diagram implemented by trackc.
 
-.. image-sg:: docs/images/trackc_dynamic_2022.png
-    
+
 Installation
 =======
 
