@@ -28,7 +28,7 @@ setuptools.setup(
     url='http://trackc.readthedocs.io',
             
     description="Track view of chromosome conformation and multi-omics data",
-    long_description=open('README.rst').read(),
+    #long_description=open('README.rst').read(),
     #url="https://github.com/seqyuan/trackc",
     classifiers=[
         "Programming Language :: Python :: 3",

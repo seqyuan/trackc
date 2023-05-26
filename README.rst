@@ -2,9 +2,10 @@
    :target: https://zenodo.org/badge/latestdoi/572302042
 
 
-##########
+=======
 trackc
-##########
+=======
+
 Track view of chromosome conformation and multi-omics data
 ===========================================================
 **trackc** is a python package to flexible visualization of 3D genome and multi-omics data.
