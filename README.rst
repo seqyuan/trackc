@@ -36,7 +36,7 @@ Here is an example of du_dynamic_2022 article diagram implemented by trackc.
 Installation
 =============
 
-.. code-block:: bash
+.. code-block:: 
 
     pip install trackc
 
