@@ -57,6 +57,8 @@ def _bedcol9_2dic(bedcol9, split=";"):
     for i in tmp:
         i = i.strip()
         ii = i.split(" ")
+        if len(ii) < 2:
+            continue
         val = ii[1].strip("\"")
         col9dic[ii[0]] = val
     return col9dic
@@ -108,6 +110,7 @@ def _parse_arguments(args=None):
     parserOpt.add_argument('--biotype2bed13', '-bed13',
                            help='if this arg is set, the out file columns 13 will add gene\'s biotype',
                            action='store_true')
+    parserOpt.add_argument("-h", "--help", action="help", help="show this help message and exit")
 
     return parser
 
