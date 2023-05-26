@@ -23,7 +23,7 @@ Below table is the output of `gtf2bed`:
 
 .. csv-table:: bed12
    :file: GRCh38.84.gtf.bed12
-   :header-rows: 1
+   :header-rows: 0
    :delim: tab
 
 please note that, the bed12 from gtf2bed.pl is based on transcript id, each row is a transcript, the `column-4` is `transcript id` not gene name
@@ -40,5 +40,5 @@ the `column-4` of outfile is `gene name`
 
 .. csv-table:: bed12
    :file: GRCh38.84.bed12
-   :header-rows: 1
+   :header-rows: 0
    :delim: tab
