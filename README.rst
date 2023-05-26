@@ -29,8 +29,9 @@ Available track types
 - links, interaction loops
 - scalebar
 
-Here is an example of cite du_dynamic_2022 article diagram implemented by trackc.
+Here is an example of du_dynamic_2022 article diagram implemented by trackc.
 
+.. image:: ./docs/images/trackc_dynamic_2022.png
 
 Installation
 =======
@@ -58,4 +59,4 @@ Citation
 If you use trackc in your analysis, Please cite trackc as follows:
 
 Zan Yuan, Guoliang Li, Yang Chen.
-**trackc: a Package for Flexible Visualization of rearrangement 3D Genome and Multi-omics**, Bioinformatics, Volume 48, Issue W1, 1 July 2023, Pages W177–W184, https://doi.org/10.1093/nar/gkaa220
+**trackc: a package for flexible visualization of rearrangement 3D genome and multi-omics data**, brief in Bioinformatics, xxx
