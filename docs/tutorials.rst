@@ -33,8 +33,8 @@ input file formats
    :maxdepth: 2
    :caption: Contents:
 
-   tutorials/fileformats/mcool
    tutorials/fileformats/bed12
+   tutorials/fileformats/mcool
 
 Available track types
 ======================
