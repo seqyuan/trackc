@@ -14,6 +14,12 @@ Install trackc by running:
 
     pip install trackc
 
+update trackc by running:
+
+.. code-block:: bash
+
+    pip install --upgrade trackc
+
 run this pip command to specify the version and installation source:
 
 .. code-block:: bash
