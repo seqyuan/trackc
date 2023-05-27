@@ -44,7 +44,7 @@ This section contains various quick tutorials showcasing omics data visualizatio
    :maxdepth: 2
    :caption: Available track types:
 
-   tutorials/scale
+   tutorials/scalebar
    tutorials/contactmap
    tutorials/Virtual4C
    tutorials/gene

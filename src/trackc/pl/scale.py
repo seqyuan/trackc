@@ -18,25 +18,52 @@ def scale_track(ax: Optional[Axes] = None,
                 region: Union[str, None] = None,
                 tick_pos: str = 'bottom',
                 ratio2ax: float = 0.5,
-                chrom_fontsize: Union[int, None] = 10,
+                label_fontsize: Union[int, None] = 10,
                 scale_adjust: Union[str, None] = 'kb',
                 tick_fl: Union[str, None] ='%0.2f',
                 tick_fontsize: Union[int, None] = 8,
                 tick_rotation: Union[int, None] = 0,
                 space: float = 0.1,
                 ):
-    """
+    """\
+    Plot gene track, support for multiple or reverse genome regions.
+
     Parameters
     ----------
+    ax: :class:`matplotlib.axes.Axes` object
+    region: `str`
+        one genome region, format: `chrom:start-end`
+        examples: "chr18:45000000-78077248"
+        if the start is bigger than end, the genome region will be reversed
+    tick_pos: `str`
+        ticks position, can be one of ['top', 'bottom']
+    ratio2ax: `float`
+        the height ratio refer to the given `ax`'s height
+    label_fontsize: `int`
+        the region text fontsize
+    scale_adjust: `str`
+        adjust the scale unit to make it pretty, can be one of ['kb', 'Mb']   
+    tick_fl: `str`  
+        ticks retains a few decimal places
+    tick_fontsize: `int`
+        ticks text fontsize
+    tick_rotation: `int`
+        ticks text rotation
+    space: `float`
+        space relative to the ax
     
-    scale_adjust
-        ``str``: should be one of [kb, Mb, bp]
-            adjust the scale unit to make it pretty
-    tick_fl
-        ``str``: The position label retains the number of decimal places  
-    tick_pos
-        one of ['top', 'bottom', 'left', 'right']                   
+    Example
+    -------
+    >>> import trackc as tc
+    >>> region = 'chr7:153000000-151000000'
+    
+    >>> ten = tc.tenon(width=8, height=1.2)
+    >>> ten.add(pos='bottom', height=0.5)
+    >>> ten.axs(0).axis('off')
 
+    >>> tc.pl.scale_track(ax=ten.axs(0), region=region, scale_adjust='Mb', tick_pos='bottom', ratio2ax=1.2)
+    >>> tc.pl.scale_track(ax=ten.axs(0), region=region, scale_adjust='Mb', tick_pos='top', ratio2ax=1.2)
+    >>> tc.savefig('trackc_scalebar_track.pdf')
     """
     line_GenomeRegions = None
     if isinstance(region, list):
@@ -45,11 +72,13 @@ def scale_track(ax: Optional[Axes] = None,
     else:
         line_GenomeRegions = GenomeRegion(region).GenomeRegion2df()
 
+    line_GenomeRegions['raw_region'] = line_GenomeRegions.index
     line_GenomeRegions = line_GenomeRegions.reset_index()
 
     chrom = line_GenomeRegions.loc[0, "chrom"]
     start = line_GenomeRegions.loc[0, "start"]
     end = line_GenomeRegions.loc[0, "end"]
+    raw_region = line_GenomeRegions.loc[0, 'raw_region']
 
     pos_dic = {
         'left': [-ratio2ax,	0, ratio2ax, 1],
@@ -82,7 +111,8 @@ def scale_track(ax: Optional[Axes] = None,
             pass
 
         spines = ['bottom', 'top', 'right', 'left']
-        chrom_x = start + (end-start)/2
+        #chrom_x = start + (end-start)/2
+        chrom_x = start
         chrom_y = 1
         va = 'top'
         
@@ -98,7 +128,7 @@ def scale_track(ax: Optional[Axes] = None,
         for i in spines:
             ax.spines[i].set_visible(False)
 
-        ax.text(chrom_x, chrom_y, chrom, fontsize=chrom_fontsize, ha='center', va=va)
+        ax.text(chrom_x, chrom_y, raw_region, fontsize=label_fontsize, ha='left', va=va)
         labels = [label.get_text() for label in ax.get_xticklabels()]
         labels[-1] += '({0})'.format(scale_adjust)
         ax.set_xticklabels(labels)
@@ -155,7 +185,10 @@ def multi_scale_track(ax: Optional[Axes] = None,
     line_GenomeRegions['tick_s'] = _scale_ticks(line_GenomeRegions['start'], scale=scale_adjust, tick_fl=tick_fl)
     line_GenomeRegions['tick_e'] = _scale_ticks(line_GenomeRegions['end'], scale=scale_adjust, tick_fl=tick_fl)
     if scale_adjust in ['Mb', 'kb']:
-        line_GenomeRegions.loc[line_GenomeRegions.index[-1], "tick_e"] = line_GenomeRegions.loc[line_GenomeRegions.index[-1], "tick_e"] + "(" + scale_adjust + ")"
+        if intervals > 1:
+            line_GenomeRegions.loc[line_GenomeRegions.index[-1], "tick_e"] = line_GenomeRegions.loc[line_GenomeRegions.index[-1], "tick_e"] + "(" + scale_adjust + ")"
+        else:
+            line_GenomeRegions['tick_e'] = line_GenomeRegions['tick_e'] + "(" + scale_adjust + ")"
 
     for i, row in line_GenomeRegions.iterrows():
         arrow_s = row['acum'] - row['len']
@@ -165,9 +198,9 @@ def multi_scale_track(ax: Optional[Axes] = None,
             dx = -1 * row['len']
             
         ax.arrow(arrow_s, row['bottom'], dx, 0, 
-            overhang=1, width=0.01,
-            head_width=0.25,
-            head_length=sum_len/170,
+            overhang=1, width=0.02,
+            head_width=0.3,
+            head_length=sum_len/100,
             length_includes_head=True,
             color=row['color'],
             linewidth=1,
@@ -177,11 +210,13 @@ def multi_scale_track(ax: Optional[Axes] = None,
         tick_ha = 'center'
         if tick_rotation != 0:
             tick_ha = 'right'
-
-        ax.text(row['acum'] - row['len']/2, row['bottom']+0.1, row['chrom'], ha='center', va='bottom', fontsize=tick_fontsize, color=row['color'])
-        ax.text(row['acum'] - row['len'], row['bottom']-0.1, row['tick_s'], ha=tick_ha, va='top', fontsize=tick_fontsize, rotation=tick_rotation, color=row['color'])
-        ax.text(row['acum'], row['bottom']-0.1, row['tick_e'], ha=tick_ha, va='top', fontsize=tick_fontsize, rotation=tick_rotation, color=row['color'])
-
+        if intervals > 1:
+            ax.text(row['acum'] - row['len']/2, row['bottom']+0.1, row['chrom'], ha='center', va='bottom', fontsize=tick_fontsize, color=row['color'])
+            ax.text(row['acum'] - row['len'], row['bottom']-0.1, row['tick_s'], ha=tick_ha, va='top', fontsize=tick_fontsize, rotation=tick_rotation, color=row['color'])
+            ax.text(row['acum'], row['bottom']-0.1, row['tick_e'], ha=tick_ha, va='top', fontsize=tick_fontsize, rotation=tick_rotation, color=row['color'])
+        else:
+            ax.text(row['acum'] - row['len']/2, row['bottom']-0.2, '{0}:{1}-{2}'.format(row['chrom'], row['tick_s'], row['tick_e']), ha='center', va='top', fontsize=tick_fontsize, color=row['color'])
+            
 
     ax.set_xlim([0, sum_len])
     ax.set_ylim([-0.7, intervals-0.3])

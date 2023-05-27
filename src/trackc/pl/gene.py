@@ -6,44 +6,70 @@ from .bigwig import _make_multi_region_ax
 
 
 def gene_track(ax: Optional[Axes] = None,
-               gene_bed: pd.DataFrame = None,
+               bed12: Union[pd.DataFrame, str] = None,
                regions: Union[Sequence[str], str, None] = None,
                track_type: Union[str, None] = 'gene',
+               show_label: Union[bool, Sequence[str], str] = True,
                pos_strand_gene_color: Union[str, None] = '#3366CC',
                neg_strand_gene_color: Union[str, None] = '#EECFA1',
                line: Union[int, None] = 1,
-               gene_fontszie: Union[int, None] = 5,
+               gene_fontszie: Union[int, None] = 7,
                label: Optional[str] = None,
                label_rotation: Union[int, None] = 0,
                label_fontsize: Optional[int] = 12,
+               ax_on: bool = False,
                ):
     """\
-    Plot multi-regions gene track.
-    
+    Plot gene track, support for multiple or reverse genome regions.
+
     Parameters
     ----------
-    gene_bed
-        ``pd.DataFrame``:
-    ax
+    ax: :class:`matplotlib.axes.Axes` object
+    bed12: `pd.DataFrame` | `str`
+        gene annotation bed12 format `DataFrame` or `filepath`
+        Bed12 files can be converted from GTF using `gtf2bed4trackc`.
+        https://trackc.readthedocs.io/en/latest/tutorials/fileformats/bed12.html#gtf2bed4trackc
+    regions: `str` | `str list`
+        genome regions, format: `chrom:start-end`
+        examples: ['chr18:47950000-48280000', 'chr18:75280000-74850000'] or "chr18:45000000-78077248"
+        If the start is bigger than end, the genome region will be reversed
+    track_type: `str`
+        you can select one of the options: `gene` or `dendity`
+        gene: gene track style
+        dendity: gene density style. Under development
+    show_label: `bool` | `str` | `str list`
+        If the value is `False`, the gene name will not show
+        If want show one gene, and hide others, just set the gene or gene list as the value, eg: `PIBF1` | `['PIBF1', 'KLF5']`
+    pos_strand_gene_color: `str`
+        positive strand gene name color
+    neg_strand_gene_color: `str`
+        negative strand gene name color
+    line: `int`
+        rows occupied by the genes in the region plotted
+    gene_fontszie: `int`
+        gene label fontszie
+    label: `str`
+        the title of the track, will show on the left
+    label_rotation: `int`
+        the label text rotation
+    label_fontsize: `int`
+        the label text fontsize
+    ax_on: `bool`
+        If True, top, left and right spines will show
 
-    regions
+    Returns
+    -------
+    None
 
-    track_type
+    Example
+    -------
+    >>> import trackc as tc
+    >>> regions = ['chr18:47950000-48280000', 'chr18:75280000-74850000']
+    >>> gene_bed12 = '/path/GRCh38.84.bed12'
 
-    pos_strand_gene_color
-
-    neg_strand_gene_color
-
-    line
-
-    gene_fontszie
-
-    ylabel
-
-    label_rotation
-
-    label_fontsize
-
+    >>> fig, axs = tc.make_spec(width=7, height=2, height_ratios=[1])
+    >>> tc.pl.gene_track(gene_bed12, ax=axs[0], regions=regions, line=12)
+    >>> tc.savefig('trackc_gene_track.pdf')
     """
 
     if isinstance(regions, list):
@@ -56,23 +82,43 @@ def gene_track(ax: Optional[Axes] = None,
 
     ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, 
                   horizontalalignment='right',verticalalignment='center')
-    spines = ['top', 'bottom', 'left', 'right']
-    for i in spines:
-        ax.spines[i].set_visible(False)
+    
     ax.set_xticks([])
     ax.set_xticklabels('')
     ax.set_yticks([])
     ax.set_yticklabels('')  
+    if ax_on==False:
+        spines = ['top', 'bottom', 'left', 'right']
+        for i in spines:
+            ax.spines[i].set_color('none')
 
-    gene_bed.columns =['chrom','start','end','name',"score","strand","thickStart","thickEnd","itemRgb","blockCount","blockSizes","blockStarts"]
+    if isinstance(bed12, str):
+        bed12 = pd.read_table(bed12, sep="\t", header=None)
+    
+    bed12 = bed12.iloc[:,0:12]
+    bed12.columns =['chrom','start','end','name',"score","strand","thickStart","thickEnd","itemRgb","blockCount","blockSizes","blockStarts"]
     for ix, row in line_GenomeRegions.iterrows(): 
         if track_type == "gene":
-             _plot_gene(axs[ix], gene_bed, row['chrom'], row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], pos_strand_gene_color=pos_strand_gene_color, neg_strand_gene_color=neg_strand_gene_color, line=line, fontszie=gene_fontszie)
+             _plot_gene(axs[ix], bed12, row['chrom'], row['fetch_start'], row['fetch_end'], 
+                        needReverse=row['isReverse'], 
+                        show_label=show_label,
+                        pos_strand_gene_color=pos_strand_gene_color, 
+                        neg_strand_gene_color=neg_strand_gene_color, 
+                        line=line, 
+                        fontszie=gene_fontszie,
+                        ax_on=ax_on)
         if track_type == "density":
              print('This gene type is developping')
         else:
              pass
-def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_gene_color='#3366CC', neg_strand_gene_color='#EECFA1', line=1, fontszie=5):
+        
+
+
+def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, 
+               show_label = True, 
+               pos_strand_gene_color='#3366CC', 
+               neg_strand_gene_color='#EECFA1', 
+               line=1, fontszie=5, ax_on=False):
     gene_bed = gene_bed[gene_bed['chrom']==chrom]
     gene_bed_plot = gene_bed[((gene_bed['start'] >= start) & (gene_bed['start'] <= end)) | ((gene_bed['end'] >= start) & (gene_bed['end'] <= end))]
     gene_bed_plot = gene_bed_plot.sort_values(by='end')
@@ -105,18 +151,30 @@ def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_ge
                 row['end'] = end
         
         arrow_s = row['end']
-        dx = 0.1
+        dx = 0.3
         if row["strand"] == "-":
             arrow_s = row['start']
             dx = -0.1
         ax.arrow(arrow_s, plot_y+0.5, dx, 0, 
-            overhang=0, width=0,
-            head_width=0.25,
-            head_length=10000,
+            overhang=0.5, width=0,
+            head_width=0.26,
+            head_length=20000,
             length_includes_head=False,
             color=text_col,
-            linewidth=1)
-
+            linewidth=0.5)
+        if isinstance(show_label, bool):
+            if show_label==False:
+                ii+=1
+                continue
+        if isinstance(show_label, str):
+             if row['name'] != show_label:
+                ii+=1
+                continue
+        if isinstance(show_label, list):
+            if row['name'] not in show_label:
+                ii+=1
+                continue
+        
         if (row['name'] in gene_bed_plot.iloc[-4:,:]['name']) or (int(line/(ii+1)) < 2):
             ha = 'right'
             genename = row['name'] + "  "
@@ -127,9 +185,9 @@ def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_ge
                 #xpos = row['end']
             ypos = plot_y + 0.5
             if line == 1:
-                 xpos = row['start'] + abs(row['start']-row['end'])/2
-                 ypos = 0.8
-                 ha = 'center'
+                xpos = row['start'] + abs(row['start']-row['end'])/2
+                ypos = 0.8
+                ha = 'center'
             ax.text(xpos, ypos, genename + "  ", ha=ha, va='center',color=text_col, fontsize=fontszie)
         else:
             ha = 'left'
@@ -142,9 +200,9 @@ def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_ge
 
             ypos = plot_y + 0.5
             if line == 1:
-                 xpos = row['start'] + abs(row['start']-row['end'])/2
-                 ypos = 0.8
-                 ha = 'center'
+                xpos = row['start'] + abs(row['start']-row['end'])/2
+                ypos = 0.8
+                ha = 'center'
             ax.text(xpos, ypos, genename, ha=ha, va='center',color=text_col, fontsize=fontszie)
 
         ii+=1
@@ -160,9 +218,13 @@ def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False, pos_strand_ge
     if plot_gene_num < line:
         ax.spines['bottom'].set_position(('data', plot_gene_num))
     
-    for i in ['left','top','right']:
-        ax.spines[i].set_color('none')
-        ax.spines[i].set_linewidth(0)
+    if ax_on==False:
+        spines = ['top', 'bottom', 'left', 'right']
+        for i in spines:
+            ax.spines[i].set_visible(False)
+        #for i in ['left','top','right']:
+            ax.spines[i].set_color('none')
+            ax.spines[i].set_linewidth(0)
     ax.spines["bottom"].set_color('black')
     ax.spines["bottom"].set_linewidth(0.5)
     ax.tick_params(bottom =True,top=False,left=False,right=False)

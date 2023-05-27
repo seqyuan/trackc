@@ -8,7 +8,7 @@ bug reports (and fixes), documentation, and input on design, features, and the f
 Contributors
 ------------
 
-If you are a NetworkX contributor, please feel free to
+If you are a TrackC contributor, please feel free to
 open an `issue <https://github.com/seqyuan/trackc/issues/new>`_ or
 submit a `pull request <https://github.com/seqyuan/trackc/compare/>`_
 to add your name to the bottom of the list.

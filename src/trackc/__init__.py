@@ -1,4 +1,8 @@
 # the actual API
+import warnings
+warnings.filterwarnings("ignore")
+
+
 from trackc import tl, pl, pa
 from trackc.gs import (
     make_spec,
