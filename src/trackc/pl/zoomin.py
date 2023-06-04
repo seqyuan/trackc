@@ -5,7 +5,7 @@ import pandas as pd
 from trackc.pa import trackcl_11
 
 def zoomin(ax: Optional[Axes] = None,
-           row_regions: Union[pd.DataFrame, None] = None,
+           raw_regions: Union[Sequence[str], str, None] = None,
            zoomin_regions: Union[Sequence[str], str, None] = None,
            colors: Union[Sequence[str], None] = None,
            alpha: float = 1,
@@ -13,11 +13,48 @@ def zoomin(ax: Optional[Axes] = None,
            fill: bool = True,
            ):
     """\
-    map_order:
-        mapc mat or mat2
+    Plot zoomin track, support for multiple or reverse genome regions.
+
+    Parameters
+    ----------
+    ax: :class:`matplotlib.axes.Axes` object
+    raw_regions: `str` | `str list`
+        The raw genome regions, some of these regions will be selected to zoom in.
+        e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+            which means the reverse region
+    zoomin_regions: `str` | `str list`
+        regions to be zoomin, The format is the same as `raw_regions`
+        the regions of `zoomin_regions` should be located in the `raw_regions`
+    colors: `str list`
+        the colors of the zoomin_regions
+    alpha: `float`
+    line_on: `bool`
+        Whether to display the line of zoomin plots
+    fill: `bool`
+        Whether to fill the zoomin plots
+
+    Example
+    -------
+    >>> full_regions = "chr18:45000000-78077248"
+    >>> zoom_regions = ['chr18:47400000-48280000', 'chr18:75280000-74030000']
+    >>> neo_domain_regions = ['chr18:47950000-48280000', 'chr18:75280000-74850000']
+
+    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten.add(pos='bottom', height=1, hspace=0.1)
+    >>> ten.add(pos='bottom', height=1, hspace=0.1)
+
+    >>> tc.pl.zoomin(ax=ten.axs(0), raw_regions=full_regions, zoomin_regions=zoom_regions, line_on=True, fill=False, alpha=0.5)
+    >>> tc.pl.zoomin(ax=ten.axs(1), raw_regions=zoom_regions, zoomin_regions=neo_domain_regions, line_on=False, fill=True, alpha=0.5)
+    >>> tc.savefig('trackc_zoomin_track.pdf')
     """
-    
-    row_GRs = _region_pos(row_regions)
+
+    if isinstance(raw_regions, str):
+        raw_regions = [raw_regions]
+    if isinstance(zoomin_regions, str):
+        zoomin_regions = [zoomin_regions]
+
+    row_GRs = _region_pos(raw_regions)
     zoomin_GRs = _region_pos(zoomin_regions)
     zoomin_GRs['ors'] = None
     zoomin_GRs['ore'] = None

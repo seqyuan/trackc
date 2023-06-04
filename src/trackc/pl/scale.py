@@ -26,7 +26,7 @@ def scale_track(ax: Optional[Axes] = None,
                 space: float = 0.1,
                 ):
     """\
-    Plot gene track, support for multiple or reverse genome regions.
+    Plot one region scale bar track
 
     Parameters
     ----------
@@ -65,6 +65,7 @@ def scale_track(ax: Optional[Axes] = None,
     >>> tc.pl.scale_track(ax=ten.axs(0), region=region, scale_adjust='Mb', tick_pos='top', ratio2ax=1.2)
     >>> tc.savefig('trackc_scalebar_track.pdf')
     """
+
     line_GenomeRegions = None
     if isinstance(region, list):
         print('scale_track is only for one region')
@@ -95,6 +96,7 @@ def scale_track(ax: Optional[Axes] = None,
 
         xticks = ax.get_xticks()
         xtick_labels = xticks
+
         if scale_adjust == 'Mb':
             xtick_labels = xtick_labels/1000000
             xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
@@ -104,7 +106,7 @@ def scale_track(ax: Optional[Axes] = None,
         elif scale_adjust == 'kb':
             xtick_labels = xtick_labels/1000
             xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
-            ax.set_xticks(xticks, xtick_labels, fontsize=tick_fontsize, rotation=tick_rotation)
+            ax.set_xticks(xticks, xtick_labels)
             #ax.text(end-(abs(end-start)*0.05), -1, 'kb', fontsize=chrom_fontsize)
             ax.spines['bottom'].set_position(('data', 0))
         else:
@@ -115,7 +117,7 @@ def scale_track(ax: Optional[Axes] = None,
         chrom_x = start
         chrom_y = 1
         va = 'top'
-        
+        ha2  = 'right'
         if tick_pos=='bottom':
             del spines[1]
             ax.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
@@ -123,6 +125,7 @@ def scale_track(ax: Optional[Axes] = None,
             va = 'bottom'
             
         if tick_pos=='top':
+            ha2  = 'left'
             del spines[0]
             ax.tick_params(top=False, labeltop=False, bottom=True, labelbottom=True)
         for i in spines:
@@ -131,7 +134,7 @@ def scale_track(ax: Optional[Axes] = None,
         ax.text(chrom_x, chrom_y, raw_region, fontsize=label_fontsize, ha='left', va=va)
         labels = [label.get_text() for label in ax.get_xticklabels()]
         labels[-1] += '({0})'.format(scale_adjust)
-        ax.set_xticklabels(labels)
+        ax.set_xticklabels(labels, fontsize=tick_fontsize, rotation=tick_rotation, va='center', ha=ha2)
 
         ax.tick_params(which='major', direction='in', pad=-16) 
         ax.set_yticks([])
@@ -150,6 +153,37 @@ def multi_scale_track(ax: Optional[Axes] = None,
                       tick_rotation: Union[int, None] = 0,
                 ):
     """\
+    Plot region scale bar, support for multiple or reverse genome regions.
+
+    Parameters
+    ----------
+    ax: :class:`matplotlib.axes.Axes` object
+    regions: `str list` | `str`
+        e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000"]``
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+            which means you want to get the reverse region
+    colors: `str list`
+        scale bar colors
+    alpha: `float`
+        scale bar alpha
+    intervals: `int`
+        rows of the scale bar by region
+    scale_adjust: `str`
+        options in ['kb', 'Mb']
+    tick_fl: `str`  
+        ticks retains a few decimal places
+    tick_fontsize: `int`
+        ticks text fontsize
+    tick_rotation: `int`
+        ticks text rotation
+
+    Example
+    -------
+    >>> import trackc as tc
+    >>> regions = ['7:153000000-151000000', '11:118500000-116500000']
+    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten.add(pos='bottom', height=1)
+    >>> tc.pl.multi_scale_track(ten.axs(0), regions=regions, scale_adjust='Mb', intervals=2)
     """
 
     if colors != None:

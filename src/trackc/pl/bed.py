@@ -11,11 +11,11 @@ from trackc.tl._getRegionsCmat import GenomeRegion
 from .bigwig import _make_multi_region_ax
 
 def bed_track(ax: Optional[Axes] = None,
-              bed: pd.DataFrame = None,
+              bed: Union[pd.DataFrame, str, None]  = None,
               regions: Union[Sequence[str], str, None] = None,
               track_style: Union[str, None] = 'bar',
               color: Union[Sequence[str], None] = 'tab:blue',
-              cmap: Union[Sequence[Colormap], str, None] = None,
+              cmap: Union[Colormap, str, None] = None,
               intervals: Union[int, None] = 1,
               #show_names: Union[bool, None] = False,
               alpha: Union[float, None] = 1,
@@ -28,37 +28,44 @@ def bed_track(ax: Optional[Axes] = None,
               tick_fl: Optional[str] ='%0.2f',
               score_label_size: Union[int, None] = 7,
               ):
-    """
+    """\
+    Plot bed track, support for multiple or reverse genome regions.
+    support bed3 and bed5, the fields after the column5 will be ignored, 
+        should be sorted py chromStart if ``track_style`` is `line`
+
     Parameters
     ----------
-    bed
-        ``pd.DataFrame``: 6th columns dataframe
-            should be sorted py chromStart if track_style is line
-            column1: chrom
-                The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671).
-            column2: chromStart
-                The starting position of the feature in the chromosome or scaffold. The first base in a chromosome is numbered 0.
-            column3: chromEnd
-                The ending position of the feature in the chromosome or scaffold.
-            column4: name
-                Defines the name of the BED line. Either "." (=no name), or other string
-            column5: score
-                Defines the name of the BED line. if nessasary, can be set as ``.``,
-                if track_type/style is one of bar/line/heatmap 
-            column6: strand 
-                Defines the strand. Either "." (=no strand) or "+" or "-".
-    track_style
-        ``str``: bed blocks style, 
-            line
-            bar
-            heatmap
-            triangle
-            rec
-                rectangle
-            arrow
-            
-    color
-        ``str`` or list: the color of line/triangle/rectangle, if color is color list, the block will 
+    ax: :class:`matplotlib.axes.Axes` object
+    bed: `pd.DataFrame` | `str`
+        If ``bed`` if a filepath, the file should have no headers
+        Here is bed formats:
+        column1: chrom
+            The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671).
+        column2: chromStart
+            The starting position of the feature in the chromosome or scaffold. The first base in a chromosome is numbered 0.
+        column3: chromEnd
+            The ending position of the feature in the chromosome or scaffold.
+        column4: name
+            Defines the name of the BED line. Either "." (=no name), or other string
+        column5: score
+            Defines the name of the BED line. if nessasary, can be set as ``.``,
+            if track_type/style is one of bar/line
+        column6: strand 
+            Defines the strand. Either "." (=no strand) or "+" or "-".
+    regions: `str` | `str list`
+        The genome regions to plot
+        e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000"]``
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+            which means you want to get the reverse region
+    track_style: `str`
+        bed blocks style,  opions in ['line', 'bar', 'triangle', 'rec']
+    color: `str` or `list`
+        the color of line/triangle/rectangle, if color is color list, the block will set by regions
+    cmap: `str` | `matplotlib.colors.Colormap`
+        the colormap of the plot except track_style:line
+    
+
+
     intervals
         ``int``: if track_style is one of [triangle, rec], the row number distribution for triangle/rectangle blocks
     """
@@ -132,7 +139,7 @@ def bed_track(ax: Optional[Axes] = None,
     for ix, row in line_GenomeRegions.iterrows(): 
         bed2plot = bed[(bed['chrom']==row['chrom']) & (bed['end']>=row['fetch_start']) & (bed['start']<=row['fetch_end'])].copy()
         if track_style == "line":
-            plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='line', color=color[ix], alpha=alpha)    
+            _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='line', color=color[ix], alpha=alpha)    
         if track_style == "bar":
             _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='bar', color=color[ix], alpha=alpha)
         if track_style == "rec":
@@ -258,5 +265,3 @@ def _plot_bed_bar_l(ax, bed, start, end, needReverse, style='bar', color='tab:bl
     #ax.tick_params(bottom =True,top=False,left=False,right=False)
     #ax.set_xticklabels("")
     #ax.set_yticklabels("")
-
-

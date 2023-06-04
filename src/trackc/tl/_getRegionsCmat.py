@@ -70,7 +70,7 @@ class RegionsCmat:
 # import extractContactRegions as subsetContactRegions
 
 def extractContactRegions(
-        clr: cooler.Cooler, 
+        clr: Union[cooler.Cooler, str], 
         balance: bool = False,
         #divisive_weights = None,
         row_regions: Union[Sequence[str], str, None] = None,
@@ -79,35 +79,48 @@ def extractContactRegions(
     """\
     Extract a set of regions matrix from the cool format Hi-C matrix.
 
-    The extracted matrix will splice intra and Inter region interaction according to 
+    The extracted matrix will splice intra and inter region interaction according to 
         the given order and direction of the regions.
+
     Parameters
     ----------
-    coolMat 
-        ``cooler.Cooler``: cool format Hi-C matrix (https://github.com/open2c/cooler)
-    balance
-        ``bool``: The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
-    divisive_weights: bool, optional
-        Force balancing weights to be interpreted as divisive (True) or
-        multiplicative (False). Weights are always assumed to be
-        multiplicative by default unless named KR, VC or SQRT_VC, in which
-        case they are assumed to be divisive by default.
+    clr: `cooler.Cooler` | `str`
+        cool format Hi-C matrix (https://github.com/open2c/cooler) or cool file path
+        `cooler.Cooler` e.g. GM12878=cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
+        `str` e.g. 'GM12878.chr18.mcool::/resolutions/50000' or 'GM12878.chr18.cool'
 
-    row_regions
-        ``chrom region`` list: or ``chrom region`` or None. 
+    balance: `bool`
+        The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
+    row_regions: `str` | `str list` | None. 
         The subset matrix row genome regions
-        eg. ``"chr6:1000000-2000000"``, eg. ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+        e.g. ``"chr6:1000000-2000000"``, e.g. ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
+        The start can be larger than the end (e.g. ``"chr6:2000000-1000000"``), 
             which means you want to get the reverse region contact matrix
-
-    col_regions
-        ``chrom region`` list: or ``chrom region`` or None. 
+    col_regions: `str` | `str list` | None. 
         The subset matrix col genome regions, default is ``None``, which means the sample region as ``row_regions``
         
     Returns:
-        :class:`~trackc.RegionsCmat`
+    --------
+        :class:`~trackc.tl.RegionsCmat`
             row_regions and col_regions contact matrix object
+
+    Example
+    -------
+    >>> import trackc as tc
+    >>> import cooler
+    >>> mat1 = tc.tl.extractContactRegions(clr='GM12878.chr18.mcool::/resolutions/50000', row_regions="18:45000000-78077248")
+    >>> GM12878 = cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
+    >>> mat2 = tc.tl.extractContactRegions(clr=GM12878, row_regions=["18:61140000-63630000", "18:74030000-77560000"], col_regions="18:47340000-50370000")
+    >>> print(mat2.cmap.shape)
+    >>> print(mat2.row_regions)
+    >>> print(mat2.col_regions)
     """
+    #divisive_weights: bool, optional
+    #    Force balancing weights to be interpreted as divisive (True) or
+    #    multiplicative (False). Weights are always assumed to be
+    #    multiplicative by default unless named KR, VC or SQRT_VC, in which
+    #    case they are assumed to be divisive by default.
+
     # -------
     if isinstance(row_regions, list):
         row_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in row_regions])
@@ -123,6 +136,9 @@ def extractContactRegions(
             col_GenomeRegions = GenomeRegion(col_regions).GenomeRegion2df()
     
     # ------
+    if isinstance(clr, str):
+        clr = cooler.Cooler(clr)
+
     region_mat_dic = {}
     for _, row_row in row_GenomeRegions.iterrows():
         for _, col_row in col_GenomeRegions.iterrows():
@@ -178,38 +194,47 @@ def extractContactRegions(
 # import extractCisRegion as subsetCisRegion
 
 def extractCisContact(
-        clr: cooler.Cooler,
+        clr: Union[cooler.Cooler, str],
         region: str,
         extend: int = 0,
         balance: bool = False,
-        divisive_weights = None,
+        #divisive_weights = None,
         ) -> np.array:
     """\
-    Extract cis contact matrix from the cool format Hi-C matrix.
+    Extract cis contact matrix from the cool or mcool format Hi-C matrix.
 
     Parameters
     ----------
-    clr: ``cooler.Cooler``
-        cool format Hi-C matrix (https://github.com/open2c/cooler)
-    region: ``str``
+    clr: `cooler.Cooler` | `str`
+        cool format Hi-C matrix (https://github.com/open2c/cooler) or cool file path
+        `cooler.Cooler` e.g. GM12878=cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
+        `str` e.g. 'GM12878.chr18.mcool::/resolutions/50000' or 'GM12878.chr18.cool'
+    region: `str`
         The subset matrix row genome regions
         eg. ``"chr6:1000000-2000000"`` or ``chr6``
 
-    extend: ``int``
+    extend: `int`
         contact map extend to start and end position
-    balance: ``bool``
+    balance: `bool`
         The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
-    divisive_weights: bool, optional
-        Force balancing weights to be interpreted as divisive (True) or
-        multiplicative (False). Weights are always assumed to be
-        multiplicative by default unless named KR, VC or SQRT_VC, in which
-        case they are assumed to be divisive by default.
 
     Returns:
-    ----------
+    --------
     contact matrix: np.array
-        matrix sstart with top-left
+        matrix start with top-left
+
+    Example
+    -------
+    >>> import trackc as tc
+    >>> import cooler
+    >>> mat1 = tc.tl.extractCisContact(clr='GM12878.chr18.mcool::/resolutions/50000', region="18:45000000-78077248")
+    >>> GM12878 = cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
+    >>> mat2 = tc.tl.extractCisContact(clr=GM12878, region="18:45000000-78077248")
+    >>> print(mat2.shape)
     """
+
+    if isinstance(clr, str):
+        clr = cooler.Cooler(clr)
 
     resolution = clr.binsize
     genome_region = GenomeRegion(region)

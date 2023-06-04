@@ -274,7 +274,7 @@ def mapC(
         logdata: Union[Sequence[bool], bool] = False, 
         maxrange: Union[Sequence[float], float]=None,
         minrange: Union[Sequence[float], float]=None,
-        trim_range: Union[Sequence[float], float]=0.99,
+        trim_range: Union[Sequence[float], float]=0.98,
         
         map_type: Union[str, None] = 'triangle',
         height: int = 0,
@@ -284,28 +284,73 @@ def mapC(
         aspect: Union[str, float]='auto'
         ):
     """\
-    Draw triangle view of the C data
-
+    Plot contact map, support for multiple or reverse genome regions.
+    This function implements the plot method for `np.ndarray`,
+    which could get from trackc.tl.extractCisContact or trackc.tl.extractContactRegions
+    By default, the trim_range value is fixed so that the 98th percentile (resp. 2th percentile) of each
+    interaction matrix is discarded. It therefore allow to remove the extreme values from the matrix,  
+    mat or mat2 is plotted independently
+    If the maxrange parameter is set, data higher that this threshold will be fixed to the maxrange value.
+    
+    cmap, label, label_fontsize, label_color, logdata, minrange, maxrange, trim_range, those parameters can be set as a list, 
+    mat and mat2 will set to the first two values. If those parameters are one single value or the length of list is one,
+    then mat and mat2 both set the same value
+   
     Parameters
-    mat:
-
-    cmap
-    map_type
-        contact heatmap type, can be one of ``['square', 'triangle', 'rectangle']``,
-        if select ``rectangle`` the ``mapHeight`` parameter should be set.
-    mapHeight: int or None
-        Parameter for ``map_type: rectangle'``, ``map_type: triangle'`` also can be set.
-        it means the heapmap hight bin number
-    symmetric: bool
-        If there is one of ``mat`` and ``mat2`` para is None, 
-        value ``True`` means the  symmetric heatmap
-    aspect: 'auto' or 1
+    ----------
+    ax: :class:`matplotlib.axes.Axes` object
+    mat: `np.ndarray`
+        matrix for plot upper or right of heatmap
+    mat2: `np.ndarray`
+        matrix for plot bottom or left of heatmap
+    cmap: `str` | `matplotlib.colors.Colormap` | `list`
+        colormap for continuous annotations, if set as list, mat and mat2 will set to the first two values
+    label: `str`
+        the title of the track, will show on the left
+    label_fontsize: `int`
+        the label text fontsize
+    label_color: `int`
+        the label text color
+    logdata: `bool` | `bool list`
+        do you want to log the data before plotting the heatmap
+    minrange: `float` | `float list`
+        the minimum range of values used to define the color palette
+    maxrange: `float` | `float list` 
+        the maximum range of values used to define the color palette
+    trim_range: `float` | `float list` 
+        remove the extreme values by trimming the counts.[0,1]
+        define the maxrange and minrange values using the percentile of the interaction matrix
+    map_type: `str`
+        optional is ['square', 'triangle', 'rectangle'], default is square
+        triangle and rectangle default is flip the image 45 degrees to the left.
+        for rectangle type, the corresponding length of ``height`` will be truncated 
+        from both ends of the input matrix.
+    height: `int`
+        if map_type is one of ['triangle', 'rectangle'], `height` indicates the longest interaction bin interval you want to show
+    trans_ax: `bool`
+        whether flip the image 45 degrees to the right
+    symmetric: `bool`
+        whether to display a symmetrical heatmap when only one of mat and mat2 is set
+    ax_on: `bool`
+        whether show the spines
+    aspect: `str` | `float`
+        optional is 'auto' or 1
+        length-width ratio of heatmap
+    
+    Example
+    -------
+    >>> import trackc as tc
+    >>> import cooler
+    >>> BxPC3 = cooler.Cooler('./BxPC3.chr18.mcool::/resolutions/25000')
+    >>> neo_domain_regions = ['18:47950000-48280000', '18:75280000-74850000']
+    >>> tumor_zoom = tc.tl.extractContactRegions(clr=BxPC3, row_regions=neo_domain_regions)
+    >>> ten = tc.tenon(width=6, height=1)
+    >>> ten.add(pos='bottom', height=0.7, hspace=0.05)
+    >>> tc.pl.mapC(ax=ten.axs(0), mat=tumor_zoom.cmat, map_type='triangle',
+            maxrange=200, minrange=10, label='tumor res=25k', ax_on=False, height=40)
+    >>> tc.savefig('trackc_mapc.pdf')
     """
 
-    #cmap = copy(get_cmap(cmap))
-    #cmap.set_bad(na_color)
-    #cmap2 = copy(get_cmap(cmap2))
-    #cmap2.set_bad(na_color)
     cmap = _paraPair(cmap)
     label = _paraPair(label)
     label_fontsize = _paraPair(label_fontsize)
@@ -412,8 +457,8 @@ def set_xylim(axs, conf, map_type, map_order, symmetric, trans_ax, pair_mat, mat
     if height == 0:
         height = matx.shape[0]
     
-    conf_values = {'mat_w': matx.shape[0], 'mat_h': matx.shape[1], 'height': height, 'height_m': -height, 
-                   'mat_w_height': matx.shape[0]-height, '0':0}
+    conf_values = {'mat_w': matx.shape[1], 'mat_h': matx.shape[0], 'height': height, 'height_m': -height, 
+                   'mat_w_height': matx.shape[1]-height, '0':0, '-0.5':-0.5, 'mat_w_0.5m':matx.shape[1]-0.5, 'mat_h_0.5m':matx.shape[0]-0.5}
     
     if conf.shape[0] == 0:
         print('type not set xylim')
@@ -425,7 +470,6 @@ def set_xylim(axs, conf, map_type, map_order, symmetric, trans_ax, pair_mat, mat
         ymax = conf_values[conf.loc[ix, 'ylim_top']]
         axs.set_xlim([xmin, xmax])
         axs.set_ylim([ymin, ymax])
-
     
     axs.set_xticklabels([])
     axs.set_xticks([])

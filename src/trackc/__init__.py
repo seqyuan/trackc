@@ -2,6 +2,9 @@
 import warnings
 warnings.filterwarnings("ignore")
 
+import matplotlib.pyplot as plt
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['svg.fonttype'] = 'none'
 
 from trackc import tl, pl, pa
 from trackc.gs import (

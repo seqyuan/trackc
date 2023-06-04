@@ -25,7 +25,7 @@ def _two_degree_bc(x_l=10, x_r=90, y_lr=0, y2=10, dots_num=100):
         yt.append(y)
     return (xt, yt)
 
-def _plot_loop(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor, right_anchor):
+def _plot_loop_arc(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor, right_anchor):
     if loop_df.shape[0] == 0:
         return
     
@@ -52,51 +52,76 @@ def _plot_loop(ax, loop_df, color, max_extend, invert_y, start, end, left_anchor
     else:
         ax.set_ylim(0, 0.5)
 
+
+
 def links_track(
         ax: Optional[Axes] = None,
-        links_df: pd.DataFrame = None, 
+        data: pd.DataFrame = None, 
         regions: Union[Sequence[str], str, None] = None,
-        links_type: Union[str, None] = 'loop',
+        links_type: Union[str, None] = 'arc',
         color: Union[Sequence[str], None] = '#66AC84',
         maxrange: Union[int, None] = 3000000,
         invert_y: Optional[bool] = False,
         anchor: Union[str, None] = 'inside',
-
         label: Optional[str] = None,
         label_rotation: Union[int, None] = 0,
         label_fontsize: Optional[int] = 12,
+        ax_on: bool = False,
         ):
     """\
-    Plot multi-regions loop or TAD links.
+    Plot loop arc, support for multiple or reverse genome regions.
     
     Parameters
     ----------
-    loop_bed
-        ``pd.DataFrame``: the file format for links is (tab separated), column names:
-            chr1 x1 x2 chr2 y1 y2 (score ...)
-        The score field is optional
-        The fields after the y2 score will be ignored, score column is useless right now
-        for example:
-            chr1 100 200 chr1 250 300 1
+    ax: :class:`matplotlib.axes.Axes` object
+    data: `pd.DataFrame`
+        the file format expected is like this:
+        chr1 x1 x2 chr2 y1 y2
+        the fields after the y2 will be ignored,
+        recommend the result of juicer loop calling
+    regions: `str` | `str list`
+        The genome regions to show the arc.
+        e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+            which means the reverse region
+    links_type: `str`
+        Optional is ['arc']
+    color: `str` or `str list`
+        the color of the arc links, if multiple regions, color para can  set as list
+    maxrange: `int`
+        The maximum distance between two anchor of loop, to filter loops
+        if value is None, all loop will bed plotted 
+    invert_y: `bool`
+        whether reverse the y-axis
+    anchor: `str`
+        Optional is ['inside', 'outside']
+        inside: arc link x2 y1
+        outside: arc link x2 y1
+    label: `str`
+        the title of the track, will show on the left
+    label_rotation: `int`
+        the label text rotation
+    label_fontsize: `int`
+        the label text fontsize
+    ax_on: `bool`
+        whether show the spines
+        
+    Example
+    -------
+    >>> import trackc as tc
+    >>> regions = ['chr7:153000000-151000000', 'chr11:118500000-116500000']
 
-    ax 
-        ``cooler.Cooler``: cool format Hi-C matrix (https://github.com/open2c/cooler)
-    ylabel
-        ``str``: The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
-    regions:
-        bool, optional
-        Force balancing weights to be interpreted as divisive (True) or
-        multiplicativ
-    links_type: 
-        ``str``: links type, either 'loop' or 'triangle'
-    
-    
-    anchor:
-        ``str``: links type, either 'loop' or 'triangle'
-            the link coordinates type for loop and triangle, by default: inside
-                inside: link x2 and y1
-                mid: link the middle of x1 and x2 and the middle of y1 and y2, (x1+x2)/2 and (y1+y2)/2
-                outside: link x1 and y2
+    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten.add(pos='bottom', height=1)
+    >>> ten.add(pos='bottom', height=1, hspace=0.1)
+    >>> ten.add(pos='bottom', height=0.4, hspace=0.1)
+
+    >>> tc.pl.links_track(ax=ten.axs(0), data=loops, label='GM12878', regions=regions, 
+                color=['#66AC84', 'tab:purple'], maxrange=3000000, anchor='inside')
+    >>> tc.pl.links_track(ax=ten.axs(1), data=loops, label='GM12878', regions=regions, 
+                color='tab:purple', invert_y=True, anchor='outside', ax_on=True)
+    >>> tc.pl.multi_scale_track(ten.axs(2), regions=regions, scale_adjust='Mb', intervals=1, tick_rotation=0, tick_fontsize=10, colors=['#66AC84', 'tab:purple'])
+    >>> tc.savefig('trackc_links_track.pdf')
     """
 
     if isinstance(regions, list):
@@ -113,6 +138,9 @@ def links_track(
         repeat_times = (line_GenomeRegions.shape[0] + len(color) - 1) // len(color)
         color = (color * repeat_times)[:line_GenomeRegions.shape[0]]
     
+    data = data.iloc[:,[0,1,2,3,4,5]]
+    data.columns = ['chr1', 'x1', 'x2', 'chr2', 'y1', 'y2']
+
     if anchor == "mid":
         left_anchor = 'left_mid'
         right_anchor = 'right_mid'
@@ -127,12 +155,11 @@ def links_track(
     max_extend = 0
     links_df_list = []
 
-    links_df = links_df[['chr1', 'x1', 'x2', 'chr2', 'y1', 'y2']]
-    links_df['chr1'] = links_df['chr1'].astype(str)
-    links_df['chr2'] = links_df['chr2'].astype(str)
+    data['chr1'] = data['chr1'].astype(str)
+    data['chr2'] = data['chr2'].astype(str)
 
     for ix, row in line_GenomeRegions.iterrows(): 
-        loop_bed_plot = links_df[links_df['chr1']==row['chrom']]
+        loop_bed_plot = data[data['chr1']==row['chrom']]
         
 
         loop_bed_plot['length'] = loop_bed_plot["y2"] - loop_bed_plot["x1"]
@@ -141,8 +168,9 @@ def links_track(
                                 ((loop_bed_plot['x2'] >= row['fetch_start']) & (loop_bed_plot['x2'] <= row['fetch_end']) |\
                                 (loop_bed_plot['y1'] >= row['fetch_start']) & (loop_bed_plot['y1'] <= row['fetch_end'])) | \
                                     ((loop_bed_plot['y2'] >= row['fetch_start']) & (loop_bed_plot['y2'] <= row['fetch_end']))]
-
-        loop_bed_plot = loop_bed_plot[(loop_bed_plot["y2"] - loop_bed_plot["x1"])<maxrange] 
+        
+        if isinstance(maxrange, int):
+            loop_bed_plot = loop_bed_plot[(loop_bed_plot["y2"] - loop_bed_plot["x1"])<maxrange] 
         #print('looop num:', loop_bed_plot.shape)
         if loop_bed_plot.shape[0] == 0:
             #for i in ['top', 'right', "left", "bottom"]:
@@ -159,21 +187,24 @@ def links_track(
                 max_extend = max(loop_bed_plot['length'])
    
     for ix, row in line_GenomeRegions.iterrows(): 
-        if links_type == 'loop':
-            _plot_loop(axs[ix], links_df_list[ix], color[ix], max_extend, invert_y, row['start'], row['end'], left_anchor, right_anchor)
+        if links_type == 'arc':
+            _plot_loop_arc(axs[ix], links_df_list[ix], color[ix], max_extend, invert_y, row['start'], row['end'], left_anchor, right_anchor)
         #if links_type == 'loop':
             #plot_triangle()
 
     ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, 
                   horizontalalignment='right',verticalalignment='center')
     
-    spines = ['top', 'bottom', 'left', 'right']
-    if invert_y == True:
-        del spines[0]
-    else:
-        del spines[1]
-    for i in spines:
-        ax.spines[i].set_visible(False)
+    
+    if ax_on == False:
+        spines = ['top', 'bottom', 'left', 'right']
+        if invert_y == True:
+            del spines[0]
+        else:
+            del spines[1]
+        for i in spines:
+            ax.spines[i].set_visible(False)
+
     ax.set_xticks([])
     ax.set_xticklabels('')
     ax.set_yticks([])

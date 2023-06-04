@@ -3,6 +3,7 @@ from matplotlib.axes import Axes
 from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callable
 import pandas as pd
 from trackc.tl._getRegionsCmat import GenomeRegion
+import numpy as np
 
 def _make_multi_region_ax(ax, lineGenomeRegions):
     lineGenomeRegions['len'] = lineGenomeRegions['fetch_end']-lineGenomeRegions['fetch_start']
@@ -18,41 +19,71 @@ def bw_track(bw,
              ax: Optional[Axes] = None,
              regions: Union[Sequence[str], str, None] = None, 
              binsize: Optional[int] = 50000,
-             averagetype: Union[str, None] = 'mean',
-             ymin: Optional[float] = None,
-             ymax: Optional[float] = None,
+             summary_type: Union[str, None] = 'mean',
+             minrange: Optional[float] = None,
+             maxrange: Optional[float] = None,
              color: Union[Sequence[str], None] = '#827DBB',
              invert_y: Optional[bool] = False,
              label: Optional[str] = None,
              label_rotation: Union[int, None] = 0,
              label_fontsize: Optional[int] = 12,
              tick_fontsize: Optional[int] = 8,
-             tick_fl: Optional[str] ='%0.2f', 
+             tick_fl: Optional[str] = '%0.2f', 
+             ax_on: bool = False,
             ):
     """\
-    Plot multi-regions bigwig signal tracks.
+    Plot bigwig signal track, support for multiple or reverse genome regions.
     
     Parameters
     ----------
-    ax 
-        ``cooler.Cooler``: cool format Hi-C matrix (https://github.com/open2c/cooler)
-    ylabel
-        ``str``: The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
-    regions: bool, optional
-        Force balancing weights to be interpreted as divisive (True) or
-        multiplicativ
-
-    binsize
-        ``chrom region`` list: or ``chrom region`` or None. 
-        The subset matrix row genome regions
-        eg. ``"chr6:1000000-2000000"``, eg. ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
+    bw: `pyBigWig.open` query object
+    ax: :class:`matplotlib.axes.Axes` object
+    regions: `str` | `str list`
+        The genome regions to show the signal.
+        e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
         The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
-            which means you want to get the reverse region contact matrix
+            which means the reverse region
+    binsize: `int`
+        binsize divided to computing signal summary statistics
+    summary_type: `str`
+        Summary type (mean, min, max, coverage, std), default 'mean'.
+    minrange: `float`
+        the minimum range of values used to define the ylim
+    maxrange: `float`
+        the maximum range of values used to define the ylim
+    color: `str`
+        the signal bar color
+    invert_y: `bool`
+        whether reverse the y-axis
+    label: `str`
+        the title of the track, will show on the left
+    label_rotation: `int`
+        the label text rotation
+    label_fontsize: `int`
+        the label text fontsize
+    tick_fontsize: `int`
+        values range ticks text fontsize
+    tick_fl: `str`  
+        values range ticks retains a few decimal places
+    ax_on: `bool`
+        whether show the spines
 
-    averagetype
-        ``chrom region`` list: or ``chrom region`` or None. 
-        The subset matrix col genome regions, default is ``None``, which means the sample region as ``row_regions``
+    Example
+    -------
+    >>> import trackc as tc
+    >>> import pyBigWig
+    >>> H3K27ac = pyBigWig.open('./GSM4604189.bigwig')
+    
+    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten.add(pos='bottom', height=1, hspace=0.1)
+    >>> ten.add(pos='bottom', height=1, hspace=0.2)
+
+    >>> regions = ['chr8:127000000-129200000', 'chr14:96500000-99300000']
+    >>> tc.pl.bw_track(H3K27ac, ten.axs(0), regions=regions, maxrange=20, label='H3K27ac', binsize=10000, color='tab:blue')
+    >>> tc.pl.bw_track(H3K27ac, ten.axs(1), regions=regions, maxrange=5, label='H3K27ac', binsize=10000, invert_y=True, ax_on=True)
+    >>> tc.savefig('trackc_bigwig_track.pdf')
     """
+    
     if isinstance(regions, list):
         line_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in regions])
     else:
@@ -72,7 +103,7 @@ def bw_track(bw,
     
     for i, row in line_GenomeRegions.iterrows():    
         bins = int(row['len']/binsize)
-        plot_list = bw.stats(row['chrom'], row['fetch_start'], row['fetch_end'], type=averagetype, nBins=bins)
+        plot_list = bw.stats(row['chrom'], row['fetch_start'], row['fetch_end'], type=summary_type, nBins=bins)
         plot_list = [0 if v is None else v  for v in plot_list]
 
         axs[i].bar(x=range(0, bins), height=plot_list, width=1, bottom=[0]*(bins),color=color[i],align="edge",edgecolor=color[i])    
@@ -88,35 +119,36 @@ def bw_track(bw,
         if max_y < max(plot_list):
             max_y = max(plot_list)
         
-    if ymin == None:
-        ymin = min_y
-    if ymax == None:
-        ymax = max_y
+    if minrange == None:
+        minrange = min_y
+    if maxrange == None:
+        maxrange = max_y
         
-    if invert_y == True:
-        ymin = max_y
-        ymax = min_y
-
     for axi in axs:
-        axi.set_ylim(ymin, ymax)
-        
-    ax.set_ylim(ymin, ymax)
-    
+        if invert_y:
+            axi.set_ylim(maxrange, minrange)
+        else:
+            axi.set_ylim(minrange, maxrange)
     va = 'top'
-    if invert_y == True:
+    if invert_y:
         va='bottom'
-    ax.text(0, ymax, " [{0}, {1}]".format(tick_fl % min_y, tick_fl % ymax), verticalalignment=va, fontsize=tick_fontsize)
+        ax.set_ylim(maxrange, minrange)
+    else:
+        ax.set_ylim(minrange, maxrange)
+     
+    ax.text(0, maxrange, " [{0}, {1}]".format(tick_fl % minrange, tick_fl % maxrange), verticalalignment=va, fontsize=tick_fontsize)
     
     ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, 
                   horizontalalignment='right', verticalalignment='center')
      
-    spines = ['top', 'bottom', 'left', 'right']
-    if invert_y == True:
-        del spines[0]
-    else:
-        del spines[1]
-    for i in spines:
-        ax.spines[i].set_visible(False)
+    if ax_on == False:
+        spines = ['top', 'bottom', 'left', 'right']
+        if invert_y == True:
+            del spines[0]
+        else:
+            del spines[1]
+        for i in spines:
+            ax.spines[i].set_visible(False)
     ax.set_xticks([])
     ax.set_xticklabels('')
     ax.set_yticks([])

@@ -16,11 +16,6 @@ GridSpec
    :class: sphx-glr-single-img
 
 
-
-Available track types
-=====================
-This section contains various quick tutorials showcasing omics data visualization with :mod:`trackc`.
-
 Analysis of Hi-C using :mod:`trackc`
 -------------------------------------------------
 This section contains tutorials showcasing core trackc functionalities by applying them
@@ -31,7 +26,7 @@ input file formats
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: File formats:
 
    tutorials/fileformats/bed12
    tutorials/fileformats/mcool
@@ -48,9 +43,8 @@ This section contains various quick tutorials showcasing omics data visualizatio
    tutorials/contactmap
    tutorials/Virtual4C
    tutorials/gene
+   tutorials/bigwig
    tutorials/bed
    tutorials/links
    tutorials/zoomin
    
-
-

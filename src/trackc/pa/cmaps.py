@@ -2,6 +2,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import get_cmap
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 def hex2rgb(value):
     # convert hex to rgb
@@ -44,7 +45,11 @@ def colorC(cname="RdBu_r",
 fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
 #fruitpunch2 = sns.blend_palette(['white', 'blue'], as_cmap=True)
 fruitpunch2 = sns.blend_palette(['white', 'purple'], as_cmap=True)
-
+fruitpunch3 = LinearSegmentedColormap.from_list('fruitpunch3', 
+                                             [(0, 'white'),
+                                              (0.08, 'w'),
+                                              (0.4, 'r'),
+                                              (1, '#CF3F35')], N=100)
 
 
 

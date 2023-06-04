@@ -1,4 +1,7 @@
 import matplotlib.pyplot as plt
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['svg.fonttype'] = 'none'
+
 from typing import List, Union
 from matplotlib.axes import Axes
 

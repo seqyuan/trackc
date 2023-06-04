@@ -1,5 +1,5 @@
 from trackc.tl._getRegionsCmat import extractContactRegions
-from .mapc import mapC, getData2Map
+from trackc.pl.mapc import mapC, getData2Map
 from matplotlib.axes import Axes
 from typing import Union, Sequence, Optional
 from matplotlib.colors import Colormap
@@ -61,7 +61,6 @@ def _get_pets(df, binsize=10000):
     pets_df['chrbin'] = bins
     return pets_df
 
-
 def virtual4C(ax: Optional[Axes] = None,
               clr: cooler.Cooler = None,
               balance: bool = False,
@@ -73,7 +72,7 @@ def virtual4C(ax: Optional[Axes] = None,
               cmap: Union[Sequence[Colormap], str, None] = fruitpunch,
               target_color: Union[str, None] = None,
               target_name: Union[str, None] = None,
-              logdata: Union[Sequence[bool], bool] = False, 
+              logdata: bool = False, 
               trim_range: float = 0.98,
               minrange: float = None,
               maxrange: float = None,
@@ -81,8 +80,72 @@ def virtual4C(ax: Optional[Axes] = None,
               label_rotation: Union[int, None] = 0,
               label_fontsize: Optional[int] = 12,
               ):
-    data = extractContactRegions(clr, balance=balance, row_regions=target, col_regions=contact_regions)
+    """\
+    Plot virtual4C track, support for multiple or reverse genome regions.
+
+    Parameters
+    ----------
+    ax: :class:`matplotlib.axes.Axes` object
+    clr: `cooler.Cooler`
+        cool or mcool format Hi-C matrix (https://github.com/open2c/cooler)
+    balance: `bool`
+        The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
+    target: `str`
+        Coordinates of the viewpoint. e.g. 'chr8:127735434-127735435'
+    contact_regions: `str` | `str list`
+        The genome regions, which contact to the viewpoint
+        e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+            which means you want to get the reverse region contacts
+    track_type: `str`
+        virtual4C types, you can choose one of ['line', 'bar', 'heatmap']
+    color: `str`
+        `line` or `bar` type virtual4C color
+    cmap: `str` | `matplotlib.colors.Colormap`
+        if track_type set `heatmap`, the cmap
+    target_color: `str`
+        virtual4C viewpoint color
+    target_name: `str`
+        viewpoint label
+    logdata: `bool`
+        do you want to log the data before plotting
+    trim_range: `float`
+        remove the extreme values by trimming the counts.[0,1]
+    minrange: `float`
+        the minimum range of values used to define the ylim or color palette
+    maxrange: `float`
+        the maximum range of values used to define the ylim or color palette
+    label: `str`
+        the title of the track, will show on the left
+    label_rotation: `int`
+        the label text rotation
+    label_fontsize: `int`
+        the label text fontsize
+
+    Example
+    -------
+    >>> import trackc as tc
+    >>> regions = ['chr8:127000000-129200000', 'chr14:96500000-99300000']
+    >>> MYC_TSS = 'chr8:127735434-127735435'
+    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten.add(pos='bottom', height=1, hspace=0.1)
+    >>> AML_1360 = cooler.Cooler('./GSM4604287_1360.iced.mcool::/resolutions/10000')
+    >>> tc.pl.virtual4C(ax=ten.axs(0), clr=AML_1360, target=MYC_TSS, contact_regions=regions, 
+                track_type='line', label='Virtual 4C', target_color='r')
+    >>> tc.savefig('trackc_virtual4c.pdf')
+    """
     
+    data = extractContactRegions(clr, balance=balance, row_regions=target, col_regions=contact_regions)
+    cols = _get_pets(data.col_regions, clr.binsize)
+    rows = _get_pets(data.row_regions, clr.binsize)
+    cols['target'] = 0
+    cols.loc[cols['chrbin'].isin(rows['chrbin']), 'target'] = 1
+    targets_point = cols.query('target==1')
+
+    target_x = 0
+    target_height = 0
+    target_bottom = 0
+
     if track_type in ['line', 'bar']:
         _, maxrange, minrange = _plot4C_line_bar(data=data.cmat,
                 ax=ax,
@@ -93,35 +156,36 @@ def virtual4C(ax: Optional[Axes] = None,
                 minrange=minrange, 
                 maxrange=maxrange, 
                 )
-        
-        cols = _get_pets(data.col_regions, clr.binsize)
-        rows = _get_pets(data.row_regions, clr.binsize)
-        cols['target'] = 0
-        cols.loc[cols['chrbin'].isin(rows['chrbin']), 'target'] = 1
-        targets_point = cols.query('target==1')
-        target_bar = ax.bar(x=targets_point.index[0], height=maxrange, 
-               bottom=minrange, width=1, color=target_color, align='edge', 
-               label=target_name)
+ 
         #ax.bar_label(target_bar, label_type='edge')
         ax.text(targets_point.index[0], minrange+(maxrange-minrange)/2, target_name, va='center', ha='right', rotation=90)
         ax.set_ylim(minrange, maxrange)
+        ax.set_xlim(0, data.cmat.shape[1]-1)
+
+        target_x = targets_point.index[0]
+        target_height = maxrange
+        target_bottom=minrange
 
     if track_type == 'heatmap':
-        mapC(mat=data.cmat, cmap=cmap, logdata=logdata, 
+        mapC(ax=ax, mat=data.cmat, cmap=cmap, logdata=logdata, symmetric=True,
              trim_range=trim_range, minrange=minrange, maxrange=maxrange, 
-             ax=ax, map_type='square', ax_on=False)
+             map_type='square', ax_on=True, aspect='auto')
         ax.set_aspect(aspect='auto')
     
-    
-    
+        target_bottom = -0.5
+        target_height = 1
+        target_x = targets_point.index[0] - 0.5
+
+    target_bar = ax.bar(x=target_x, height=target_height, 
+            bottom=target_bottom, width=1, color=target_color, align='edge', 
+            label=target_name)
 
     ax.tick_params(bottom =False,top=False,left=False,right=True)
     ax.yaxis.tick_right()
     #ax.set_xticklabels("")
     ax.set_xticklabels("")
-    ax.set_xlim(0, data.cmat.shape[1]-1)
     ax.set_ylabel(label, fontsize=label_fontsize, rotation=label_rotation, ha='right', va='center')
 
-
+    
 
 

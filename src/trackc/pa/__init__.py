@@ -1,13 +1,14 @@
 from trackc.pa.cmaps import (
     colorC,
     fruitpunch,
-    fruitpunch2
+    fruitpunch2,
+    fruitpunch3
 )
 
 from trackc.pa.palettes import (
     trackcl_9,
-    trackcl_11,
     vega_10_trackc,
+    trackcl_11,
     default_20,
     zeileis_28,
     default_102

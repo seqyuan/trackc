@@ -1,5 +1,5 @@
 =====
-gene
+bed12
 =====
 
 The `trackc.pl.gene_track` method input formats is `BED12 <https://bedtools.readthedocs.io/en/latest/content/general-usage.html#genome-file-format/>`_.
