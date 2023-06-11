@@ -74,6 +74,7 @@ This section contains various quick tutorials showcasing omics data visualizatio
    :maxdepth: 2
    :caption: Available Track Types:
 
+   tutorials/grid_spec
    tutorials/scalebar
    tutorials/contactmap
    tutorials/mapc_markline
