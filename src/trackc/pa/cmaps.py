@@ -45,6 +45,7 @@ def colorC(cname="RdBu_r",
 fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
 #fruitpunch2 = sns.blend_palette(['white', 'blue'], as_cmap=True)
 fruitpunch2 = sns.blend_palette(['white', 'purple'], as_cmap=True)
+washu = sns.blend_palette(['white', '#B9378A'], as_cmap=True)
 fruitpunch3 = LinearSegmentedColormap.from_list('fruitpunch3', 
                                              [(0, 'white'),
                                               (0.03, 'w'),

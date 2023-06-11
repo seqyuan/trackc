@@ -168,7 +168,7 @@ html_theme_options = {
     'show_nav_level': 2,
     #'navbar_end': ['theme-switcher', 'version-switcher', 'navbar-icon-links'],
     'logo': {
-        'text': 'TrackC',
+        'text': None,
     },
     #'switcher': dict(
     #    json_url='https://sphinx-gallery.github.io/dev/_static/switcher.json',
@@ -196,7 +196,7 @@ html_theme_options = {
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = 'images/trackc-low-resolution-logo-black-on-transparent-background.png'
+html_logo = 'images/trackc-low-resolution-logo-color-on-transparent-background.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32

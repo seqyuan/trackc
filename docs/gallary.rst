@@ -19,7 +19,7 @@ Advanced Science
 =================
 
 .. nbgallery::
-    :caption:
+    :caption: Rearranged interactions
     :name: rst-gallery
     :glob:
     :reversed:
@@ -30,7 +30,7 @@ AML 3DGenome
 ============
 
 .. nbgallery::
-    :caption:
+    :caption: Enhancer hijacking
     :name: rst-gallary
     :glob:
     :reversed:
