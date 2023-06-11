@@ -47,7 +47,7 @@ fruitpunch = sns.blend_palette(['white', 'red'], as_cmap=True)
 fruitpunch2 = sns.blend_palette(['white', 'purple'], as_cmap=True)
 fruitpunch3 = LinearSegmentedColormap.from_list('fruitpunch3', 
                                              [(0, 'white'),
-                                              (0.08, 'w'),
+                                              (0.03, 'w'),
                                               (0.4, 'r'),
                                               (1, '#CF3F35')], N=100)
 

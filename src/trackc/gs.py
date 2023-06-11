@@ -5,15 +5,48 @@ plt.rcParams['svg.fonttype'] = 'none'
 from typing import List, Union
 from matplotlib.axes import Axes
 
-def make_spec(width: float = 10,
-              height: float = 3,
+def make_spec(figsize: tuple=(8,3),
               height_ratios: Union[List[float], None] = None,
               width_ratios: Union[List[float], None] = None,
               hspace: float = 0,
               wspace: float = 0,
-
               ):
-    """\
+    """
+    Make `GridSpec` allows complex layout of Axes in the figure.
+
+    Parameters
+    ----------
+    figsize : 2-tuple of floats, default: :rc:`figure.figsize`
+            Figure dimension ``(width, height)`` in inches.
+            ``Whole Figure Size``
+    width_ratios : `array-like`
+        if `height_ratios` is setting, this parameter will ignore.
+        Defines the relative widths of the columns. Each column gets a
+        relative width of ``width_ratios[i] / sum(width_ratios)``.
+        If not given, all columns will have the same width.
+    height_ratios : `array-like`
+        Defines the relative heights of the rows. Each row gets a
+        relative height of ``height_ratios[i] / sum(height_ratios)``.
+        If not given, all rows will have the same height.
+    wspace, hspace : `float`, default: 0
+        The amount of width/height reserved for space between subfigures,
+        expressed as a fraction of the average subfigure width/height.
+        If not given, the values will be inferred from a figure or
+        rcParams when necessary.
+    Returns
+    -------
+    Figure, list[Axes]
+        `Figure`: top level `~matplotlib.artist.Artist`, which holds all plot elements.
+            Many methods are implemented in `FigureBase`.
+        `list[Axes]`: is a list of the Axes objects.  The order of the axes is left-to-right 
+            or top-to-bottom of their position in the total layout.
+
+    Example
+    -------
+    >>> import trackc as tc
+    >>> fig, axs = tc.make_spec(figsize=(6,6), height_ratios=[1,1,1])
+    >>> axs[0].plot([1,2,3])
+    >>> tc.savefig('test.pdf')
     """
     
     nfig = 0
@@ -32,10 +65,10 @@ def make_spec(width: float = 10,
         ratios = width_ratios
 
     if nfig <= 0:
-        fig, ax = plt.subplots(1, 1, figsize=(width, height) )
+        fig, ax = plt.subplots(1, 1, figsize=figsize)
         return fig, ax
     
-    fig = plt.figure(figsize=(width, height))
+    fig = plt.figure(figsize=figsize)
     spec = fig.add_gridspec(nrows=nrows, ncols=ncols,
                            left=None, bottom=None, right=None, top=None,
                            wspace=wspace, hspace=hspace, 
@@ -64,6 +97,25 @@ class mortise:
         self.hspace = hspace
     
 class tenon:
+    """
+    Make a virtual-figure, based on virtual-figure, users can `add` `Axes` to 
+    the `top or bottom` of the total layout. After adding `Axes`, the user can use the ``axs`` method 
+    to select an axes from the added axes list. The order of the axes is top-to-bottom of 
+    the position in the total layout.
+
+    Just like Lego blocks, you can add new blocks above (top) or below (bottom)
+
+    Example
+    -------
+    >>> import trackc as tc
+    >>> ten = trackc.tenon(width=5, height=1)
+    >>> ten.add(pos='bottom', height=1, hspace=0.1)
+    >>> ten.add(pos='top', height=1, hspace=0.1)
+    >>> ten.axs(0).plot([1,2,3])
+    >>> ten.axs(1).plot([1,1])
+    >>> tc.savefig('test.pdf')
+    """
+
     mortises = []
     fig = None
     ax = None
@@ -82,6 +134,23 @@ class tenon:
        self.fig.show()
 
     def add(self, pos='top', height=1, hspace=0):
+        """
+        Add a `Axes` to the total layout.
+        Just like Lego blocks, you can add new blocks above (top) or below (bottom)
+
+        Parameters
+        ----------
+        pos
+            one option of ['top', 'bottom']
+            Choose whether to add a new Axes at the top or bottom.
+            If set top, then a `~matplotlib.axes.Axes` object will add to top of the top `~matplotlib.axes.Axes`
+        height: `float`
+            the relative height of the newly added `Axes` compared to the virtual-figure. 
+            For example, if the virtual-figure has a height of 1 and the new Axes has a height of 4, 
+            the actual height of the subplot will be 1 * 4.
+        hspace: `float`
+            The amount of height reserved for space between the top or bottom subfigures
+        """
         if len(self.mortises) != 0:
             ix = -1
             if pos=="top":
@@ -102,7 +171,17 @@ class tenon:
         else:
             self.mortises.append(lego_ax_demo)
 
-    def remove(self, pos='top'):
+    def _remove(self, pos='top'):
+        """
+        Remove a `Axes` to the total layout.
+        Just like Lego blocks, you can remove new blocks from above (top) or below (bottom)
+
+        Parameters
+        ----------
+        pos
+            Option of ['top', 'bottom']
+            Choose whether to remove a Axes from top or bottom of the whole layout.
+        """
         if len(self.mortises) >=1:
             if pos == 'top':
                 self.mortises.remove(self.mortises[0])
@@ -111,9 +190,33 @@ class tenon:
             else:
                 pass
     def axs(self, index):
+        """
+        Get one Axes from the total layout.
+        
+        Parameters
+        ----------
+        index
+            The Axes list element index
+
+        Returns
+        -------
+        `~matplotlib.axes.Axes` object
+        """
         return self.mortises[index].ax
 
 def savefig(outfile):
+    """
+    Save the figure.
+    Parameters
+    ----------
+    outfile
+        out file path
+    """
     plt.tight_layout()
     plt.savefig(outfile, bbox_inches='tight')
 
+def show():
+    """
+    show the Axes of the layout, help users resize each axes.
+    """
+    plt.tight_layout()

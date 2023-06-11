@@ -130,6 +130,8 @@ def scale_track(ax: Optional[Axes] = None,
             ax.tick_params(top=False, labeltop=False, bottom=True, labelbottom=True)
         for i in spines:
             ax.spines[i].set_visible(False)
+        if tick_rotation == 0:
+            ha2 = 'center'
 
         ax.text(chrom_x, chrom_y, raw_region, fontsize=label_fontsize, ha='left', va=va)
         labels = [label.get_text() for label in ax.get_xticklabels()]

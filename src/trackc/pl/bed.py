@@ -20,7 +20,7 @@ def bed_track(ax: Optional[Axes] = None,
               #show_names: Union[bool, None] = False,
               alpha: Union[float, None] = 1,
               label: Union[str, None] = None,
-              label_fontsize: Union[int, None] = 5,
+              label_fontsize: Union[int, None] = 12,
               label_rotation: Union[int, None] = 0,
               ymin: Optional[float] = None,
               ymax: Optional[float] = None,
@@ -63,7 +63,7 @@ def bed_track(ax: Optional[Axes] = None,
         the color of line/triangle/rectangle, if color is color list, the block will set by regions
     cmap: `str` | `matplotlib.colors.Colormap`
         the colormap of the plot except track_style:line
-    
+    intervals: 
 
 
     intervals
@@ -108,26 +108,28 @@ def bed_track(ax: Optional[Axes] = None,
     if bed.shape[1] == 6:
         score_label = bed.columns[4]
         bed.columns = ['chrom', 'start', 'end', 'name', 'score', 'strand']
+    bed['chrom'] = bed['chrom'].astype(str)
 
     min_y = None
     max_y = None
     max_len = 0
+    
     for ix, row in line_GenomeRegions.iterrows(): 
         bed2plot = bed[(bed['chrom']==row['chrom']) & (bed['end']>=row['fetch_start']) & (bed['start']<=row['fetch_end'])]
         if track_style in ['line', 'bar'] or bed.shape[1]>=5:
             if min_y==None:
-                min_y = bed2plot['score'].min()
+                min_y = bed2plot['score'].min(skipna=True, numeric_only=True)
             else:
-                if min_y < bed2plot['score'].min():
-                    min_y = bed2plot['score'].min()
+                if min_y < bed2plot['score'].min(skipna=True, numeric_only=True):
+                    min_y = bed2plot['score'].min(skipna=True, numeric_only=True)
         
             if max_y==None:
-                max_y = bed2plot['score'].max()
+                max_y = bed2plot['score'].max(skipna=True, numeric_only=True)
             else:
-                if max_y > bed2plot['score'].max():
-                    max_y = bed2plot['score'].max()
+                if max_y > bed2plot['score'].max(skipna=True, numeric_only=True):
+                    max_y = bed2plot['score'].max(skipna=True, numeric_only=True)
 
-        maxlength = (bed2plot['end']-bed2plot['start']).max()
+        maxlength = (bed2plot['end']-bed2plot['start']).max(skipna=True, numeric_only=True)
         if max_len < maxlength:
             max_len = maxlength
 
@@ -136,8 +138,11 @@ def bed_track(ax: Optional[Axes] = None,
     if ymax == None:
         ymax = max_y
 
+    
     for ix, row in line_GenomeRegions.iterrows(): 
         bed2plot = bed[(bed['chrom']==row['chrom']) & (bed['end']>=row['fetch_start']) & (bed['start']<=row['fetch_end'])].copy()
+        if bed2plot.shape[0] == 0:
+            continue
         if track_style == "line":
             _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='line', color=color[ix], alpha=alpha)    
         if track_style == "bar":
@@ -152,6 +157,7 @@ def bed_track(ax: Optional[Axes] = None,
                          alpha=alpha, min=ymin, max=ymax, score_label=score_label, score_label_size=score_label_size)
             
             axs[ix].set_ylim(0, max_len/2)
+
 
     if track_style in ['line', 'bar']:
         for axi in axs:

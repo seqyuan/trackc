@@ -177,12 +177,12 @@ def _mark_contact_regions(row_regions,
         pass
        
 
-def mapc_markline(row_regions: Union[pd.DataFrame, None] = None,
+def mapc_markline(ax: Optional[Axes] = None,
+                  row_regions: Union[pd.DataFrame, None] = None,
                   mark_regions: Union[Sequence[str], str, None] = None,
                   binsize: Union[int, None] = 10000,
-                  ax: Optional[Axes] = None,
-                  map_type: Union[str, None] = 'square',
                   map_order: int = 0,
+                  map_type: Union[str, None] = 'square',
                   symmetric: bool = False,
                   trans_ax: bool = False,
                   only_cis: bool = False,
@@ -191,9 +191,44 @@ def mapc_markline(row_regions: Union[pd.DataFrame, None] = None,
                   linewidth: Union[int, None]=1,
                   show_regions_edge: bool = False,
               ):
-    """\
-    map_order:
-        mapc mat or mat2
+    """
+    The ``mapc_markline`` function used for mark contact regions on the heatmap, 
+    It should be used in conjunction with ``mapc``. The parameters "symmetric" and 
+    "trans_ax" which should be consistent with the parameters used in ``mapc``.
+    
+    Parameters
+    ----------
+    ax: :class:`matplotlib.axes.Axes` object
+        utilizes the same `Axes` as used in ``mapc``
+    row_regions: `pd.DataFrame`
+        The `row_regions` attribute of the object returned by ``tc.tl.extractContactRegions``
+        represents the regions extracted from the rows.
+    mark_regions: `np.ndarray`
+        matrix for plot upper or right of heatmap
+    binsize: `int`
+        binsize of raw heatmap
+    map_order: `int`
+        one option of [0, 1]
+        The `map_order` parameter in the context of `trackc.mapc` is associated with the `mat` and `mat2` parameters.
+        If use `trackc.mapc` to generate a heatmap in the top-right quadrant, then for "map_order" here, you should set it to 0.
+        If you use "mapc" to generate a heatmap in the bottom-left quadrant, then for "map_order" here, you should also set it to 0.
+    map_type: `str`
+        same as the `trackc.mapc` map_type parameter.
+    symmetric: `bool`
+        same as the `trackc.mapc` symmetric parameter.
+    trans_ax: `bool`
+        same as the `trackc.mapc` trans_ax parameter.
+    only_cis: `bool`
+        If set to True, the trans regions will not be displayed.
+    linestyle: `str`
+        mark line style
+    linecolor: `str`
+        mark line color
+    linewidth: `str`
+        mark line width
+    show_regions_edge: `bool`
+        Whether to display the spliced region as input from the `row_regions` parameter
+
     """
     if map_order == 1:
         for child in ax.get_children():

@@ -127,6 +127,10 @@ def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False,
     plot_gene_num = gene_bed_plot.shape[0]
 
     ii = 0
+    head_length = (abs(end-start)/(line+2))/5
+    if line <=3:
+        head_length = (abs(end-start)/(line*3))/10
+
     for i,row in gene_bed_plot.iterrows():
         #col = pos_strand_gene_color
         text_col = pos_strand_gene_color
@@ -150,6 +154,7 @@ def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False,
         if row['end'] > end:
                 row['end'] = end
         
+        
         arrow_s = row['end']
         dx = 0.3
         if row["strand"] == "-":
@@ -157,8 +162,8 @@ def _plot_gene(ax, gene_bed, chrom, start, end, needReverse=False,
             dx = -0.1
         ax.arrow(arrow_s, plot_y+0.5, dx, 0, 
             overhang=0.5, width=0,
-            head_width=0.26,
-            head_length=20000,
+            head_width=0.28,
+            head_length=head_length,
             length_includes_head=False,
             color=text_col,
             linewidth=0.5)

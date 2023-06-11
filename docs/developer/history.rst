@@ -15,7 +15,7 @@ one our team member.
 which project uses trackc
 -------------------------
 
-- PIBF1
+- https://doi.org/10.1016/j.jare.2023.04.015
 - pseudogene
 - zhongshan eye
-- muxu
+- muxu 3D genome

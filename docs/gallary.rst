@@ -2,29 +2,38 @@
 Gallary
 ##########
 
-
 Here are some flexible practical examples of trackc
+
+Cis contact map
+===============
+
+.. nbgallery::
+    :caption: Varies heatmap:
+    :name: rst-gallery
+    :glob:
+    :reversed:
+
+    examples/mapc_eg
 
 Advanced Science
 =================
 
 .. nbgallery::
-    :caption: rearranged heatmaps 1:
+    :caption: Rearranged heatmaps:
     :name: rst-gallery
     :glob:
     :reversed:
 
-    examples/zoomin_heatmap
-    examples/mapc_eg
-
-feng yue
-==========
+    examples/rearranged_interactions
+    
+AML 3DGenome
+============
 
 .. nbgallery::
-    :caption: neo-domain:
+    :caption: Virtual4C:
     :name: rst-gallary
     :glob:
     :reversed:
 
-    examples/zoomin_heatmap
+    tutorials/Virtual4C
     
