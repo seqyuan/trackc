@@ -4,15 +4,7 @@ trackc - track view of chromosome conformation and multi-omics data
 **trackc** is a Python Package to Flexible Visualization of 3D Genome and Multiomics.
 It builds on top of `matplotlib`, from which it allow for flexible adjustments.
 
-
-.. image:: https://raw.githubusercontent.com/seqyuan/trackc/main/docs/images/logo-black.svg
-    :alt: trackc title figure
-    :width: 200px
-    :align: center
-    :target: https://doi.org/1xxxx.1358-2
-
-
-Trackc's key applications
+TrackC's key applications
 --------------------------
 - Mark the abnormal interaction formed by the structural variation of the genome.
 - Show the three-dimensional genome interaction and multi-omics data after rearrangement.

@@ -8,7 +8,7 @@ Cis contact map
 ===============
 
 .. nbgallery::
-    :caption: Varies heatmap:
+    :caption: Varies heatmap
     :name: rst-gallery
     :glob:
     :reversed:
@@ -19,7 +19,7 @@ Advanced Science
 =================
 
 .. nbgallery::
-    :caption: Rearranged heatmaps:
+    :caption:
     :name: rst-gallery
     :glob:
     :reversed:
@@ -30,7 +30,7 @@ AML 3DGenome
 ============
 
 .. nbgallery::
-    :caption: Virtual4C:
+    :caption:
     :name: rst-gallary
     :glob:
     :reversed:
