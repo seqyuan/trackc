@@ -144,12 +144,12 @@ bibtex_bibfiles = ["references.bib"]
 bibtex_reference_style = "author_year"
 bibtex_default_style = "alpha"
 
-
+"""
 nbsphinx_thumbnails = {
     'thumbnail_size': '400x300',
     'examples/rearranged_interactions': 'examples/neotad.png',
 }
-
+"""
 
 def setup(app):
     """Sphinx setup function."""
