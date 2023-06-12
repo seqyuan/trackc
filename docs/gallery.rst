@@ -1,5 +1,5 @@
 ##########
-Gallary
+Gallery
 ##########
 
 Here are some flexible practical examples of trackc
@@ -9,7 +9,7 @@ Cis contact map
 
 .. nbgallery::
     :caption: Varies heatmap
-    :name: rst-gallery
+    :name: rst-gallery1
     :glob:
     :reversed:
 
@@ -20,7 +20,7 @@ Advanced Science
 
 .. nbgallery::
     :caption: Rearranged interactions
-    :name: rst-gallery
+    :name: rst-gallery2
     :glob:
     :reversed:
 
@@ -31,7 +31,7 @@ AML 3DGenome
 
 .. nbgallery::
     :caption: Enhancer hijacking
-    :name: rst-gallary
+    :name: rst-gallery3
     :glob:
     :reversed:
 

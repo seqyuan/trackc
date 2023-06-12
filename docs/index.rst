@@ -12,13 +12,12 @@ TrackC's key applications
 
 Getting started with trackc
 ----------------------------
-- Browse :doc:`quick start </quick_start>`, :doc:`available tracks types </available_track_types>` and :doc:`gallary </gallary>`.
-- Discuss usage on `discourse`_ and development on `github`_.
+- Browse :doc:`quick start </quick_start>`, :doc:`available tracks types </available_track_types>` and :doc:`gallery </gallery>`.
+
 
 Contributing to trackc
 -----------------------
-We are happy about any contributions! Before you start, check out our `contributing guide`_.
-
+We are happy about any contributions! Welcome to talk at github issue.
 
 .. toctree::
    :caption: General:
@@ -26,7 +25,7 @@ We are happy about any contributions! Before you start, check out our `contribut
 
    install
    tutorials
-   gallary
+   gallery
    api
    developer/index
    
@@ -40,5 +39,5 @@ Citation
 Please cite trackc as follows:
 
 Zan Yuan, Guoliang Li, Yang Chen.
-**trackc: a Package for Flexible Visualization of rearrangement 3D Genome and Multi-omics**, Bioinformatics, Volume 48, Issue W1, 1 July 2023, Pages xxx, https://doi.org/xxx/xxx/xxx
+**trackc: a Package for Flexible Visualization of rearrangement 3D Genome and Multi-omics**, xxx, Volume 48, Issue W1, 1 July 2023, Pages xxx, https://doi.org/xxx/xxx/xxx
 

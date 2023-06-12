@@ -22,7 +22,7 @@ run this pip command to specify the version and installation source:
 
 .. code-block:: bash
 
-    pip install -i https://pypi.org/simple trackc==0.1.2
+    pip install -i https://pypi.org/simple trackc==version
 
 
 **Development version**
