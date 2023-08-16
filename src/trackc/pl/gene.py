@@ -97,6 +97,9 @@ def gene_track(ax: Optional[Axes] = None,
     
     bed12 = bed12.iloc[:,0:12]
     bed12.columns =['chrom','start','end','name',"score","strand","thickStart","thickEnd","itemRgb","blockCount","blockSizes","blockStarts"]
+    bed12['blockSizes'] = bed12['blockSizes'].str.rstrip(',')
+    bed12['blockStarts'] = bed12['blockStarts'].str.rstrip(',')
+    
     for ix, row in line_GenomeRegions.iterrows(): 
         if track_type == "gene":
              _plot_gene(axs[ix], bed12, row['chrom'], row['fetch_start'], row['fetch_end'], 

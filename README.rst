@@ -44,5 +44,4 @@ Citation
 ========
 If you use trackc in your analysis, Please cite trackc as follows:
 
-Zan Yuan, Guoliang Li, Yang Chen.
-**trackc: a package for flexible visualization of rearrangement 3D genome and multi-omics data**, Briefings In Bioinformatics, xxx
+**trackc: a package for flexible visualization of rearrangement 3D genome and multi-omics data**

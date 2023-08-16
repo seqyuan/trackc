@@ -19,10 +19,12 @@ def bw_track(bw,
              ax: Optional[Axes] = None,
              regions: Union[Sequence[str], str, None] = None, 
              binsize: Optional[int] = 50000,
+             style: Optional[str] = 'bar',
              summary_type: Union[str, None] = 'mean',
              minrange: Optional[float] = None,
              maxrange: Optional[float] = None,
              color: Union[Sequence[str], None] = '#827DBB',
+             alpha: Optional[float] = 1.0,
              invert_y: Optional[bool] = False,
              label: Optional[str] = None,
              label_rotation: Union[int, None] = 0,
@@ -45,6 +47,8 @@ def bw_track(bw,
             which means the reverse region
     binsize: `int`
         binsize divided to computing signal summary statistics
+    type: `str`
+        plot type, default='bar', options=['bar', 'line']
     summary_type: `str`
         Summary type (mean, min, max, coverage, std), default 'mean'.
     minrange: `float`
@@ -53,6 +57,8 @@ def bw_track(bw,
         the maximum range of values used to define the ylim
     color: `str`
         the signal bar color
+    alpha: `float`
+        alpha of plot color
     invert_y: `bool`
         whether reverse the y-axis
     label: `str`
@@ -105,8 +111,10 @@ def bw_track(bw,
         bins = int(row['len']/binsize)
         plot_list = bw.stats(row['chrom'], row['fetch_start'], row['fetch_end'], type=summary_type, nBins=bins)
         plot_list = [0 if v is None else v  for v in plot_list]
-
-        axs[i].bar(x=range(0, bins), height=plot_list, width=1, bottom=[0]*(bins),color=color[i],align="edge",edgecolor=color[i])    
+        if style=='line':
+            axs[i].plot(x=range(0, bins), y=plot_list, color=color[i], alpha=alpha)
+        else:
+            axs[i].bar(x=range(0, bins), height=plot_list, width=1, bottom=[0]*(bins),color=color[i],align="edge",edgecolor=color[i], alpha=alpha)    
         
         right, left = bins, 0
         if row['isReverse'] == True:
