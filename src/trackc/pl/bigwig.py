@@ -112,7 +112,7 @@ def bw_track(bw,
         plot_list = bw.stats(row['chrom'], row['fetch_start'], row['fetch_end'], type=summary_type, nBins=bins)
         plot_list = [0 if v is None else v  for v in plot_list]
         if style=='line':
-            axs[i].plot(x=range(0, bins), y=plot_list, color=color[i], alpha=alpha)
+            axs[i].plot(range(0, bins), plot_list, color=color[i], alpha=alpha)
         else:
             axs[i].bar(x=range(0, bins), height=plot_list, width=1, bottom=[0]*(bins),color=color[i],align="edge",edgecolor=color[i], alpha=alpha)    
         
