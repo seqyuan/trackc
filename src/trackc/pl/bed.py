@@ -8,6 +8,7 @@ from matplotlib import cm
 import pandas as pd
 import numpy as np
 from trackc.tl._getRegionsCmat import GenomeRegion
+from .links import _plot_loop_arc
 from .bigwig import _make_multi_region_ax
 
 def bed_track(ax: Optional[Axes] = None,
@@ -19,6 +20,7 @@ def bed_track(ax: Optional[Axes] = None,
               intervals: Union[int, None] = 1,
               #show_names: Union[bool, None] = False,
               alpha: Union[float, None] = 1,
+              invert_y: Optional[bool] = False,
               label: Union[str, None] = None,
               label_fontsize: Union[int, None] = 12,
               label_rotation: Union[int, None] = 0,
@@ -58,7 +60,7 @@ def bed_track(ax: Optional[Axes] = None,
         The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
             which means you want to get the reverse region
     track_style: `str`
-        bed blocks style,  opions in ['line', 'bar', 'triangle', 'rec']
+        bed blocks style,  opions in ['line', 'bar', 'link', 'tri', 'rec']
     color: `str` or `list`
         the color of line/triangle/rectangle, if color is color list, the block will set by regions
     cmap: `str` | `matplotlib.colors.Colormap`
@@ -67,7 +69,7 @@ def bed_track(ax: Optional[Axes] = None,
 
 
     intervals
-        ``int``: if track_style is one of [triangle, rec], the row number distribution for triangle/rectangle blocks
+        ``int``: if track_style is one of [tri, rec], the row number distribution for triangle or rectangle blocks
     """
     if isinstance(regions, list):
         line_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in regions])
@@ -97,7 +99,10 @@ def bed_track(ax: Optional[Axes] = None,
     ax.set_yticks([])
     ax.set_yticklabels('')  
 
-    score_label = None
+    if isinstance(bed, str)==True:
+        bed=pd.read_table(bed, sep="\t", header=None)
+
+    score_label = ''
     if bed.shape[1] == 3:
         bed.columns = ['chrom', 'start', 'end']
     if bed.shape[1] == 4:
@@ -143,27 +148,52 @@ def bed_track(ax: Optional[Axes] = None,
         bed2plot = bed[(bed['chrom']==row['chrom']) & (bed['end']>=row['fetch_start']) & (bed['start']<=row['fetch_end'])].copy()
         if bed2plot.shape[0] == 0:
             continue
+        
         if track_style == "line":
             _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='line', color=color[ix], alpha=alpha)    
+        
         if track_style == "bar":
             _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='bar', color=color[ix], alpha=alpha)
+        
         if track_style == "rec":
             _plot_bed_rec(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
                          needReverse=row['isReverse'], color=color[ix], cname=cmap[ix], 
                          alpha=alpha, min=ymin, max=ymax, score_label=score_label, intervals=intervals, score_label_size=score_label_size)
-        if track_style == "triangle":
+        
+        if track_style == "tri":
             _plot_bed_tri(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
                          needReverse=row['isReverse'], color=color[ix], cname=cmap[ix], 
                          alpha=alpha, min=ymin, max=ymax, score_label=score_label, score_label_size=score_label_size)
             
-            axs[ix].set_ylim(0, max_len/2)
-
+            if invert_y:
+                axs[ix].set_ylim(max_len/2, 0)
+            else:
+                axs[ix].set_ylim(0, max_len/2)
+        
+        if track_style == "link":
+            _plot_bed_link(ax=ax, bed=bed2plot, 
+                           start=row['fetch_start'],end=row['fetch_end'], 
+                           needReverse=row['isReverse'], invert_y=invert_y, 
+                           color=color[ix], cmap=cmap[ix], alpha=alpha)
 
     if track_style in ['line', 'bar']:
         for axi in axs:
-            axi.set_ylim(ymin, ymax)
-        ax.set_ylim(ymin, ymax)
-        ax.text(0, ymax, " [{0}, {1}]".format(tick_fl % ymin, tick_fl % ymax), va='top', fontsize=tick_fontsize)
+            if invert_y:
+                axi.set_ylim(ymax, ymin)
+            else:
+                axi.set_ylim(ymin, ymax)
+
+        if invert_y:
+            ax.set_ylim(ymax, ymin)
+        else:
+            ax.set_ylim(ymin, ymax)
+            
+        text_label_y_pos = ymax
+        if invert_y:
+            text_label_y_pos = ymin
+            ax.text(0, ymax, " [{1}, {0}]".format(tick_fl % ymin, tick_fl % ymax), va='bottom', fontsize=tick_fontsize)
+        else:
+            ax.text(0, text_label_y_pos, " [{0}, {1}]".format(tick_fl % ymin, tick_fl % ymax), va='top', fontsize=tick_fontsize)
 
 
 def _make_tri_data(start, end):
@@ -271,3 +301,32 @@ def _plot_bed_bar_l(ax, bed, start, end, needReverse, style='bar', color='tab:bl
     #ax.tick_params(bottom =True,top=False,left=False,right=False)
     #ax.set_xticklabels("")
     #ax.set_yticklabels("")
+
+def _plot_bed_link(ax, bed, start, end, needReverse=False, invert_y=False, color='tab:blue', cmap='RdBu', alpha=1):
+    bed = bed[bed.columns[[0,1,2]]]
+    bed.columns = ['chrom', 'start', 'end']
+    bed['length'] = bed['end'] - bed['start']
+    max_extend = 0
+    if bed.shape[0] >0:
+        if max_extend < max(bed['length']):
+            max_extend = max(bed['length'])
+
+    _plot_loop_arc(ax, bed, color, max_extend, invert_y, start, end, 'start', 'end')
+    
+    if needReverse == True:
+        ax.set_xlim(end, start)
+    else:
+        ax.set_xlim(start, end)
+    
+    spines = ['top', 'bottom', 'left', 'right']
+    if invert_y == True:
+        del spines[0]
+    else:
+        del spines[1]
+    for i in spines:
+        ax.spines[i].set_visible(False)
+
+    ax.set_xticks([])
+    ax.set_xticklabels('')
+    ax.set_yticks([])
+    ax.set_yticklabels('')

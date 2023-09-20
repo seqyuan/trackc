@@ -15,12 +15,23 @@ Cis contact map
 
     examples/mapc_eg
 
+cell
+===============
+
+.. nbgallery::
+    :caption: long range interactons
+    :name: rst-gallery2
+    :glob:
+    :reversed:
+
+    examples/long_range_interact
+
 Advanced Science
 =================
 
 .. nbgallery::
     :caption: Rearranged interactions
-    :name: rst-gallery2
+    :name: rst-gallery3
     :glob:
     :reversed:
 
@@ -31,7 +42,7 @@ AML 3DGenome
 
 .. nbgallery::
     :caption: Enhancer hijacking
-    :name: rst-gallery3
+    :name: rst-gallery4
     :glob:
     :reversed:
 
