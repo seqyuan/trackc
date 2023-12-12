@@ -9,4 +9,5 @@ Others
    :caption: :
 
    others/bigwig_subset
-   others/mcool_subset
+   others/extract_cool
+   others/bedGraph2bw

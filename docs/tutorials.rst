@@ -9,7 +9,7 @@ This section contains various quick tutorials showcasing omics data visualizatio
 
 .. code-block:: python
    import trackc as tc
-   ten = tc.tenon(width=8, height=1)
+   ten = tc.tenon(figsize=(8,1))
    ten.add(pos='bottom', height=3.6)
    ten.add(pos='bottom', height=1)
 
@@ -66,7 +66,7 @@ track and the adjacent tracks.
 from top-to-bottom or from left-to-right, which can be accounted for by height_ratios or width_ratios.
 
 
-Available Track Types
+Available Tracks
 ======================
 This section contains various quick tutorials showcasing omics data visualization with :mod:`trackc`.
 
@@ -84,3 +84,4 @@ This section contains various quick tutorials showcasing omics data visualizatio
    tutorials/bed
    tutorials/links
    tutorials/zoomin
+   tutorials/highlight_line
