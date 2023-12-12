@@ -56,7 +56,7 @@ def _plot_loop_arc(ax, loop_df, color, max_extend, invert_y, start, end, left_an
 
 def links_track(
         ax: Optional[Axes] = None,
-        data: pd.DataFrame = None, 
+        data: Union[pd.DataFrame, str, None]  = None,
         regions: Union[Sequence[str], str, None] = None,
         links_type: Union[str, None] = 'arc',
         color: Union[Sequence[str], None] = '#66AC84',
@@ -74,7 +74,7 @@ def links_track(
     Parameters
     ----------
     ax: :class:`matplotlib.axes.Axes` object
-    data: `pd.DataFrame`
+    data: `pd.DataFrame` or path of loops file, the file should be no header.
         the file format expected is like this:
         chr1 x1 x2 chr2 y1 y2
         the fields after the y2 will be ignored,
@@ -111,11 +111,12 @@ def links_track(
     >>> import trackc as tc
     >>> regions = ['chr7:153000000-151000000', 'chr11:118500000-116500000']
 
-    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1)
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> ten.add(pos='bottom', height=0.4, hspace=0.1)
 
+    >>> loops='/path/ENCFF041XLP.bedpe'
     >>> tc.pl.links_track(ax=ten.axs(0), data=loops, label='GM12878', regions=regions, 
                 color=['#66AC84', 'tab:purple'], maxrange=3000000, anchor='inside')
     >>> tc.pl.links_track(ax=ten.axs(1), data=loops, label='GM12878', regions=regions, 
@@ -138,6 +139,9 @@ def links_track(
         repeat_times = (line_GenomeRegions.shape[0] + len(color) - 1) // len(color)
         color = (color * repeat_times)[:line_GenomeRegions.shape[0]]
     
+    if isinstance(data, str)==True:
+        data=pd.read_table(data, comment='#', header=None)
+
     data = data.iloc[:,[0,1,2,3,4,5]]
     data.columns = ['chr1', 'x1', 'x2', 'chr2', 'y1', 'y2']
 

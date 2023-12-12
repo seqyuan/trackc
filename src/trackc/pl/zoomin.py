@@ -40,7 +40,7 @@ def zoomin(ax: Optional[Axes] = None,
     >>> zoom_regions = ['chr18:47400000-48280000', 'chr18:75280000-74030000']
     >>> neo_domain_regions = ['chr18:47950000-48280000', 'chr18:75280000-74850000']
 
-    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
 

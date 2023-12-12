@@ -57,7 +57,7 @@ def scale_track(ax: Optional[Axes] = None,
     >>> import trackc as tc
     >>> region = 'chr7:153000000-151000000'
     
-    >>> ten = tc.tenon(width=8, height=1.2)
+    >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=0.5)
     >>> ten.axs(0).axis('off')
 
@@ -97,13 +97,25 @@ def scale_track(ax: Optional[Axes] = None,
         xticks = ax.get_xticks()
         xtick_labels = xticks
 
+        last_label_ix = -1
+        if start>end:
+            last_label_ix = 0
+
         if scale_adjust == 'Mb':
+            if end%1000000 > 0:
+                last_label_ix=-2
+                if start>end:
+                    last_label_ix = 1
             xtick_labels = xtick_labels/1000000
             xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
             ax.set_xticks(xticks, xtick_labels, fontsize=tick_fontsize, rotation=tick_rotation)
             ax.spines['bottom'].set_position(('data', 0))
             #ax.text(end-(abs(end-start)*0.05), -1, 'Mb', fontsize=chrom_fontsize)
         elif scale_adjust == 'kb':
+            if  end%1000 > 0:
+                last_label_ix=-2
+                if start>end:
+                    last_label_ix = 1
             xtick_labels = xtick_labels/1000
             xtick_labels = ["{0}".format(tick_fl % i) for i in xtick_labels]
             ax.set_xticks(xticks, xtick_labels)
@@ -135,9 +147,13 @@ def scale_track(ax: Optional[Axes] = None,
 
         ax.text(chrom_x, chrom_y, raw_region, fontsize=label_fontsize, ha='left', va=va)
         labels = [label.get_text() for label in ax.get_xticklabels()]
-        labels[-1] += '({0})'.format(scale_adjust)
+        
+        if tick_rotation !=0:
+            labels[last_label_ix] = '{0}\n({1})'.format(labels[last_label_ix], scale_adjust)
+        else:
+            labels[last_label_ix] = labels[last_label_ix] + '({0})'.format(scale_adjust)
         ax.set_xticklabels(labels, fontsize=tick_fontsize, rotation=tick_rotation, va='center', ha=ha2)
-
+        ax.set_xlim([start, end])
         ax.tick_params(which='major', direction='in', pad=-16) 
         ax.set_yticks([])
         ax.set_yticklabels('')  
@@ -183,7 +199,7 @@ def multi_scale_track(ax: Optional[Axes] = None,
     -------
     >>> import trackc as tc
     >>> regions = ['7:153000000-151000000', '11:118500000-116500000']
-    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1)
     >>> tc.pl.multi_scale_track(ten.axs(0), regions=regions, scale_adjust='Mb', intervals=2)
     """

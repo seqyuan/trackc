@@ -321,9 +321,10 @@ def mapC(
         remove the extreme values by trimming the counts.[0,1]
         define the maxrange and minrange values using the percentile of the interaction matrix
     map_type: `str`
-        optional is ['square', 'triangle', 'rectangle'], default is square
-        triangle and rectangle default is flip the image 45 degrees to the left.
-        for rectangle type, the corresponding length of ``height`` will be truncated 
+        optional is ['square', 'squ', 'triangle', 'tri', 'rectangle', 'rec'], default is `square`
+        que is the same as square, tri is the same as triangle, rec is the same as rectangle.
+        `triangle` and `rectangle` default is flip the image 45 degrees to the left.
+        for `rectangle` type, the corresponding length of ``height`` will be truncated 
         from both ends of the input matrix.
     height: `int`
         if map_type is one of ['triangle', 'rectangle'], `height` indicates the longest interaction bin interval you want to show
@@ -344,12 +345,19 @@ def mapC(
     >>> BxPC3 = cooler.Cooler('./BxPC3.chr18.mcool::/resolutions/25000')
     >>> neo_domain_regions = ['18:47950000-48280000', '18:75280000-74850000']
     >>> tumor_zoom = tc.tl.extractContactRegions(clr=BxPC3, row_regions=neo_domain_regions)
-    >>> ten = tc.tenon(width=6, height=1)
+    >>> ten = tc.tenon(figsize=(6,1))
     >>> ten.add(pos='bottom', height=0.7, hspace=0.05)
-    >>> tc.pl.mapC(ax=ten.axs(0), mat=tumor_zoom.cmat, map_type='triangle',
+    >>> tc.pl.mapC(ax=ten.axs(0), mat=tumor_zoom.cmat, map_type='tri',
             maxrange=200, minrange=10, label='tumor res=25k', ax_on=False, height=40)
     >>> tc.savefig('trackc_mapc.pdf')
     """
+
+    if map_type=="squ":
+        map_type="square"
+    if map_type=="tri":
+        map_type="triangle"
+    if map_type=="rec":
+        map_type="rectangle"
 
     cmap = _paraPair(cmap)
     label = _paraPair(label)

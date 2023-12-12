@@ -108,7 +108,7 @@ class tenon:
     Example
     -------
     >>> import trackc as tc
-    >>> ten = trackc.tenon(width=5, height=1)
+    >>> ten = trackc.tenon(figsize=(6,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> ten.add(pos='top', height=1, hspace=0.1)
     >>> ten.axs(0).plot([1,2,3])
@@ -119,8 +119,8 @@ class tenon:
     mortises = []
     fig = None
     ax = None
-    def __init__(self, width=7, height=1 ):
-        fig, ax = plt.subplots(1, 1, figsize=(width, height) )
+    def __init__(self, figsize=(7,1)):
+        fig, ax = plt.subplots(1, 1, figsize=figsize)
         ax.set_axis_off()
         self.fig = fig
         self.ax = ax

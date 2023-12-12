@@ -44,7 +44,7 @@ square	0	False	False	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5
 square	0	True	False	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5
 square	0	False	True	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5
 square	0	True	True	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5
-square	1	False	False	True	-0.5    mat_w_0.5m	mat_h_0.5m	-0.5
+square	1	False	False	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5
 square	1	True	False	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5
 square	1	False	True	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5
 square	1	True	True	True	-0.5	mat_w_0.5m	mat_h_0.5m	-0.5

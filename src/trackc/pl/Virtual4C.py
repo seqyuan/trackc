@@ -127,7 +127,7 @@ def virtual4C(ax: Optional[Axes] = None,
     >>> import trackc as tc
     >>> regions = ['chr8:127000000-129200000', 'chr14:96500000-99300000']
     >>> MYC_TSS = 'chr8:127735434-127735435'
-    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> AML_1360 = cooler.Cooler('./GSM4604287_1360.iced.mcool::/resolutions/10000')
     >>> tc.pl.virtual4C(ax=ten.axs(0), clr=AML_1360, target=MYC_TSS, contact_regions=regions, 

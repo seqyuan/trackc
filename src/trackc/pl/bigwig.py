@@ -80,7 +80,7 @@ def bw_track(bw,
     >>> import pyBigWig
     >>> H3K27ac = pyBigWig.open('./GSM4604189.bigwig')
     
-    >>> ten = tc.tenon(width=8, height=1)
+    >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> ten.add(pos='bottom', height=1, hspace=0.2)
 

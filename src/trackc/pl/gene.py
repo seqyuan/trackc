@@ -67,7 +67,7 @@ def gene_track(ax: Optional[Axes] = None,
     >>> regions = ['chr18:47950000-48280000', 'chr18:75280000-74850000']
     >>> gene_bed12 = '/path/GRCh38.84.bed12'
 
-    >>> fig, axs = tc.make_spec(width=7, height=2, height_ratios=[1])
+    >>> fig, axs = tc.make_spec(figsize=(7,2), height_ratios=[1])
     >>> tc.pl.gene_track(gene_bed12, ax=axs[0], regions=regions, line=12)
     >>> tc.savefig('trackc_gene_track.pdf')
     """

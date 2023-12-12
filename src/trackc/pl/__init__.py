@@ -5,6 +5,7 @@ from trackc.pl.links import links_track
 from trackc.pl.Virtual4C import virtual4C
 from trackc.pl.mapc_markline import mapc_markline
 from trackc.pl.gene import gene_track
+from trackc.pl.vhighlight import vhighlight
 from trackc.pl.mapc import (
     mapC,
     getData2Map
@@ -37,4 +38,5 @@ Generic
    pl.bw_compartment
    pl.bed_track
    pl.multi_scale_track
+   pl.vhighlight
 """

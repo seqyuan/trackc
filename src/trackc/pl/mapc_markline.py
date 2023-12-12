@@ -182,7 +182,7 @@ def mapc_markline(ax: Optional[Axes] = None,
                   mark_regions: Union[Sequence[str], str, None] = None,
                   binsize: Union[int, None] = 10000,
                   map_order: int = 0,
-                  map_type: Union[str, None] = 'square',
+                  map_type: Union[str, None] = 'squ',
                   symmetric: bool = False,
                   trans_ax: bool = False,
                   only_cis: bool = False,
@@ -214,6 +214,8 @@ def mapc_markline(ax: Optional[Axes] = None,
         If you use "mapc" to generate a heatmap in the bottom-left quadrant, then for "map_order" here, you should also set it to 0.
     map_type: `str`
         same as the `trackc.mapc` map_type parameter.
+        optional is ['square', 'squ', 'triangle', 'tri', 'rectangle', 'rec'], default is `square`
+        que is the same as square, tri is the same as triangle, rec is the same as rectangle.
     symmetric: `bool`
         same as the `trackc.mapc` symmetric parameter.
     trans_ax: `bool`
@@ -236,6 +238,14 @@ def mapc_markline(ax: Optional[Axes] = None,
                 ax = child
                 break
         
+
+    if map_type=="squ":
+        map_type="square"
+    if map_type=="tri":
+        map_type="triangle"
+    if map_type=="rec":
+        map_type="rectangle"
+
     if mark_regions != None:
         _mark_contact_regions(row_regions, mark_regions, binsize, ax, map_type, map_order, symmetric, linestyle, linecolor, linewidth, only_cis)
 

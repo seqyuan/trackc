@@ -12,7 +12,7 @@ TrackC's key applications
 
 Getting started with trackc
 ----------------------------
-- Browse :doc:`quick start </quick_start>`, :doc:`available tracks types </available_track_types>` and :doc:`gallery </gallery>`.
+- Browse :doc:`tutorials </tutorials>`, :doc:`available tracks types </available_track_types>` and :doc:`gallery </gallery>`.
 
 
 Contributing to trackc
@@ -27,6 +27,7 @@ We are happy about any contributions! Welcome to talk at github issue.
    tutorials
    gallery
    api
+   others
    developer/index
    
 
