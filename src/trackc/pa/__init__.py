@@ -7,7 +7,7 @@ from trackc.pa.cmaps import (
 )
 
 from trackc.pa.palettes import (
-    #trackcl_9,
+    trackcl_9,
     vega_10_trackc,
     trackcl_11,
     default_20,
