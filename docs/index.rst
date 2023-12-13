@@ -27,8 +27,8 @@ We are happy about any contributions! Welcome to talk at github issue.
    tutorials
    gallery
    api
-   others
    developer/index
+   others
    
 
 .. _github: https://github.com/seqyuan/trackc

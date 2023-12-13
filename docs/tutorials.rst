@@ -1,6 +1,6 @@
-##########
-Tutorials
-##########
+#################
+Available Tracks
+#################
 
 
 Quick start
