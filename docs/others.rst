@@ -8,6 +8,6 @@ Others
    :maxdepth: 2
    :caption: :
 
-   others/bigwig_subset
+   others/subset_bigwig
    others/extract_cool
    others/bedGraph2bw
