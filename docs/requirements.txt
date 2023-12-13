@@ -30,6 +30,7 @@ google-api-python-client>=2.34.0
 #insipid_sphinx_theme
 pydata_sphinx_theme
 sphinx_copybutton
+bioframe
 #jupyterlite_sphinx
 #typing
 #weakref
