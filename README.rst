@@ -31,7 +31,21 @@ Available track types
 
 Here is an example of du_dynamic_2022 article diagram implemented by trackc.
 
+Installation
+============
+**PyPI**
 
+Install trackc by running:
+
+.. code-block:: bash
+
+    pip install trackc
+
+**Development version**
+
+To install trackc from GitHub, run::
+
+    pip install git+https://github.com/seqyuan/trackc@main
 
 Documentation
 =============

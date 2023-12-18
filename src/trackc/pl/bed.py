@@ -54,6 +54,9 @@ def bed_track(ax: Optional[Axes] = None,
             if track_type/style is one of bar/line
         column6: strand 
             Defines the strand. Either "." (=no strand) or "+" or "-".
+
+        if the input data have 4 columns, then default input is bedGraph format: [chrom start end score]
+
     regions: `str` | `str list`
         The genome regions to plot
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000"]``
@@ -106,7 +109,9 @@ def bed_track(ax: Optional[Axes] = None,
     if bed.shape[1] == 3:
         bed.columns = ['chrom', 'start', 'end']
     if bed.shape[1] == 4:
-        bed.columns = ['chrom', 'start', 'end', 'name']
+        bed.columns = ['chrom', 'start', 'end', 'score']
+        if bed['score'].dtypes=='int64':
+            print('Input data is bedGraph format')
     if bed.shape[1] == 5:
         score_label = bed.columns[4]
         bed.columns = ['chrom', 'start', 'end', 'name', 'score']
