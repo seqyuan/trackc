@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "trackc"
+version = "0.0.13"
+description = "Track view of chromosome conformation and multi-omics data"
+authors = ["Zan Yuan <yfinddream@gmail.com>", "Minghong Li <lmh0066@outlook.com>"]
+license = "MIT"
+readme = "README.rst"
+homepage = "http://trackc.readthedocs.io"
+repository = "https://github.com/seqyuan/trackc"
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+matplotlib = "^3.8.2"
+pandas = "^2.1.4"
+numpy = "^1.26.2"
+seaborn = "^0.13.0"
+bioframe = "^0.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
