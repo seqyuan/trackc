@@ -1,0 +1,11 @@
+name: trackc-env
+
+dependencies:
+  - python=3.8.5
+  - matplotlib=3.6.*
+  - numpy=1.23.*
+  - pandas=1.5.*
+  - seaborn
+  - pip:
+    - cooler
+    - bioframe
