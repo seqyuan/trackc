@@ -47,9 +47,9 @@ def bw_track(
     tick_fl: Optional[str] = "%0.2f",
     ax_on: bool = False,
 ):
-    """\
+    """
     Plot bigwig signal track, support for multiple or reverse genome regions.
-    
+
     Parameters
     ----------
     bw: `pyBigWig.open` query object, or bigwig file path
@@ -57,8 +57,8 @@ def bw_track(
     regions: `str` | `str list`
         The genome regions to show the signal.
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
-            which means the reverse region
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``),
+        which means the reverse region
     binsize: `int`
         binsize divided to computing signal summary statistics
     type: `str`
@@ -83,7 +83,7 @@ def bw_track(
         the label text fontsize
     tick_fontsize: `int`
         values range ticks text fontsize
-    tick_fl: `str`  
+    tick_fl: `str`
         values range ticks retains a few decimal places
     ax_on: `bool`
         whether show the spines
@@ -93,7 +93,7 @@ def bw_track(
     >>> import trackc as tc
     >>> import pyBigWig
     >>> H3K27ac = pyBigWig.open('./GSM4604189.bigwig')
-    
+
     >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> ten.add(pos='bottom', height=1, hspace=0.2)

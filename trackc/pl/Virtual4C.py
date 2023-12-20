@@ -96,7 +96,7 @@ def virtual4C(
     label_rotation: Union[int, None] = 0,
     label_fontsize: Optional[int] = 12,
 ):
-    """\
+    """
     Plot virtual4C track, support for multiple or reverse genome regions.
 
     Parameters
@@ -113,8 +113,8 @@ def virtual4C(
     regions: `str` | `str list`
         The genome regions, which contact to the viewpoint
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
-            which means you want to get the reverse region contacts
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``),
+        which means you want to get the reverse region contacts
     track_type: `str`
         virtual4C types, you can choose one of ['line', 'bar', 'heatmap']
     color: `str`
@@ -148,7 +148,6 @@ def virtual4C(
     >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> AML_1360 = cooler.Cooler('./GSM4604287_1360.iced.mcool::/resolutions/10000')
-    >>> #AML_1360 = './GSM4604287_1360.iced.mcool::/resolutions/10000'
     >>> tc.pl.virtual4C(ax=ten.axs(0), clr=AML_1360, target=MYC_TSS, regions=regions, 
                 track_type='line', label='Virtual 4C', target_color='r')
     >>> tc.savefig('trackc_virtual4c.pdf')

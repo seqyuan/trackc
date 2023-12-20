@@ -26,10 +26,10 @@ We are happy about any contributions! Welcome to talk at github issue.
    install
    tutorials
    gallery
-   api
+   api/index
    cli
    developer/index
-   others
+   others/index
    
 
 .. _github: https://github.com/seqyuan/trackc

@@ -127,7 +127,7 @@ def _mapC_triview(
     symmetric: bool = False,
     k=1,
 ):
-    """\
+    """
     Draw triangle view of the C data
 
     Parameters
@@ -331,19 +331,19 @@ def mapC(
     ax_on: bool = True,
     aspect: Union[str, float] = "auto",
 ):
-    """\
+    """
     Plot contact map, support for multiple or reverse genome regions.
     This function implements the plot method for `np.ndarray`,
     which could get from trackc.tl.extractCisContact or trackc.tl.extractContactRegions
     By default, the trim_range value is fixed so that the 98th percentile (resp. 2th percentile) of each
-    interaction matrix is discarded. It therefore allow to remove the extreme values from the matrix,  
+    interaction matrix is discarded. It therefore allow to remove the extreme values from the matrix,
     mat or mat2 is plotted independently
     If the maxrange parameter is set, data higher that this threshold will be fixed to the maxrange value.
-    
-    cmap, label, label_fontsize, label_color, logdata, minrange, maxrange, trim_range, those parameters can be set as a list, 
+
+    cmap, label, label_fontsize, label_color, logdata, minrange, maxrange, trim_range, those parameters can be set as a list,
     mat and mat2 will set to the first two values. If those parameters are one single value or the length of list is one,
     then mat and mat2 both set the same value
-   
+
     Parameters
     ----------
     ax: :class:`matplotlib.axes.Axes` object
@@ -363,16 +363,16 @@ def mapC(
         do you want to log the data before plotting the heatmap
     minrange: `float` | `float list`
         the minimum range of values used to define the color palette
-    maxrange: `float` | `float list` 
+    maxrange: `float` | `float list`
         the maximum range of values used to define the color palette
-    trim_range: `float` | `float list` 
+    trim_range: `float` | `float list`
         remove the extreme values by trimming the counts.[0,1]
         define the maxrange and minrange values using the percentile of the interaction matrix
     map_type: `str`
         optional is ['square', 'squ', 'triangle', 'tri', 'rectangle', 'rec'], default is `square`
         que is the same as square, tri is the same as triangle, rec is the same as rectangle.
         `triangle` and `rectangle` default is flip the image 45 degrees to the left.
-        for `rectangle` type, the corresponding length of ``height`` will be truncated 
+        for `rectangle` type, the corresponding length of ``height`` will be truncated
         from both ends of the input matrix.
     height: `int`
         if map_type is one of ['triangle', 'rectangle'], `height` indicates the longest interaction bin interval you want to show
@@ -385,7 +385,7 @@ def mapC(
     aspect: `str` | `float`
         optional is 'auto' or 1
         length-width ratio of heatmap
-    
+
     Example
     -------
     >>> import trackc as tc

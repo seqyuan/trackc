@@ -35,46 +35,53 @@ def bed_track(
     tick_fl: Optional[str] = "%0.2f",
     score_label_size: Union[int, None] = 7,
 ):
-    """\
+    """
     Plot bed track, support for multiple or reverse genome regions.
+<<<<<<< HEAD
     support bed3 and bed5, the fields after the column5 will be ignored, 
         should be sorted py chromStart if ``style`` is `line`
+=======
+    support bed3 and bed5, the fields after the column5 will be ignored,
+    should be sorted py chromStart if ``track_style`` is `line`
+>>>>>>> d13226f (doc modify(1/3))
 
     Parameters
     ----------
     ax: :class:`matplotlib.axes.Axes` object
     bed: `pd.DataFrame` | `str`
-        If ``bed`` if a filepath, the file should have no headers
-        Here is bed formats:
-        column1: chrom
-            The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671).
-        column2: chromStart
-            The starting position of the feature in the chromosome or scaffold. The first base in a chromosome is numbered 0.
-        column3: chromEnd
-            The ending position of the feature in the chromosome or scaffold.
-        column4: name
-            Defines the name of the BED line. Either "." (=no name), or other string
-        column5: score
-            Defines the name of the BED line. if nessasary, can be set as ``.``,
-            if track_type/style is one of bar/line
-        column6: strand 
-            Defines the strand. Either "." (=no strand) or "+" or "-".
+        If ``bed`` if a filepath, the file should have no headers.
 
-        if the input data have 4 columns, then default input is bedGraph format: [chrom start end score]
+        Here is bed formats:
+            column1: chrom
+                The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671).
+            column2: chromStart
+                The starting position of the feature in the chromosome or scaffold. The first base in a chromosome is numbered 0.
+            column3: chromEnd
+                The ending position of the feature in the chromosome or scaffold.
+            column4: name
+                Defines the name of the BED line. Either "." (=no name), or other string
+            column5: score
+                Defines the name of the BED line. if nessasary, can be set as ``.``,
+                if track_type/style is one of bar/line
+            column6: strand
+                Defines the strand. Either "." (=no strand) or "+" or "-".
+
+            if the input data have 4 columns, then default input is bedGraph format: [chrom start end score]
 
     regions: `str` | `str list`
-        The genome regions to plot
+        The genome regions to plot.
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
-            which means you want to get the reverse region
+
+        The start can be larger than the end (e.g. ``"chr6:2000000-1000000"``),
+        which means you want to get the reverse region
     style: `str`
-        bed blocks style,  opions in ["line", "bar", "link", "tri", "rec"]
+        bed blocks style,  opions in ['line', 'bar', 'link', 'tri', 'rec']
     color: `str` or `list`
         the color of line/tri/rec, if color is color list, the block will set by regions
     cmap: `str` | `matplotlib.colors.Colormap`
         the colormap of the plot except style:line
-    intervals
-        ``int``: if style is one of [tri, rec], the row number distribution for triangle or rectangle blocks
+    intervals: `int`
+        if style is one of [tri, rec], the row number distribution for triangle or rectangle blocks
     """
 
     if isinstance(regions, list):

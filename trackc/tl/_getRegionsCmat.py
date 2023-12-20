@@ -84,29 +84,31 @@ def extractContactRegions(
     row_regions: Union[Sequence[str], str, None] = None,
     col_regions: Union[Sequence[str], str, None] = None,
 ) -> RegionsCmat:
-    """\
+    """
     Extract a set of regions matrix from the cool format Hi-C matrix.
 
-    The extracted matrix will splice intra and inter region interaction according to 
-        the given order and direction of the regions.
+    The extracted matrix will splice intra and inter region interaction according to
+    the given order and direction of the regions.
 
     Parameters
     ----------
     clr: `cooler.Cooler` | `str`
         cool format Hi-C matrix (https://github.com/open2c/cooler) or cool file path
+
         `cooler.Cooler` e.g. GM12878=cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
+
         `str` e.g. 'GM12878.chr18.mcool::/resolutions/50000' or 'GM12878.chr18.cool'
 
     balance: `bool`
         The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
-    row_regions: `str` | `str list` | None. 
-        The subset matrix row genome regions
+    row_regions: `str` | `str list` | None.
+        The subset matrix row genome regions.
         e.g. ``"chr6:1000000-2000000"``, e.g. ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-        The start can be larger than the end (e.g. ``"chr6:2000000-1000000"``), 
-            which means you want to get the reverse region contact matrix
-    col_regions: `str` | `str list` | None. 
+        The start can be larger than the end (e.g. ``"chr6:2000000-1000000"``),
+        which means you want to get the reverse region contact matrix
+    col_regions: `str` | `str list` | None.
         The subset matrix col genome regions, default is ``None``, which means the sample region as ``row_regions``
-        
+
     Returns:
     --------
         :class:`~trackc.tl.RegionsCmat`
@@ -116,6 +118,7 @@ def extractContactRegions(
     -------
     >>> import trackc as tc
     >>> import cooler
+
     >>> mat1 = tc.tl.extractContactRegions(clr='GM12878.chr18.mcool::/resolutions/50000', row_regions="18:45000000-78077248")
     >>> GM12878 = cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
     >>> mat2 = tc.tl.extractContactRegions(clr=GM12878, row_regions=["18:61140000-63630000", "18:74030000-77560000"], col_regions="18:47340000-50370000")
@@ -226,14 +229,16 @@ def extractCisContact(
     balance: bool = False,
     # divisive_weights = None,
 ) -> np.array:
-    """\
+    """
     Extract cis contact matrix from the cool or mcool format Hi-C matrix.
 
     Parameters
     ----------
     clr: `cooler.Cooler` | `str`
         cool format Hi-C matrix (https://github.com/open2c/cooler) or cool file path
+
         `cooler.Cooler` e.g. GM12878=cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
+
         `str` e.g. 'GM12878.chr18.mcool::/resolutions/50000' or 'GM12878.chr18.cool'
     region: `str`
         The subset matrix row genome regions

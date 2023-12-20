@@ -16,7 +16,7 @@ def zoomin(
     line_on: bool = False,
     fill: bool = True,
 ):
-    """\
+    """
     Plot zoomin track, support for multiple or reverse genome regions.
 
     Parameters
@@ -25,10 +25,10 @@ def zoomin(
     raw_regions: `str` | `str list`
         The raw genome regions, some of these regions will be selected to zoom in.
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
-            which means the reverse region
+
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), which means the reverse region
     zoomin_regions: `str` | `str list`
-        regions to be zoomin, The format is the same as `raw_regions`
+        regions to be zoomin, The format is the same as `raw_regions`.
         the regions of `zoomin_regions` should be located in the `raw_regions`
     colors: `str list`
         the colors of the zoomin_regions

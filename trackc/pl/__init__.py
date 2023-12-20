@@ -9,33 +9,3 @@ from trackc.pl.vhighlight import vhighlight
 from trackc.pl.Virtual4C import virtual4C
 from trackc.pl.zoomin import zoomin
 from trackc.pl.bedgraph_matrix import bdgmat_track
-
-__doc__ = """\
-Plotting API
-============
-
-.. currentmodule:: trackc
-
-.. note::
-   See the :ref:`API` section for all important plotting configurations.
-
-.. _pl-generic: 
-
-Generic
--------
-
-.. autosummary::
-   :toctree: .
-   pl.getData2Map
-   pl.mapC
-   pl.gene_track
-   pl.mapc_markline
-   pl.virtual4C
-   pl.links_track
-   pl.bw_track
-   pl.bw_compartment
-   pl.bed_track
-   pl.multi_scale_track
-   pl.vhighlight
-   pl.bdgmat_track
-"""

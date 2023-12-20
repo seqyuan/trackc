@@ -31,7 +31,7 @@ def scale_track(
     tick_rotation: Union[int, None] = 0,
     space: float = 0.1,
 ):
-    """\
+    """
     Plot one region scale bar track
 
     Parameters
@@ -48,8 +48,8 @@ def scale_track(
     label_fontsize: `int`
         the region text fontsize
     scale_adjust: `str`
-        adjust the scale unit to make it pretty, can be one of ['kb', 'Mb']   
-    tick_fl: `str`  
+        adjust the scale unit to make it pretty, can be one of ['kb', 'Mb']
+    tick_fl: `str`
         ticks retains a few decimal places
     tick_fontsize: `int`
         ticks text fontsize
@@ -57,12 +57,12 @@ def scale_track(
         ticks text rotation
     space: `float`
         space relative to the ax
-    
+
     Example
     -------
     >>> import trackc as tc
     >>> region = 'chr7:153000000-151000000'
-    
+
     >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=0.5)
     >>> ten.axs(0).axis('off')
@@ -182,7 +182,7 @@ def multi_scale_track(
     tick_fontsize: Union[int, None] = 8,
     tick_rotation: Union[int, None] = 0,
 ):
-    """\
+    """
     Plot region scale bar, support for multiple or reverse genome regions.
 
     Parameters
@@ -190,8 +190,8 @@ def multi_scale_track(
     ax: :class:`matplotlib.axes.Axes` object
     regions: `str list` | `str`
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
-            which means you want to get the reverse region
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``),
+        which means you want to get the reverse region
     colors: `str list`
         scale bar colors
     alpha: `float`
@@ -200,7 +200,7 @@ def multi_scale_track(
         rows of the scale bar by region
     scale_adjust: `str`
         options in ['kb', 'Mb']
-    tick_fl: `str`  
+    tick_fl: `str`
         ticks retains a few decimal places
     tick_fontsize: `int`
         ticks text fontsize

@@ -52,7 +52,6 @@ extensions = [
     "sphinx.ext.graphviz",
     "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting",
-    "sphinxcontrib.bibtex",
     "sphinx.ext.autosummary",
     "sphinx_copybutton",
 ]
@@ -139,19 +138,6 @@ pygments_style = "sphinx"
 highlight_language = "python3"
 
 
-# bibliography
-bibtex_bibfiles = ["references.bib"]
-bibtex_reference_style = "author_year"
-bibtex_default_style = "alpha"
-
-"""
-nbsphinx_thumbnails = {
-    'thumbnail_size': '400x300',
-    'examples/rearranged_interactions': 'examples/neotad.png',
-}
-"""
-
-
 def setup(app):
     """Sphinx setup function."""
     app.add_css_file("theme_override.css")
@@ -202,7 +188,7 @@ html_theme_options = {
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "images/trackc-low-resolution-logo-color-on-transparent-background.png"
+html_logo = "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32

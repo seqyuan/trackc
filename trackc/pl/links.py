@@ -75,9 +75,9 @@ def links_track(
     label_fontsize: Optional[int] = 12,
     ax_on: bool = False,
 ):
-    """\
+    """
     Plot loop arc, support for multiple or reverse genome regions.
-    
+
     Parameters
     ----------
     ax: :class:`matplotlib.axes.Axes` object
@@ -89,15 +89,15 @@ def links_track(
     regions: `str` | `str list`
         The genome regions to show the arc.
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
-            which means the reverse region
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``),
+        which means the reverse region
     links_type: `str`
         Optional is ['arc']
     color: `str` or `str list`
         the color of the arc links, if multiple regions, color para can  set as list
     maxrange: `int`
         The maximum distance between two anchor of loop, to filter loops
-        if value is None, all loop will bed plotted 
+        if value is None, all loop will bed plotted
     invert_y: `bool`
         whether reverse the y-axis
     anchor: `str`
@@ -112,7 +112,7 @@ def links_track(
         the label text fontsize
     ax_on: `bool`
         whether show the spines
-        
+
     Example
     -------
     >>> import trackc as tc
@@ -124,9 +124,9 @@ def links_track(
     >>> ten.add(pos='bottom', height=0.4, hspace=0.1)
 
     >>> loops='/path/ENCFF041XLP.bedpe'
-    >>> tc.pl.links_track(ax=ten.axs(0), data=loops, label='GM12878', regions=regions, 
+    >>> tc.pl.links_track(ax=ten.axs(0), data=loops, label='GM12878', regions=regions,
                 color=['#66AC84', 'tab:purple'], maxrange=3000000, anchor='inside')
-    >>> tc.pl.links_track(ax=ten.axs(1), data=loops, label='GM12878', regions=regions, 
+    >>> tc.pl.links_track(ax=ten.axs(1), data=loops, label='GM12878', regions=regions,
                 color='tab:purple', invert_y=True, anchor='outside', ax_on=True)
     >>> tc.pl.multi_scale_track(ten.axs(2), regions=regions, scale_adjust='Mb', intervals=1, tick_rotation=0, tick_fontsize=10, colors=['#66AC84', 'tab:purple'])
     >>> tc.savefig('trackc_links_track.pdf')

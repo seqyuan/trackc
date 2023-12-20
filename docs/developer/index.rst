@@ -13,6 +13,7 @@ Developer
 
    about_us
    history
+.. 
    dev_plan
    pub_ref
    release

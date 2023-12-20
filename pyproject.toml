@@ -15,6 +15,7 @@ pandas = "^2.1.4"
 numpy = "^1.26.2"
 seaborn = "^0.13.0"
 bioframe = "^0.5.1"
+cooler = "^0.9.3"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
@@ -24,6 +25,16 @@ isort = "^5.13.2"
 flake8-isort = "^6.1.1"
 pytest-cov = "^4.1.0"
 poethepoet = "^0.24.4"
+
+[tool.poetry.group.docs.dependencies]
+livereload = "^2.6.3"
+sphinx = "^7.2.6"
+sphinx-gallery = "^0.15.0"
+nbsphinx = "^0.9.3"
+ipython = "^8.18.1"
+sphinxcontrib-bibtex = "^2.6.1"
+sphinx-copybutton = "^0.5.2"
+pydata-sphinx-theme = "^0.14.4"
 
 [tool.black]
 include = '\.pyi?$'
@@ -50,6 +61,9 @@ ensure_newline_before_comments = true
 line_length = 88
 
 [tool.poe.tasks]
+
+    _clean_docs.script = "shutil:rmtree('docs/_build', ignore_errors=1)"
+
 	[tool.poe.tasks.format]
     help     = "Run all formating tools on the code base"
     sequence = ["format-black", "format-isort"]
@@ -65,6 +79,17 @@ line_length = 88
 	[tool.poe.tasks.test]
     help = "Run unit and feature tests"
     cmd  = "pytest --cov=samar"
+
+    [tool.poe.tasks.docs]
+    help = "Build the docs using Sphinx"
+    cmd  = "sphinx-build docs docs/_build"
+    deps = ["_clean_docs"]
+
+    [tool.poe.tasks.docs-serve]
+    help   = "Serves the docs locally with livereload"
+    script = "docs:serve"
+    cwd    = "./docs"
+    deps   = ["docs"]
 
 [build-system]
 requires = ["poetry-core"]

@@ -23,7 +23,7 @@ def gene_track(
     label_fontsize: Optional[int] = 12,
     ax_on: bool = False,
 ):
-    """\
+    """
     Plot gene track, support for multiple or reverse genome regions.
 
     Parameters

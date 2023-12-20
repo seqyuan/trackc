@@ -8,7 +8,9 @@ Quick start
 This section contains various quick tutorials showcasing omics data visualization with :mod:`trackc`.
 
 .. code-block:: python
+
    import trackc as tc
+
    ten = tc.tenon(figsize=(8,1))
    ten.add(pos='bottom', height=3.6)
    ten.add(pos='bottom', height=1)
@@ -22,9 +24,10 @@ This section contains various quick tutorials showcasing omics data visualizatio
    tc.pl.multi_scale_track(ax=ten.axs(1), regions=['chr6:0-{0}'.format(chr6_len), 'chr8:0-{0}'.format(chr8_len)], 
                            scale_adjust='Mb', intervals=2, tick_rotation=0)
    # tc.savefig('hicmap.pdf')
-.. image-sg:: /images/tutorials/quick_start.png
+
+.. image-sg:: /_static/tutorials/quick_start.png
    :alt: Neighborhood enrichment
-   :srcset: /images/tutorials/quick_start.png
+   :srcset: /_static/tutorials/quick_start.png
    :class: sphx-glr-single-img
 
 

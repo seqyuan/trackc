@@ -8,8 +8,12 @@ poetry install
 ```
 ## pre commit
 ```
+# Format python code
 poe format
+# Run test code
 poe test
+# Local running document
+poe docs-serve
 ```
 ## release and pubish
 ```

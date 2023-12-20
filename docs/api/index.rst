@@ -12,7 +12,6 @@ Tool
 .. currentmodule:: trackc
 
 .. autosummary::
-   :toctree: api
 
    tl.GenomeRegion
    tl.RegionsCmat
@@ -23,7 +22,6 @@ GrigSpec
 ~~~~~~~~~
 
 .. autosummary::
-   :toctree: api
 
    tc.make_spec
    tc.tenon
@@ -35,7 +33,6 @@ Plotting
 .. currentmodule:: trackc
 
 .. autosummary::
-   :toctree: api
 
    pl.scale_track
    pl.multi_scale_track
@@ -52,13 +49,12 @@ Plotting
 
 
 Palettes
-~~~~~~~
+~~~~~~~~~
 
 .. module:: trackc.pa
 .. currentmodule:: trackc
 
 .. autosummary::
-   :toctree: api
 
    pa.fruitpunch
    pa.fruitpunch2

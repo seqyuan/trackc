@@ -1,37 +1,10 @@
-"""Utility functions and classes
-"""
-import inspect
-import sys
-import warnings
+"""Utility functions and classes"""
 from functools import partial, wraps
 from types import MethodType, ModuleType
 from typing import Any, Callable, Dict, Mapping, Optional, Tuple, Union
 from weakref import WeakSet
 
 import pandas as pd
-
-
-def _getdoc(c_or_f: Union[Callable, type]) -> Optional[str]:
-    if getattr(c_or_f, "__doc__", None) is None:
-        return None
-    doc = inspect.getdoc(c_or_f)
-    if isinstance(c_or_f, type) and hasattr(c_or_f, "__init__"):
-        sig = inspect.signature(c_or_f.__init__)
-    else:
-        sig = inspect.signature(c_or_f)
-
-    def type_doc(name: str):
-        param: inspect.Parameter = sig.parameters[name]
-        cls = getattr(param.annotation, "__qualname__", repr(param.annotation))
-        if param.default is not param.empty:
-            return f"{cls}, optional (default: {param.default!r})"
-        else:
-            return cls
-
-    return "\n".join(
-        f"{line} : {type_doc(line)}" if line.strip() in sig.parameters else line
-        for line in doc.split("\n")
-    )
 
 
 def _one_of_ours(obj, root: str):
@@ -59,8 +32,3 @@ def _descend_classes_and_funcs(mod: ModuleType, root: str, encountered=None):
         elif isinstance(obj, ModuleType) and obj not in encountered:
             encountered.add(obj)
             yield from _descend_classes_and_funcs(obj, root, encountered)
-
-
-def annotate_doc_types(mod: ModuleType, root: str):
-    for c_or_f in _descend_classes_and_funcs(mod, root):
-        c_or_f.getdoc = partial(_getdoc, c_or_f)

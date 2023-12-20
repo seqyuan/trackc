@@ -20,7 +20,7 @@ def make_spec(
 
     Parameters
     ----------
-    figsize : 2-tuple of floats, default: :rc:`figure.figsize`
+    figsize : 2-tuple of floats, default: `figure.figsize`
             Figure dimension ``(width, height)`` in inches.
             ``Whole Figure Size``
     width_ratios : `array-like`
