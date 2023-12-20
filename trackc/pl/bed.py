@@ -9,10 +9,9 @@ from matplotlib.collections import PatchCollection
 from matplotlib.colors import Colormap
 from matplotlib.patches import Polygon
 
+from trackc.pl.bigwig import _make_multi_region_ax
+from trackc.pl.links import _plot_loop_arc
 from trackc.tl._getRegionsCmat import GenomeRegion
-
-from .bigwig import _make_multi_region_ax
-from .links import _plot_loop_arc
 
 
 def bed_track(
@@ -329,7 +328,9 @@ def _plot_bed_tri(
     # print(colors[1])
 
     for i, row in bed.iterrows():
-        polygon = Polygon(_make_tri_data(row["start"], row["end"]), True, color=colors)
+        polygon = Polygon(
+            _make_tri_data(row["start"], row["end"]), closed=True, color=colors
+        )
         patches.append(polygon)
 
     p = PatchCollection(patches, alpha=alpha, match_original=True)

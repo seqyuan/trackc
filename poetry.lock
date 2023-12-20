@@ -1938,6 +1938,21 @@ files = [
 tests = ["pytest"]
 
 [[package]]
+name = "pybigwig"
+version = "0.3.22"
+description = "A package for accessing bigWig files using libBigWig"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pyBigWig-0.3.22-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:55031f67de6b117d49ba191738ea9707239bdacbd623a046e03917913257ac29"},
+    {file = "pyBigWig-0.3.22-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bc8eb9f312b7ba99f90b490bcc0341f317549c2ef0bb65cd94c20241cbe67981"},
+    {file = "pyBigWig-0.3.22-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:647ae8b613d6dfc691cadd61703f81fdf3c685177c7e2e3e730c4f9c0d6f93c6"},
+    {file = "pyBigWig-0.3.22-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5b653a085d829d02154a68c438df2b5f2b0e560f06dab55cd191e7b3ca7982f2"},
+    {file = "pyBigWig-0.3.22-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:85d740f7e9148d21c1150c0c822600751573a62ccc7ea037495e915434ebefa7"},
+    {file = "pyBigWig-0.3.22.tar.gz", hash = "sha256:5d4426f754bd7b7f6dc21d6c3f93b58a96a65b6eb2e578ae03b31a71272d2243"},
+]
+
+[[package]]
 name = "pybtex"
 version = "0.24.0"
 description = "A BibTeX-compatible bibliography processor in Python"
@@ -3059,4 +3074,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9"
-content-hash = "5b30267407ef2bf39c5a0b339d7dbf98df025745dc0b4b5c4d84899e5eb2f8b2"
+content-hash = "294103046f0b59759d90c4fdb5444e55700933671389a51eade39a688358292e"

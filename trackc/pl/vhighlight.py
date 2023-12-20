@@ -20,13 +20,12 @@ def vhighlight(
     ----------
     ax: :class:`matplotlib.axes.Axes` object
     regions: `str` | `str list`
-        The raw genome regions, some of these regions will be selected to zoom in. 
+        The raw genome regions, some of these regions will be selected to zoom in.
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``),
         which means the reverse region
     light_regions: `str` | `str list`
-        regions to be zoomin, The format is the same as `regions`. 
+        regions to be zoomin, The format is the same as `regions`.
         the regions of `light_regions` should be located in the `regions`
     colors: `str list`
         the colors of the light_regions

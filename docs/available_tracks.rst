@@ -78,7 +78,7 @@ This section contains various quick tutorials showcasing omics data visualizatio
 
    tutorials/grid_spec
    tutorials/scalebar
-   tutorials/contactmap
+   tutorials/mapC
    tutorials/mapc_markline
    tutorials/Virtual4C
    tutorials/gene

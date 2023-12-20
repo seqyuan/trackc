@@ -4,47 +4,20 @@ Guides
 
 Here are some flexible practical examples of trackc
 
-Cis contact map
-===============
 
 .. nbgallery::
-    :caption: Varies heatmap
+    :caption: Hi-C
     :name: rst-gallery1
     :glob:
-    :reversed:
 
     mapc_eg
-
-cell
-===============
+    long_range_interact
+    rearranged_interactions
 
 .. nbgallery::
-    :caption: long range interactons
+    :caption: AML 3DGenome
     :name: rst-gallery2
     :glob:
-    :reversed:
 
-    long_range_interact
-
-Advanced Science
-=================
-
-.. nbgallery::
-    :caption: Rearranged interactions
-    :name: rst-gallery3
-    :glob:
-    :reversed:
-
-    rearranged_interactions
-    
-AML 3DGenome
-============
-
-.. nbgallery::
-    :caption: Enhancer hijacking
-    :name: rst-gallery4
-    :glob:
-    :reversed:
-
-    ../tutorials/Virtual4C
+    Enhancer hijacking<../tutorials/Virtual4C>
     
