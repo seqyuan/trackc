@@ -5,7 +5,6 @@ Available Tracks
 
 Quick start
 ===========
-This section contains various quick tutorials showcasing omics data visualization with :mod:`trackc`.
 
 .. code-block:: python
 
@@ -25,9 +24,9 @@ This section contains various quick tutorials showcasing omics data visualizatio
                            scale_adjust='Mb', intervals=2, tick_rotation=0)
    # tc.savefig('hicmap.pdf')
 
-.. image-sg:: /_static/tutorials/quick_start.png
+.. image-sg:: /_static/quick_start.png
    :alt: Neighborhood enrichment
-   :srcset: /_static/tutorials/quick_start.png
+   :srcset: /_static/quick_start.png
    :class: sphx-glr-single-img
 
 

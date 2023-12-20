@@ -38,8 +38,9 @@ def scale_track(
     ----------
     ax: :class:`matplotlib.axes.Axes` object
     region: `str`
-        one genome region, format: `chrom:start-end`
-        examples: "chr18:45000000-78077248"
+        one genome region, format: `chrom:start-end`. 
+        e.g. ``"chr18:45000000-78077248"``
+
         if the start is bigger than end, the genome region will be reversed
     tick_pos: `str`
         ticks position, can be one of ['top', 'bottom']

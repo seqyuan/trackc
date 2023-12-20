@@ -34,8 +34,8 @@ def gene_track(
         Bed12 files can be converted from GTF using `gtf2bed4trackc`.
         https://trackc.readthedocs.io/en/latest/tutorials/fileformats/bed12.html#gtf2bed4trackc
     regions: `str` | `str list`
-        genome regions, format: `chrom:start-end`
-        examples: ['chr18:47950000-48280000', 'chr18:75280000-74850000'] or "chr18:45000000-78077248"
+        genome regions, format: `chrom:start-end`. 
+        e.g. ``['chr18:47950000-48280000', 'chr18:75280000-74850000']`` or ``"chr18:45000000-78077248"``
         If the start is bigger than end, the genome region will be reversed
     track_type: `str`
         you can select one of the options: `gene` or `dendity`

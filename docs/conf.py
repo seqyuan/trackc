@@ -345,11 +345,6 @@ nbsphinx_custom_formats = {
     '.md': ['jupytext.reads', {'fmt': 'Rmd'}],
 }
 """
-# Example configuration for intersphinx: refer to the Python standard library.
-
-
-examples_dirs = ["../tutorials"]
-gallery_dirs = ["../examples"]
 
 
 image_scrapers = ("matplotlib",)
@@ -357,112 +352,6 @@ image_scrapers = ("matplotlib",)
 min_reported_time = 0
 if "SOURCE_DATE_EPOCH" in os.environ:
     min_reported_time = sys.maxint if sys.version_info[0] == 2 else sys.maxsize
-
-"""
-def notebook_modification_function(notebook_content, notebook_filename):
-    notebook_content_str = str(notebook_content)
-    warning_template = "\n".join(
-        [
-            "<div class='alert alert-{message_class}'>",
-            "",
-            "# JupyterLite warning",
-            "",
-            "{message}",
-            "</div>"
-        ]
-    )
-
-    if "pyvista_examples" in notebook_filename:
-        message_class = "danger"
-        message = (
-            "PyVista is not packaged in Pyodide, this notebook is not "
-            "expected to work inside JupyterLite"
-        )
-    elif "import plotly" in notebook_content_str:
-        message_class = "danger"
-        message = (
-            "This notebook is not expected to work inside JupyterLite for now."
-            " There seems to be some issues with Plotly, see "
-            "[this]('https://github.com/jupyterlite/jupyterlite/pull/950') "
-            "for more details."
-        )
-    else:
-        message_class = "warning"
-        message = (
-            "JupyterLite integration in sphinx-gallery is beta "
-            "and it may break in unexpected ways"
-        )
-
-    markdown = warning_template.format(
-        message_class=message_class,
-        message=message
-    )
-
-    dummy_notebook_content = {'cells': []}
-    add_markdown_cell(dummy_notebook_content, markdown)
-
-    code_lines = []
-
-    if "seaborn" in notebook_content_str:
-        code_lines.append("%pip install seaborn")
-
-    if code_lines:
-        code_lines = ["# JupyterLite-specific code"] + code_lines
-        code = "\n".join(code_lines)
-        add_code_cell(dummy_notebook_content, code)
-
-    notebook_content["cells"] = (
-        dummy_notebook_content["cells"] + notebook_content["cells"]
-    )
-
-
-from pathlib import Path
-_root = Path(__file__).parent.parent
-sphinx_gallery_conf = {
-    'examples_dirs': [_root / "tutorials"],
-    'gallery_dirs': [_root / "examples"],
-}
-
-
-
-sphinx_gallery_conf = {
-    'backreferences_dir': 'gen_modules/backreferences',
-    'doc_module': ('sphinx_gallery', 'numpy'),
-    'reference_url': {
-        'sphinx_gallery': None,
-    },
-    'examples_dirs': examples_dirs,
-    'gallery_dirs': gallery_dirs,
-    'image_scrapers': image_scrapers,
-    'compress_images': ('images', 'thumbnails'),
-    # specify the order of examples to be according to filename
-    'within_subsection_order': FileNameSortKey,
-    #'expected_failing_examples': ['../examples/no_output/plot_raise.py',
-    #                              '../examples/no_output/plot_syntaxerror.py'],
-    'min_reported_time': min_reported_time,
-    'binder': {'org': 'sphinx-gallery',
-               'repo': 'sphinx-gallery.github.io',
-               'branch': 'master',
-               'binderhub_url': 'https://mybinder.org',
-               'dependencies': './binder/requirements.txt',
-               'notebooks_dir': 'notebooks',
-               'use_jupyter_lab': True,
-               },
-    #'jupyterlite': {
-    #    'notebook_modification_function': notebook_modification_function
-    #},
-    'show_memory': True,
-    'promote_jupyter_magic': False,
-    'junit': os.path.join('sphinx-gallery', 'junit-results.xml'),
-    # capture raw HTML or, if not present, __repr__ of last expression in
-    # each code block
-    'capture_repr': ('_repr_html_', '__repr__'),
-    'matplotlib_animations': True,
-    'image_srcset': ["2x"],
-    'nested_sections': True,
-    'show_api_usage': True,
-}
-"""
 
 
 # Remove matplotlib agg warnings from generated doc when using plt.show

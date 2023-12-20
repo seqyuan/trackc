@@ -1,5 +1,5 @@
 ##########
-Gallery
+Guides
 ##########
 
 Here are some flexible practical examples of trackc
@@ -13,7 +13,7 @@ Cis contact map
     :glob:
     :reversed:
 
-    examples/mapc_eg
+    mapc_eg
 
 cell
 ===============
@@ -24,7 +24,7 @@ cell
     :glob:
     :reversed:
 
-    examples/long_range_interact
+    long_range_interact
 
 Advanced Science
 =================
@@ -35,7 +35,7 @@ Advanced Science
     :glob:
     :reversed:
 
-    examples/rearranged_interactions
+    rearranged_interactions
     
 AML 3DGenome
 ============
@@ -46,5 +46,5 @@ AML 3DGenome
     :glob:
     :reversed:
 
-    tutorials/Virtual4C
+    ../tutorials/Virtual4C
     
