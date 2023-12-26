@@ -1,7 +1,7 @@
 # Develop Guidelines
 ## environment prepare
 ```
-conda create -n trackc python=3.8
+conda create -n trackc python=3.9
 conda activate trackc
 pip install poetry
 poetry install

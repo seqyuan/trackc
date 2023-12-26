@@ -23,6 +23,7 @@ black = "^23.12.0"
 flake8-black = "^0.3.6"
 isort = "^5.13.2"
 flake8-isort = "^6.1.1"
+nbqa = "^1.7.1"
 pytest-cov = "^4.1.0"
 poethepoet = "^0.24.4"
 
@@ -71,11 +72,19 @@ line_length = 88
 
 	[tool.poe.tasks.format-black]
     help = "Run black on the code base"
-    cmd  = "black ."
+    shell  = """
+    black .
+    nbqa black docs
+    """
+    interpreter = "bash"
 
 	[tool.poe.tasks.format-isort]
     help = "Run isort on the code base"
-    cmd  = "isort ."
+    shell  = """
+    isort .
+    nbqa isort docs
+    """
+    interpreter = "bash"
 
 	[tool.poe.tasks.test]
     help = "Run unit and feature tests"
