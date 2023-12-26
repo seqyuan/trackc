@@ -12,7 +12,7 @@ TrackC's key applications
 
 Getting started with trackc
 ----------------------------
-- Browse :doc:`Available Track-types </available_tracks>` and :doc:`Guides </guides>`.
+- Browse :doc:`Available Track-types </available_tracks>` and :doc:`Guides </guides/index>`.
 
 
 Contributing to trackc

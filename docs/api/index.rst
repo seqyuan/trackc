@@ -12,6 +12,8 @@ Tool
 .. currentmodule:: trackc
 
 .. autosummary::
+   :toctree: generated
+   :nosignatures:
 
    tl.GenomeRegion
    tl.RegionsCmat
@@ -22,6 +24,8 @@ GrigSpec
 ~~~~~~~~~
 
 .. autosummary::
+   :toctree: generated
+   :nosignatures:
 
    tc.make_spec
    tc.tenon
@@ -33,6 +37,8 @@ Plotting
 .. currentmodule:: trackc
 
 .. autosummary::
+   :toctree: generated
+   :nosignatures:
 
    pl.scale_track
    pl.multi_scale_track
@@ -55,6 +61,8 @@ Palettes
 .. currentmodule:: trackc
 
 .. autosummary::
+   :toctree: generated
+   :nosignatures:
 
    pa.fruitpunch
    pa.fruitpunch2

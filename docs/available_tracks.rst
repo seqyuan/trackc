@@ -70,7 +70,7 @@ from top-to-bottom or from left-to-right, which can be accounted for by height_r
 
 Available Tracks
 ======================
-This section contains various quick tutorials showcasing omics data visualization with :mod:`trackc`.
+This section contains various quick tutorials showcasing omics data visualization with `trackc`.
 
 .. toctree::
    :maxdepth: 2
