@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/samar
+      url: https://pypi.org/p/trackc
     permissions:
       id-token: write
     steps:

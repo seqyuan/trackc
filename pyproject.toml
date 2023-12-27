@@ -88,7 +88,7 @@ line_length = 88
 
 	[tool.poe.tasks.test]
     help = "Run unit and feature tests"
-    cmd  = "pytest --cov=samar"
+    cmd  = "pytest --cov=trackc"
 
     [tool.poe.tasks.docs]
     help = "Build the docs using Sphinx"
