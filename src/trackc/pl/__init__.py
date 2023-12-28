@@ -11,6 +11,7 @@ from trackc.pl.mapc import (
     getData2Map
 )
 from trackc.pl.zoomin import zoomin
+from trackc.pl.bedgraph_matrix import bdgmat_track
 
 __doc__ = """\
 Plotting API
@@ -39,4 +40,5 @@ Generic
    pl.bed_track
    pl.multi_scale_track
    pl.vhighlight
+   pl.bdgmat_track
 """

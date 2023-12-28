@@ -3,4 +3,5 @@ seaborn
 pandas
 bioframe
 cooler
-
+pyBigWig
+click

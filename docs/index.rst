@@ -27,6 +27,7 @@ We are happy about any contributions! Welcome to talk at github issue.
    tutorials
    gallery
    api
+   cli
    developer/index
    others
    

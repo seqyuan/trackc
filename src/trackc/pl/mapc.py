@@ -244,6 +244,7 @@ def _mapC_colorbar(ax, im, trans_ax, map_order, height, map_type):
     
     cax = ax.inset_axes([x0, y0, x0_width, y0_height])
     cbar = plt.colorbar(im, ax=ax, cax=cax, orientation=orientation)
+    #cbar.set_ticks([im.get_array().min(), im.get_array().max()])
     if trans_ax:
         cbar.ax.xaxis.tick_top()
         cbar.ax.tick_params(axis='x', labelrotation=90)
@@ -483,8 +484,7 @@ def set_xylim(axs, conf, map_type, map_order, symmetric, trans_ax, pair_mat, mat
     axs.set_xticks([])
     axs.set_yticklabels([])
     axs.set_yticks([]) 
-    
-    
+
 
 def _plot_heatmap_triangle_xticks(ax, regin1_binN, regin2_binN, chrom1, start1, end1, chrom2, start2, end2, showXticks):
     #ax.set_xticks([])
@@ -501,20 +501,16 @@ def _plot_heatmap_triangle_xticks(ax, regin1_binN, regin2_binN, chrom1, start1, 
     ax.spines['left'].set_color('none')
 
    
-def _colorbar_triangle(axm,im,ymax):
-    height="2%"
-    width="10%"
-    if ymax!=None:
-        height="6%"
+def _colorbar_triangle(axm,im,ymax, cbar_size=("2%", "10%")):
+    height, width = cbar_size
+    #if ymax!=None:
+    #    height="6%"
     axins1 = inset_axes(axm, width=width, height=height, loc=4, bbox_to_anchor=(-0.1, 0.7, 1.2, 2.9), bbox_transform=axm.transAxes,)
     cbar=plt.colorbar(im, cax=axins1, orientation='horizontal')
+    cbar.set_ticks([im.get_array().min(), im.get_array().max()])
     cbar.ax.xaxis.tick_top()
     cbar.ax.spines['top'].set_color('none')
     cbar.ax.spines['right'].set_color('none')
     cbar.ax.spines['bottom'].set_color('none')
     cbar.ax.spines['left'].set_color('none')
-
-
-
-        
 

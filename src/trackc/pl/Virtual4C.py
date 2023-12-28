@@ -61,12 +61,12 @@ def _get_pets(df, binsize=10000):
     pets_df['chrbin'] = bins
     return pets_df
 
-def virtual4C(ax: Optional[Axes] = None,
-              clr: cooler.Cooler = None,
+def virtual4C(clr: Union[cooler.Cooler, str],
+              ax: Optional[Axes] = None,
               balance: bool = False,
               #divisive_weights = None,
               target: Union[str, None] = None,
-              contact_regions: Union[Sequence[str], str, None] = None, 
+              regions: Union[Sequence[str], str, None] = None, 
               track_type: Union[str, None] = 'line',
               color: Union[str, None] = 'tab:blue',
               cmap: Union[Sequence[Colormap], str, None] = fruitpunch,
@@ -86,13 +86,15 @@ def virtual4C(ax: Optional[Axes] = None,
     Parameters
     ----------
     ax: :class:`matplotlib.axes.Axes` object
-    clr: `cooler.Cooler`
-        cool or mcool format Hi-C matrix (https://github.com/open2c/cooler)
+    clr: `cooler.Cooler` | `str`
+        cool format Hi-C matrix (https://github.com/open2c/cooler) or cool file path
+        `cooler.Cooler` e.g. GM12878=cooler.Cooler('./GM12878.chr18.mcool::/resolutions/50000')
+        `str` e.g. 'GM12878.chr18.mcool::/resolutions/50000' or 'GM12878.chr18.cool'
     balance: `bool`
         The ``'balance'`` parameters of ``coolMat.matrix(balance=False).fetch('chr6:119940450-123940450')``
     target: `str`
         Coordinates of the viewpoint. e.g. 'chr8:127735434-127735435'
-    contact_regions: `str` | `str list`
+    regions: `str` | `str list`
         The genome regions, which contact to the viewpoint
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
         The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
@@ -130,12 +132,15 @@ def virtual4C(ax: Optional[Axes] = None,
     >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> AML_1360 = cooler.Cooler('./GSM4604287_1360.iced.mcool::/resolutions/10000')
-    >>> tc.pl.virtual4C(ax=ten.axs(0), clr=AML_1360, target=MYC_TSS, contact_regions=regions, 
+    >>> #AML_1360 = './GSM4604287_1360.iced.mcool::/resolutions/10000'
+    >>> tc.pl.virtual4C(ax=ten.axs(0), clr=AML_1360, target=MYC_TSS, regions=regions, 
                 track_type='line', label='Virtual 4C', target_color='r')
     >>> tc.savefig('trackc_virtual4c.pdf')
     """
+    if isinstance(clr, str):
+        clr = cooler.Cooler(clr)
     
-    data = extractContactRegions(clr, balance=balance, row_regions=target, col_regions=contact_regions)
+    data = extractContactRegions(clr, balance=balance, row_regions=target, col_regions=regions)
     cols = _get_pets(data.col_regions, clr.binsize)
     rows = _get_pets(data.row_regions, clr.binsize)
     cols['target'] = 0

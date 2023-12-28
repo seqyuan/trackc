@@ -14,7 +14,7 @@ from .bigwig import _make_multi_region_ax
 def bed_track(ax: Optional[Axes] = None,
               bed: Union[pd.DataFrame, str, None]  = None,
               regions: Union[Sequence[str], str, None] = None,
-              track_style: Union[str, None] = 'bar',
+              style: Union[str, None] = 'bar',
               color: Union[Sequence[str], None] = 'tab:blue',
               cmap: Union[Colormap, str, None] = None,
               intervals: Union[int, None] = 1,
@@ -33,7 +33,7 @@ def bed_track(ax: Optional[Axes] = None,
     """\
     Plot bed track, support for multiple or reverse genome regions.
     support bed3 and bed5, the fields after the column5 will be ignored, 
-        should be sorted py chromStart if ``track_style`` is `line`
+        should be sorted py chromStart if ``style`` is `line`
 
     Parameters
     ----------
@@ -62,18 +62,16 @@ def bed_track(ax: Optional[Axes] = None,
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000"]``
         The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
             which means you want to get the reverse region
-    track_style: `str`
+    style: `str`
         bed blocks style,  opions in ['line', 'bar', 'link', 'tri', 'rec']
     color: `str` or `list`
-        the color of line/triangle/rectangle, if color is color list, the block will set by regions
+        the color of line/tri/rec, if color is color list, the block will set by regions
     cmap: `str` | `matplotlib.colors.Colormap`
-        the colormap of the plot except track_style:line
-    intervals: 
-
-
+        the colormap of the plot except style:line
     intervals
-        ``int``: if track_style is one of [tri, rec], the row number distribution for triangle or rectangle blocks
+        ``int``: if style is one of [tri, rec], the row number distribution for triangle or rectangle blocks
     """
+    
     if isinstance(regions, list):
         line_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in regions])
     else:
@@ -126,7 +124,7 @@ def bed_track(ax: Optional[Axes] = None,
     
     for ix, row in line_GenomeRegions.iterrows(): 
         bed2plot = bed[(bed['chrom']==row['chrom']) & (bed['end']>=row['fetch_start']) & (bed['start']<=row['fetch_end'])]
-        if track_style in ['line', 'bar'] or bed.shape[1]>=5:
+        if style in ['line', 'bar'] or bed.shape[1]>=5:
             if min_y==None:
                 min_y = bed2plot['score'].min(skipna=True, numeric_only=True)
             else:
@@ -154,18 +152,18 @@ def bed_track(ax: Optional[Axes] = None,
         if bed2plot.shape[0] == 0:
             continue
         
-        if track_style == "line":
+        if style == "line":
             _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='line', color=color[ix], alpha=alpha)    
         
-        if track_style == "bar":
+        if style == "bar":
             _plot_bed_bar_l(axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], needReverse=row['isReverse'], style='bar', color=color[ix], alpha=alpha)
         
-        if track_style == "rec":
+        if style == "rec":
             _plot_bed_rec(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
                          needReverse=row['isReverse'], color=color[ix], cname=cmap[ix], 
                          alpha=alpha, min=ymin, max=ymax, score_label=score_label, intervals=intervals, score_label_size=score_label_size)
         
-        if track_style == "tri":
+        if style == "tri":
             _plot_bed_tri(ax, axs[ix], bed2plot, row['fetch_start'], row['fetch_end'], 
                          needReverse=row['isReverse'], color=color[ix], cname=cmap[ix], 
                          alpha=alpha, min=ymin, max=ymax, score_label=score_label, score_label_size=score_label_size)
@@ -175,13 +173,13 @@ def bed_track(ax: Optional[Axes] = None,
             else:
                 axs[ix].set_ylim(0, max_len/2)
         
-        if track_style == "link":
+        if style == "link":
             _plot_bed_link(ax=ax, bed=bed2plot, 
                            start=row['fetch_start'],end=row['fetch_end'], 
                            needReverse=row['isReverse'], invert_y=invert_y, 
                            color=color[ix], cmap=cmap[ix], alpha=alpha)
 
-    if track_style in ['line', 'bar']:
+    if style in ['line', 'bar']:
         for axi in axs:
             if invert_y:
                 axi.set_ylim(ymax, ymin)

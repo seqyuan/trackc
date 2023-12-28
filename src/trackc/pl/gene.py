@@ -99,6 +99,7 @@ def gene_track(ax: Optional[Axes] = None,
     bed12.columns =['chrom','start','end','name',"score","strand","thickStart","thickEnd","itemRgb","blockCount","blockSizes","blockStarts"]
     bed12['blockSizes'] = bed12['blockSizes'].str.rstrip(',')
     bed12['blockStarts'] = bed12['blockStarts'].str.rstrip(',')
+    bed12['chrom'] = bed12['chrom'].astype(str)
     
     for ix, row in line_GenomeRegions.iterrows(): 
         if track_type == "gene":

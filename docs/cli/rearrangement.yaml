@@ -1,0 +1,59 @@
+trackc:
+  - ax: t1
+    height: 4
+    track_type: hicmap
+    track_para:
+      mat:
+        method: extractContactRegions
+        clr: /Users/yuanzan/Documents/github/seqyuan/trackc_data/tutorials/4C/GSM4604287_1360.sub.cool
+        balance: False
+      mapC:
+        map_type: tri
+        label: AML 1360
+        cmap: PuBu
+        maxrange: 6
+        minrange: -6
+
+  - ax: t2
+    height: 0.7
+    track_type: gene_track
+    track_para:
+      bed12: /Users/yuanzan/Documents/github/seqyuan/trackc_data/tutorials/4C/GRCh38.gene.chr8chr14.bed12
+      line: 3
+      gene_fontszie: 10
+      show_label: 
+        - MYC
+  - ax: t3
+    height: 0.7
+    track_type: bw_track
+    track_para:
+      bw: /Users/yuanzan/Documents/github/seqyuan/trackc_data/tutorials/4C/GSM4604189_H3K27ac.bw
+      maxrange: 10
+      label: H3K27ac
+      binsize: 10000
+      invert_y: False
+  - ax: t4
+    height: 0.6
+    track_type: virtual4C
+    track_para:
+      clr: /Users/yuanzan/Documents/github/seqyuan/trackc_data/tutorials/4C/GSM4604287_1360.sub.cool
+      maxrange: 10
+      label: Virtual 4C
+      target_color: tab:red
+      track_type: line
+      target: chr8:127735434-127735435
+
+  - ax: t5
+    height: 0.6
+    track_type: multi_scale_track
+    track_para:
+      scale_adjust: Mb
+      intervals: 1
+      tick_fontsize: 8
+
+      
+
+
+
+
+

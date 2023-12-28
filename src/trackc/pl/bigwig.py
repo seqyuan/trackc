@@ -4,6 +4,7 @@ from typing import Union, Optional, Sequence, Any, Mapping, List, Tuple, Callabl
 import pandas as pd
 from trackc.tl._getRegionsCmat import GenomeRegion
 import numpy as np
+import pyBigWig
 
 def _make_multi_region_ax(ax, lineGenomeRegions):
     lineGenomeRegions['len'] = lineGenomeRegions['fetch_end']-lineGenomeRegions['fetch_start']
@@ -38,7 +39,7 @@ def bw_track(bw,
     
     Parameters
     ----------
-    bw: `pyBigWig.open` query object
+    bw: `pyBigWig.open` query object, or bigwig file path
     ax: :class:`matplotlib.axes.Axes` object
     regions: `str` | `str list`
         The genome regions to show the signal.
@@ -94,6 +95,9 @@ def bw_track(bw,
         line_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in regions])
     else:
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
+
+    if isinstance(bw, str)==True:
+        bw = pyBigWig.open(bw)
 
     axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()

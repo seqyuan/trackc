@@ -3,7 +3,7 @@ API
 
 Import trackc as::
 
-    import trackc as tc
+   import trackc as tc
 
 Tool
 ~~~~~
@@ -25,8 +25,8 @@ GrigSpec
 .. autosummary::
    :toctree: api
 
-   trackc.make_spec
-   trackc.tenon
+   tc.make_spec
+   tc.tenon
 
 Plotting
 ~~~~~~~~~

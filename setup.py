@@ -21,7 +21,7 @@ setuptools.setup(
     author="Zan Yuan",
     author_email="yfinddream@gmail.com",
     #packages=find_packages(),
-    scripts=['bin/gtf2bed4trackc'],
+    scripts=['bin/gtf2bed4trackc', 'bin/trackc'],
     #include_package_data=True,
     #package_dir={'trackc': 'src/trackc'},
     #package_data={'trackc': ['qc_template.html']},

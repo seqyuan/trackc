@@ -1,0 +1,50 @@
+trackc:
+  - ax: t7
+    height: 4
+    track_type: hicmap
+    track_para:
+      mat:
+        method: extractCisContact
+        clr: /Users/yuanzan/Documents/github/seqyuan/trackc_data/examples/BxPC3.chr18.mcool::/resolutions/50000
+        region: 18:45000000-78077248
+      mat2:
+        method: extractContactRegions
+        clr: /Users/yuanzan/Documents/github/seqyuan/trackc_data/examples/BxPC3.chr18.mcool::/resolutions/25000
+        balance: False
+        row_regions: 
+          - 18:47340000-50370000
+          - 18:61140000-63630000
+          - 18:74030000-77560000
+      mapC:
+        map_type: squ
+        label: 
+          - ectopic interactions(50k)
+          - zoomin(25k)
+        cmap: 
+          - PuBu
+          - Reds
+        maxrange:
+          - 70
+          - 100
+        ax_on: True
+  - ax: t7
+    track_type: scale_track
+    track_para:
+      region: 18:45000000-78077248
+      scale_adjust: Mb
+      tick_pos: top
+      ratio2ax: 0.15
+      space: 0.01
+      tick_fontsize: 6
+      label_fontsize: 7
+  - ax: t1
+    height: 0.4
+    track_type: multi_scale_track
+    track_para:
+      regions: 
+        - 18:47340000-50370000
+        - 18:61140000-63630000
+        - 18:74030000-77560000
+      scale_adjust: Mb
+      intervals: 2
+      tick_fontsize: 7
