@@ -31,6 +31,7 @@ google-api-python-client>=2.34.0
 pydata_sphinx_theme
 sphinx_copybutton
 bioframe
+pyBigWig
 #jupyterlite_sphinx
 #typing
 #weakref
