@@ -1,15 +1,18 @@
+from typing import Sequence, Union
 
-from typing import Union, Sequence
-from matplotlib.axes import Axes
-from .zoomin import _region_pos
 import bioframe as bf
+from matplotlib.axes import Axes
 
-def vhighlight(axs: Union[Sequence[Axes], Axes, None] = None,
-               regions: Union[Sequence[str], str, None] = None,
-               light_regions: Union[Sequence[str], str, None] = None,
-               colors: Union[Sequence[str], None] = 'yellow',
-               alpha: float = 0.3,
-               ):
+from .zoomin import _region_pos
+
+
+def vhighlight(
+    axs: Union[Sequence[Axes], Axes, None] = None,
+    regions: Union[Sequence[str], str, None] = None,
+    light_regions: Union[Sequence[str], str, None] = None,
+    colors: Union[Sequence[str], None] = "yellow",
+    alpha: float = 0.3,
+):
     """
     Plot vhighlight track, support for multiple or reverse genome regions.
 
@@ -19,7 +22,7 @@ def vhighlight(axs: Union[Sequence[Axes], Axes, None] = None,
     regions: `str` | `str list`
         The raw genome regions, some of these regions will be selected to zoom in.
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
-        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``), 
+        The start can be larger than the end (eg. ``"chr6:2000000-1000000"``),
             which means the reverse region
     light_regions: `str` | `str list`
         regions to be zoomin, The format is the same as `regions`
@@ -49,50 +52,56 @@ def vhighlight(axs: Union[Sequence[Axes], Axes, None] = None,
 
     row_GRs = _region_pos(regions)
     light_GRs = _region_pos(light_regions)
-    len_sum = sum(row_GRs['len'])
+    len_sum = sum(row_GRs["len"])
 
-    row_GRs = row_GRs[['chrom', 'fetch_start', 'fetch_end', 'isReverse', 'len', 'ps', 'pe']]
-    row_GRs.columns = ['chrom', 'start', 'end', 'isReverse', 'len', 'ps', 'pe']
+    row_GRs = row_GRs[
+        ["chrom", "fetch_start", "fetch_end", "isReverse", "len", "ps", "pe"]
+    ]
+    row_GRs.columns = ["chrom", "start", "end", "isReverse", "len", "ps", "pe"]
 
-    light_GRs['light_width'] = light_GRs['len']/len_sum
-    light_GRs = light_GRs[['chrom', 'fetch_start', 'fetch_end', 'light_width']]
-    light_GRs.columns = ['chrom', 'start', 'end', 'light_width']
-    
+    light_GRs["light_width"] = light_GRs["len"] / len_sum
+    light_GRs = light_GRs[["chrom", "fetch_start", "fetch_end", "light_width"]]
+    light_GRs.columns = ["chrom", "start", "end", "light_width"]
+
     row_GRs = row_GRs.reset_index()
     light_GRs = light_GRs.reset_index()
-    del light_GRs['index']
-    del row_GRs['index']
+    del light_GRs["index"]
+    del row_GRs["index"]
 
     light_r = bf.overlap(light_GRs, row_GRs)
-    light_r = light_r.query('chrom_==chrom_')
-    
-    light_r['light_s'] = 0
+    light_r = light_r.query("chrom_==chrom_")
+
+    light_r["light_s"] = 0
     light_r_cp = light_r.copy()
 
     for i, row in light_r_cp.iterrows():
-        if row['isReverse_']==True:
-            light_r.loc[i, 'light_s'] = row['ps_'] + abs(row['end']-row['end_'])/len_sum
+        if row["isReverse_"] == True:
+            light_r.loc[i, "light_s"] = (
+                row["ps_"] + abs(row["end"] - row["end_"]) / len_sum
+            )
         else:
-            light_r.loc[i, 'light_s'] = row['ps_'] + abs(row['start']-row['start_'])/len_sum
+            light_r.loc[i, "light_s"] = (
+                row["ps_"] + abs(row["start"] - row["start_"]) / len_sum
+            )
 
-    if isinstance(colors, list)==False:
+    if isinstance(colors, list) == False:
         colors = [colors]
 
     if len(colors) < light_r.shape[0]:
         repeat_times = (light_r.shape[0] + len(colors) - 1) // len(colors)
-        colors = (colors * repeat_times)[:light_r.shape[0]]
+        colors = (colors * repeat_times)[: light_r.shape[0]]
 
     for ix, aix in enumerate(axs):
-        #trans = transforms.blended_transform_factory(
+        # trans = transforms.blended_transform_factory(
         #    aix.transAxes, aix.transAxes)
-        aix.bar(x=light_r['light_s'], 
-                height=1, 
-                width=light_r['light_width'], 
-                transform=aix.transAxes,
-                align='edge',
-                color=colors,
-                #zorder=50,
-                clip_on=False, 
-                alpha=alpha
-                )
-        
+        aix.bar(
+            x=light_r["light_s"],
+            height=1,
+            width=light_r["light_width"],
+            transform=aix.transAxes,
+            align="edge",
+            color=colors,
+            # zorder=50,
+            clip_on=False,
+            alpha=alpha,
+        )

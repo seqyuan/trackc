@@ -1,9 +1,10 @@
 import logging
+from typing import List, Sequence, Union
+
 import cooler
-import pandas as pd
 import numpy as np
-from typing import Union, List, Sequence
-import cooler
+import pandas as pd
+
 
 class GenomeRegion:
     region = None
@@ -14,12 +15,12 @@ class GenomeRegion:
     fetch_end = None
     length = None
     isReverse = False
-    
+
     def __init__(self, region: str):
         self.region = region
         tmp = region.split(":")
         self.chrom = tmp[0]
-        if len(tmp)==2:
+        if len(tmp) == 2:
             self.start = int(tmp[1].split("-")[0])
             self.end = int(tmp[1].split("-")[1])
             if self.start > self.end:
@@ -34,7 +35,7 @@ class GenomeRegion:
     def fetchRegion(self):
         fetch_r = self.chrom
         if self.fetch_start != None:
-            fetch_r = fetch_r + ":" + str(self.fetch_start) + "-" +  str(self.fetch_end)
+            fetch_r = fetch_r + ":" + str(self.fetch_start) + "-" + str(self.fetch_end)
         return fetch_r
 
     def GenomeRegion2df(self):
@@ -49,33 +50,40 @@ class GenomeRegion:
         region4coolFetch = self.fetchRegion()
 
         df = pd.DataFrame(
-            {'chrom':[self.chrom], 
-            'start':[self.start],
-            'end':[self.end],
-            'isReverse':[self.isReverse],
-            'fetch_start':[self.fetch_start],
-            'fetch_end':[self.fetch_end],
-            'region4coolFetch': [region4coolFetch]
-            }, 
-            index=[self.region])
+            {
+                "chrom": [self.chrom],
+                "start": [self.start],
+                "end": [self.end],
+                "isReverse": [self.isReverse],
+                "fetch_start": [self.fetch_start],
+                "fetch_end": [self.fetch_end],
+                "region4coolFetch": [region4coolFetch],
+            },
+            index=[self.region],
+        )
 
         return df
-        
+
+
 class RegionsCmat:
-    def __init__(self, cmat: np.array, row_regions: pd.DataFrame, col_regions: pd.DataFrame):
+    def __init__(
+        self, cmat: np.array, row_regions: pd.DataFrame, col_regions: pd.DataFrame
+    ):
         self.cmat = cmat
         self.row_regions = row_regions
         self.col_regions = col_regions
 
+
 # import extractContactRegions as subsetContactRegions
 
+
 def extractContactRegions(
-        clr: Union[cooler.Cooler, str], 
-        balance: bool = False,
-        #divisive_weights = None,
-        row_regions: Union[Sequence[str], str, None] = None,
-        col_regions: Union[Sequence[str], str, None] = None, 
-        ) -> RegionsCmat:
+    clr: Union[cooler.Cooler, str],
+    balance: bool = False,
+    # divisive_weights = None,
+    row_regions: Union[Sequence[str], str, None] = None,
+    col_regions: Union[Sequence[str], str, None] = None,
+) -> RegionsCmat:
     """\
     Extract a set of regions matrix from the cool format Hi-C matrix.
 
@@ -115,7 +123,7 @@ def extractContactRegions(
     >>> print(mat2.row_regions)
     >>> print(mat2.col_regions)
     """
-    #divisive_weights: bool, optional
+    # divisive_weights: bool, optional
     #    Force balancing weights to be interpreted as divisive (True) or
     #    multiplicative (False). Weights are always assumed to be
     #    multiplicative by default unless named KR, VC or SQRT_VC, in which
@@ -123,7 +131,9 @@ def extractContactRegions(
 
     # -------
     if isinstance(row_regions, list):
-        row_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in row_regions])
+        row_GenomeRegions = pd.concat(
+            [GenomeRegion(i).GenomeRegion2df() for i in row_regions]
+        )
     else:
         row_GenomeRegions = GenomeRegion(row_regions).GenomeRegion2df()
 
@@ -131,10 +141,12 @@ def extractContactRegions(
         col_GenomeRegions = row_GenomeRegions.copy()
     else:
         if isinstance(col_regions, list):
-            col_GenomeRegions = pd.concat([GenomeRegion(i).GenomeRegion2df() for i in col_regions])
+            col_GenomeRegions = pd.concat(
+                [GenomeRegion(i).GenomeRegion2df() for i in col_regions]
+            )
         else:
             col_GenomeRegions = GenomeRegion(col_regions).GenomeRegion2df()
-    
+
     # ------
     if isinstance(clr, str):
         clr = cooler.Cooler(clr)
@@ -142,64 +154,78 @@ def extractContactRegions(
     region_mat_dic = {}
     for _, row_row in row_GenomeRegions.iterrows():
         for _, col_row in col_GenomeRegions.iterrows():
-            row_col_region_cmat = clr.matrix(balance=balance).fetch(row_row['region4coolFetch'], col_row['region4coolFetch'])
-            if row_row['isReverse'] == True:
+            row_col_region_cmat = clr.matrix(balance=balance).fetch(
+                row_row["region4coolFetch"], col_row["region4coolFetch"]
+            )
+            if row_row["isReverse"] == True:
                 row_col_region_cmat = np.flip(row_col_region_cmat, 0)
-            if col_row['isReverse'] == True:
+            if col_row["isReverse"] == True:
                 row_col_region_cmat = np.flip(row_col_region_cmat, 1)
 
-            region_mat_dic["{0}__{1}".format(row_row["region4coolFetch"], col_row["region4coolFetch"])] = row_col_region_cmat
+            region_mat_dic[
+                "{0}__{1}".format(
+                    row_row["region4coolFetch"], col_row["region4coolFetch"]
+                )
+            ] = row_col_region_cmat
 
-    vstack_list = [None]*row_GenomeRegions.shape[0]
-    hstack_list = [None]*col_GenomeRegions.shape[0]
-    
+    vstack_list = [None] * row_GenomeRegions.shape[0]
+    hstack_list = [None] * col_GenomeRegions.shape[0]
+
     for i, row_region in enumerate(row_GenomeRegions["region4coolFetch"].to_list()):
-        for ii, col_region in enumerate(col_GenomeRegions["region4coolFetch"].to_list()):
+        for ii, col_region in enumerate(
+            col_GenomeRegions["region4coolFetch"].to_list()
+        ):
             hstack_list[ii] = region_mat_dic["{0}__{1}".format(row_region, col_region)]
-        
+
         vstack_list[i] = np.hstack(tuple(hstack_list))
-                          
+
     cMat = np.vstack(tuple(vstack_list))
 
-    #### 
-    row_GenomeRegions['cbins'] = 0
-    col_GenomeRegions['cbins'] = 0
+    ####
+    row_GenomeRegions["cbins"] = 0
+    col_GenomeRegions["cbins"] = 0
 
     row_index = row_GenomeRegions.index.to_list()
     col_index = col_GenomeRegions.index.to_list()
 
-    #print(row_index)
-    #print(col_index)
+    # print(row_index)
+    # print(col_index)
 
     for i in row_index:
         for ii in col_index:
-            cmat_shape = region_mat_dic["{0}__{1}".format(
-                row_GenomeRegions.loc[i, "region4coolFetch"], 
-                col_GenomeRegions.loc[ii, "region4coolFetch"])].shape
-            
+            cmat_shape = region_mat_dic[
+                "{0}__{1}".format(
+                    row_GenomeRegions.loc[i, "region4coolFetch"],
+                    col_GenomeRegions.loc[ii, "region4coolFetch"],
+                )
+            ].shape
 
             row_GenomeRegions.loc[i, "cbins"] = cmat_shape[0]
             col_GenomeRegions.loc[ii, "cbins"] = cmat_shape[1]
-            
-    #print(col_GenomeRegions)
-    row_GenomeRegions['chrom'] = row_GenomeRegions['chrom'].astype(str)
-    col_GenomeRegions['chrom'] = col_GenomeRegions['chrom'].astype(str)
-    #row_GenomeRegions['fetch_start'] = row_GenomeRegions['fetch_start'].astype(int)
-    #col_GenomeRegions['fetch_start'] = col_GenomeRegions['fetch_start'].astype(int)
 
-    r_l_regions_cMat = RegionsCmat(cmat=cMat, row_regions=row_GenomeRegions, col_regions=col_GenomeRegions)
-    
+    # print(col_GenomeRegions)
+    row_GenomeRegions["chrom"] = row_GenomeRegions["chrom"].astype(str)
+    col_GenomeRegions["chrom"] = col_GenomeRegions["chrom"].astype(str)
+    # row_GenomeRegions['fetch_start'] = row_GenomeRegions['fetch_start'].astype(int)
+    # col_GenomeRegions['fetch_start'] = col_GenomeRegions['fetch_start'].astype(int)
+
+    r_l_regions_cMat = RegionsCmat(
+        cmat=cMat, row_regions=row_GenomeRegions, col_regions=col_GenomeRegions
+    )
+
     return r_l_regions_cMat
-        
+
+
 # import extractCisRegion as subsetCisRegion
 
+
 def extractCisContact(
-        clr: Union[cooler.Cooler, str],
-        region: str,
-        extend: int = 0,
-        balance: bool = False,
-        #divisive_weights = None,
-        ) -> np.array:
+    clr: Union[cooler.Cooler, str],
+    region: str,
+    extend: int = 0,
+    balance: bool = False,
+    # divisive_weights = None,
+) -> np.array:
     """\
     Extract cis contact matrix from the cool or mcool format Hi-C matrix.
 
@@ -240,24 +266,25 @@ def extractCisContact(
     genome_region = GenomeRegion(region)
 
     if genome_region.chrom not in clr.chromsizes:
-         logging.error(genome_region.chrom, ' is not a chrom in the cool matrix') 
+        logging.error(genome_region.chrom, " is not a chrom in the cool matrix")
 
     maxChromL = clr.chromsizes[genome_region.chrom]
 
     # ------
     if genome_region.fetch_start != None:
-        genome_region.fetch_start = genome_region.fetch_start - extend*resolution
+        genome_region.fetch_start = genome_region.fetch_start - extend * resolution
         if genome_region.fetch_start < 0:
-            #genome_region.fetch_start = 0
+            # genome_region.fetch_start = 0
             logging.error("Error: Extend start is less than 0, set extend=0 is ok\n")
-            #sys.exit(1)
+            # sys.exit(1)
 
-        genome_region.fetch_end = genome_region.fetch_end + extend*resolution
+        genome_region.fetch_end = genome_region.fetch_end + extend * resolution
         if genome_region.fetch_end > maxChromL:
-            #genome_region.fetch_end = maxChromL
-            logging.error("Error: extend is larger than chrom length, set extend=0 is ok\n")
-            #sys.exit(1)
-    
+            # genome_region.fetch_end = maxChromL
+            logging.error(
+                "Error: extend is larger than chrom length, set extend=0 is ok\n"
+            )
+            # sys.exit(1)
+
     df = clr.matrix(balance=balance).fetch(genome_region.fetchRegion())
     return df
-

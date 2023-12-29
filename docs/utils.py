@@ -5,8 +5,8 @@ from pathlib import Path
 from shutil import copytree, rmtree
 from tempfile import TemporaryDirectory
 from typing import Any, Dict, ForwardRef, List, Union
-from git import Repo
 
+from git import Repo
 
 HERE = Path(__file__).parent
 
@@ -37,17 +37,23 @@ def _fetch_notebooks(repo_url: str) -> None:
         copy_files(repo_path)
 
     notebooks_local_path = Path(
-        os.environ.get("SQUIDPY_NOTEBOOKS_PATH", HERE.absolute().parent.parent.parent / "trackc_notebooks")
+        os.environ.get(
+            "SQUIDPY_NOTEBOOKS_PATH",
+            HERE.absolute().parent.parent.parent / "trackc_notebooks",
+        )
     )
     try:
         fetch_local(notebooks_local_path)
     except Exception as e:  # noqa: BLE001
-        warning(f"Unable to fetch notebooks locally from `{notebooks_local_path}`, reason: `{e}`. Trying remote")
+        warning(
+            f"Unable to fetch notebooks locally from `{notebooks_local_path}`, reason: `{e}`. Trying remote"
+        )
         download = int(os.environ.get("TRACKC_DOWNLOAD_NOTEBOOKS", 1))
         if not download:
             # use possibly old files, otherwise, bunch of warnings will be shown
-            info(f"Not fetching notebooks from remove because `TRACKC_DOWNLOAD_NOTEBOOKS={download}`")
+            info(
+                f"Not fetching notebooks from remove because `TRACKC_DOWNLOAD_NOTEBOOKS={download}`"
+            )
             return
 
         fetch_remote(repo_url)
-
