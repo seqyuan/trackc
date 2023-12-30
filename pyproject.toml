@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "trackc"
-version = "0.0.13"
+version = "0.0.14"
 description = "Track view of chromosome conformation and multi-omics data"
 authors = ["Zan Yuan <yfinddream@gmail.com>", "Minghong Li <lmh0066@outlook.com>"]
 license = "MIT"
