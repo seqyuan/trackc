@@ -27,8 +27,8 @@ GrigSpec
    :toctree: generated
    :nosignatures:
 
-   tc.make_spec
-   tc.tenon
+   trackc.make_spec
+   trackc.tenon
 
 Plotting
 ~~~~~~~~~

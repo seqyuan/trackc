@@ -18,6 +18,7 @@ bioframe = "^0.5.1"
 cooler = "^0.9.3"
 pybigwig = "^0.3.22"
 click = "^8.1.7"
+colorlog = "^6.8.0"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
