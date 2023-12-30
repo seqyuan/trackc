@@ -230,9 +230,10 @@ def savefig(outfile):
     outfile
         out file path
     """
-    #plt.tight_layout()
+    # plt.tight_layout()
     plt.savefig(outfile, bbox_inches="tight")
-    #plt.savefig(outfile)
+    # plt.savefig(outfile)
+
 
 def show():
     """

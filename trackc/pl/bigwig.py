@@ -111,7 +111,7 @@ def bw_track(
     else:
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
 
-    if isinstance(bw, str)==True:
+    if isinstance(bw, str) == True:
         bw = pyBigWig.open(bw)
 
     axs = _make_multi_region_ax(ax, line_GenomeRegions)

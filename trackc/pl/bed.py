@@ -36,13 +36,8 @@ def bed_track(
 ):
     """
     Plot bed track, support for multiple or reverse genome regions.
-<<<<<<< HEAD
-    support bed3 and bed5, the fields after the column5 will be ignored, 
-        should be sorted py chromStart if ``style`` is `line`
-=======
     support bed3 and bed5, the fields after the column5 will be ignored,
-    should be sorted py chromStart if ``track_style`` is `line`
->>>>>>> d13226f (doc modify(1/3))
+    should be sorted py chromStart if ``style`` is `line`
 
     Parameters
     ----------

@@ -16,6 +16,8 @@ numpy = "^1.26.2"
 seaborn = "^0.13.0"
 bioframe = "^0.5.1"
 cooler = "^0.9.3"
+pybigwig = "^0.3.22"
+click = "^8.1.7"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
@@ -36,7 +38,10 @@ ipython = "^8.18.1"
 sphinxcontrib-bibtex = "^2.6.1"
 sphinx-copybutton = "^0.5.2"
 pydata-sphinx-theme = "^0.14.4"
-pybigwig = "^0.3.22"
+
+[tool.poetry.scripts]
+trackc = 'trackc.scripts.trackc_cli:cli'
+gtf2bed4trackc = 'trackc.scripts.gtf2bed12:_main'
 
 [tool.black]
 include = '\.pyi?$'

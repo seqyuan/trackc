@@ -27,7 +27,7 @@ We are happy about any contributions! Welcome to talk at github issue.
    available_tracks
    guides/index
    api/index
-   cli
+   cli/index
    developer/index
    others/index
    

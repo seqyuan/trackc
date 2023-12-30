@@ -1,3 +1,2 @@
-
 def tadScore():
-	pass
+    pass

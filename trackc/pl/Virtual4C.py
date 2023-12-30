@@ -76,19 +76,20 @@ def _get_pets(df, binsize=10000):
     pets_df["chrbin"] = bins
     return pets_df
 
+
 def virtual4C(
     clr: Union[cooler.Cooler, str],
     ax: Optional[Axes] = None,
     balance: bool = False,
-    #divisive_weights = None,
+    # divisive_weights = None,
     target: Union[str, None] = None,
-    regions: Union[Sequence[str], str, None] = None, 
+    regions: Union[Sequence[str], str, None] = None,
     track_type: Union[str, None] = "line",
     color: Union[str, None] = "tab:blue",
     cmap: Union[Sequence[Colormap], str, None] = fruitpunch,
     target_color: Union[str, None] = None,
     target_name: Union[str, None] = None,
-    logdata: bool = False, 
+    logdata: bool = False,
     trim_range: float = 0.98,
     minrange: float = None,
     maxrange: float = None,
@@ -148,13 +149,13 @@ def virtual4C(
     >>> ten = tc.tenon(figsize=(8,1))
     >>> ten.add(pos='bottom', height=1, hspace=0.1)
     >>> AML_1360 = cooler.Cooler('./GSM4604287_1360.iced.mcool::/resolutions/10000')
-    >>> tc.pl.virtual4C(ax=ten.axs(0), clr=AML_1360, target=MYC_TSS, regions=regions, 
+    >>> tc.pl.virtual4C(ax=ten.axs(0), clr=AML_1360, target=MYC_TSS, regions=regions,
                 track_type='line', label='Virtual 4C', target_color='r')
     >>> tc.savefig('trackc_virtual4c.pdf')
     """
     if isinstance(clr, str):
         clr = cooler.Cooler(clr)
-    
+
     data = extractContactRegions(
         clr, balance=balance, row_regions=target, col_regions=regions
     )
