@@ -1,9 +1,0 @@
-matplotlib
-seaborn
-pandas
-bioframe
-cooler
-pyBigWig
-click
-pyBigWig
-bioframe

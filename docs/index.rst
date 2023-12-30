@@ -12,7 +12,7 @@ TrackC's key applications
 
 Getting started with trackc
 ----------------------------
-- Browse :doc:`tutorials </tutorials>`, :doc:`available tracks types </available_track_types>` and :doc:`gallery </gallery>`.
+- Browse :doc:`Available Track-types </available_tracks>` and :doc:`Guides </guides/index>`.
 
 
 Contributing to trackc
@@ -24,12 +24,12 @@ We are happy about any contributions! Welcome to talk at github issue.
    :maxdepth: 1
 
    install
-   tutorials
-   gallery
-   api
-   cli
+   available_tracks
+   guides/index
+   api/index
+   cli/index
    developer/index
-   others
+   others/index
    
 
 .. _github: https://github.com/seqyuan/trackc

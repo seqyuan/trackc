@@ -51,7 +51,7 @@ Documentation
 =============
 Our documentation provide the full list of possible track types and gallary guidelines for users.
 
-Extensive documentation and tutorials are available at https://trackc.readthedocs.io
+Extensive documentations are available at https://trackc.readthedocs.io
 
 
 Citation
