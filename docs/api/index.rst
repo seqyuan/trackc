@@ -23,9 +23,6 @@ Tool
 GrigSpec
 ~~~~~~~~~
 
-.. module:: trackc
-.. currentmodule:: trackc
-
 .. autosummary::
    :toctree: generated
    :nosignatures:
