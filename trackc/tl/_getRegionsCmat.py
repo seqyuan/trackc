@@ -271,7 +271,12 @@ def extractCisContact(
     genome_region = GenomeRegion(region)
 
     if genome_region.chrom not in clr.chromsizes:
-        logging.error(genome_region.chrom, " is not a chrom in the cool matrix")
+        print(genome_region.chrom, " is not a chrom in the cool matrix")
+        if genome_region.chrom.startswith('chr'):
+            genome_region.chrom = genome_region.chrom.lstrip('chr')
+        else:
+            genome_region.chrom = 'chr' + genome_region.chrom
+        print (f'{genome_region.chrom} instead')
 
     maxChromL = clr.chromsizes[genome_region.chrom]
 

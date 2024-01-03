@@ -27,5 +27,4 @@ Here are some flexible practical examples of trackc
     :name: rst-gallery2
     :glob:
 
-    Enhancer hijacking<../tutorials/Virtual4C>
-    
+    ../tutorials/Virtual4C

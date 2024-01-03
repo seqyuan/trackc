@@ -1,6 +1,7 @@
 from typing import Any, Callable, List, Mapping, Optional, Sequence, Tuple, Union
 
 import numpy as np
+import sys
 import pandas as pd
 from matplotlib.axes import Axes
 import pyBigWig
@@ -139,13 +140,16 @@ def bw_track(
 
     for i, row in line_GenomeRegions.iterrows():
         bins = int(row["len"] / binsize)
-        plot_list = bw.stats(
-            row["chrom"],
-            row["fetch_start"],
-            row["fetch_end"],
-            type=summary_type,
-            nBins=bins,
-        )
+        if row["chrom"] not in bw.chroms():
+            raw_chr = row["chrom"]
+            if row["chrom"].startswith('chr'):
+                row["chrom"] = row["chrom"].lstrip('chr')
+            else:
+                row["chrom"] = 'chr' + row["chrom"]
+            if row["chrom"] not in bw.chroms():
+                print(f'{raw_chr} not in bigwig chroms!')
+                sys.exit(1)
+        plot_list = bw.stats(row["chrom"], int(row["fetch_start"]), int(row["fetch_end"]),  type=summary_type, nBins=bins)
         plot_list = [0 if v is None else v for v in plot_list]
         if style == "line":
             axs[i].plot(range(0, bins), plot_list, color=primary_col[i], alpha=alpha)
@@ -252,85 +256,4 @@ def bw_track(
     ax.set_xticklabels("")
     
 
-def bw_compartment(
-    compartment_bw,
-    ax,
-    chrom,
-    start,
-    end,
-    ylabel,
-    xticklabel=False,
-    Acolor="#3271B2",
-    Bcolor="#FBD23C",
-    binsize=100000,
-):
-    chrsize = compartment_bw.chroms()[chrom]
-    xbins = int(chrsize / binsize)
-    if chrsize % binsize > 0:
-        xbins = xbins + 1
 
-    plot_list = compartment_bw.stats(chrom, 0, chrsize, nBins=xbins)
-    mat = pd.DataFrame({"pc1": plot_list})
-    mat["start"] = mat.index * binsize
-    mat["width"] = binsize
-    mat.loc[mat.index[-1], "length"] = chrsize % binsize
-    mat.loc[mat[np.isnan(mat.pc1)].index, "pc1"] = 0
-
-    plus = mat[mat["pc1"] > 0]
-    minux = mat[mat["pc1"] <= 0]
-
-    ax.bar(
-        x=list(plus["start"]),
-        height=plus["pc1"],
-        width=plus["width"],
-        bottom=[0] * (plus.shape[0]),
-        color=Acolor,
-        align="edge",
-        edgecolor=Acolor,
-        label="A",
-    )
-    ax.bar(
-        x=list(minux["start"]),
-        height=minux["pc1"],
-        width=minux["width"],
-        bottom=[0] * (minux.shape[0]),
-        color=Bcolor,
-        align="edge",
-        edgecolor=Bcolor,
-        label="B",
-    )
-    # ax.bar(0,height=0,color="#E27678",align="edge",edgecolor="#E27678",label="A2B")
-    # ax.bar(0,height=0,color="#85AFBD",align="edge",edgecolor="#85AFBD",label="B2A")
-
-    # ax.set_xlim(0, chrsize)
-    ax.grid(False)
-    ax.tick_params(bottom=False, top=False, left=True, right=False)  # 去掉tick线
-    ax.spines["left"].set_color("k")
-    ax.spines["left"].set_linewidth(1)
-    ax.spines["right"].set_color("none")
-    ax.spines["top"].set_color("none")
-    ax.spines["bottom"].set_color("none")
-    ax.plot(
-        [0, chrsize],
-        [0, 0],
-        "-",
-        label="",
-        linewidth=1,
-        color="black",
-        solid_capstyle="butt",
-    )
-    # ax.set_yticklabels('')
-    ax.set_ylabel(
-        ylabel,
-        fontsize=10,
-        rotation="horizontal",
-        horizontalalignment="right",
-        verticalalignment="center",
-    )
-    # ax.set_ylim([-1,1])
-    # ax.set_yticks([-1, 1])
-    ax.set_yticklabels([-1, 1], fontsize=8)
-    if xticklabel == False:
-        ax.set_xticklabels("")
-
-    ax.set_xlim(start, end)
