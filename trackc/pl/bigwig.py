@@ -3,10 +3,11 @@ from typing import Any, Callable, List, Mapping, Optional, Sequence, Tuple, Unio
 import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
-
+import pyBigWig
 from trackc._utils import LOGGER
 from trackc.tl._getRegionsCmat import GenomeRegion
-
+import warnings
+warnings.filterwarnings("ignore")
 
 def _make_multi_region_ax(ax, lineGenomeRegions):
     lineGenomeRegions["len"] = (
@@ -35,15 +36,16 @@ def bw_track(
     binsize: Optional[int] = 50000,
     style: Optional[str] = "bar",
     summary_type: Union[str, None] = "mean",
-    minrange: Optional[float] = None,
-    maxrange: Optional[float] = None,
-    color: Union[Sequence[str], None] = "#827DBB",
+    vmin: Optional[float] = None,
+    vmax: Optional[float] = None,
+    primary_col: Union[Sequence[str], None] = "#3271B2",
+    secondary_col: Union[Sequence[str], None] = "#FBD23C",
     alpha: Optional[float] = 1.0,
     invert_y: Optional[bool] = False,
     label: Optional[str] = None,
     label_rotation: Union[int, None] = 0,
-    label_fontsize: Optional[int] = 12,
-    tick_fontsize: Optional[int] = 8,
+    label_fontsize: Optional[int] = 9,
+    tick_fontsize: Optional[int] = 7,
     tick_fl: Optional[str] = "%0.2f",
     ax_on: bool = False,
 ):
@@ -65,12 +67,14 @@ def bw_track(
         plot type, default='bar', options=['bar', 'line']
     summary_type: `str`
         Summary type (mean, min, max, coverage, std), default 'mean'.
-    minrange: `float`
+    vmin: `float`
         the minimum range of values used to define the ylim
-    maxrange: `float`
+    vmax: `float`
         the maximum range of values used to define the ylim
-    color: `str`
+    primary_col: `str`
         the signal bar color
+    secondary_col: `str`
+        the signal bar color for negative values
     alpha: `float`
         alpha of plot color
     invert_y: `bool`
@@ -99,8 +103,8 @@ def bw_track(
     >>> ten.add(pos='bottom', height=1, hspace=0.2)
 
     >>> regions = ['chr8:127000000-129200000', 'chr14:96500000-99300000']
-    >>> tc.pl.bw_track(H3K27ac, ten.axs(0), regions=regions, maxrange=20, label='H3K27ac', binsize=10000, color='tab:blue')
-    >>> tc.pl.bw_track(H3K27ac, ten.axs(1), regions=regions, maxrange=5, label='H3K27ac', binsize=10000, invert_y=True, ax_on=True)
+    >>> tc.pl.bw_track(H3K27ac, ten.axs(0), regions=regions, vmax=20, label='H3K27ac', binsize=10000, color='tab:blue')
+    >>> tc.pl.bw_track(H3K27ac, ten.axs(1), regions=regions, vmax=5, label='H3K27ac', binsize=10000, invert_y=True, ax_on=True)
     >>> tc.savefig('trackc_bigwig_track.pdf')
     """
 
@@ -112,28 +116,26 @@ def bw_track(
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
 
     if isinstance(bw, str) == True:
-        try:
-            import pyBigWig
-        except ImportError as e:
-            LOGGER.error(
-                "\nAn error occurred when importing the pyBigWig package\n"
-                + "The core reason is that the dependencies of pyBigWig are not installed\n"
-                + "The specific error message is as follows:",
-            )
-            raise
         bw = pyBigWig.open(bw)
 
     axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()
 
-    if isinstance(color, list) == False:
-        color = [color]
-    if len(color) < line_GenomeRegions.shape[0]:
-        repeat_times = (line_GenomeRegions.shape[0] + len(color) - 1) // len(color)
-        color = (color * repeat_times)[: line_GenomeRegions.shape[0]]
+    if isinstance(primary_col, list) == False:
+        primary_col = [primary_col]
+    if len(primary_col) < line_GenomeRegions.shape[0]:
+        repeat_times = (line_GenomeRegions.shape[0] + len(primary_col) - 1) // len(primary_col)
+        primary_col = (primary_col * repeat_times)[: line_GenomeRegions.shape[0]]
+
+    if isinstance(secondary_col, list) == False:
+        secondary_col = [secondary_col]
+    if len(secondary_col) < line_GenomeRegions.shape[0]:
+        repeat_times = (line_GenomeRegions.shape[0] + len(secondary_col) - 1) // len(secondary_col)
+        secondary_col = (secondary_col * repeat_times)[: line_GenomeRegions.shape[0]]
 
     min_y = 0
     max_y = 0
+    plot_bottom_line = True
 
     for i, row in line_GenomeRegions.iterrows():
         bins = int(row["len"] / binsize)
@@ -146,16 +148,35 @@ def bw_track(
         )
         plot_list = [0 if v is None else v for v in plot_list]
         if style == "line":
-            axs[i].plot(range(0, bins), plot_list, color=color[i], alpha=alpha)
+            axs[i].plot(range(0, bins), plot_list, color=primary_col[i], alpha=alpha)
         else:
+            plotvalues = pd.DataFrame({'v':plot_list}, index=range(0, bins))
+            pos_value = plotvalues.query('v>=0')
+            neg_value = plotvalues.query('v<0')
+            if neg_value.shape[0]>0:
+                plot_bottom_line = False 
+
             axs[i].bar(
-                x=range(0, bins),
-                height=plot_list,
+                x=pos_value.index,
+                height=pos_value['v'],
                 width=1,
-                bottom=[0] * (bins),
-                color=color[i],
+                #bottom=[0] * (pos_value.shape[0]),
+                bottom=0,
+                color=primary_col[i],
                 align="edge",
-                edgecolor=color[i],
+                edgecolor=None,
+                alpha=alpha,
+            )
+            
+            axs[i].bar(
+                x=neg_value.index,
+                height=neg_value['v'],
+                width=1,
+                #bottom=[0] * (neg_value.shape[0]),
+                bottom=0,
+                color=secondary_col[i],
+                align="edge",
+                edgecolor=None,
                 alpha=alpha,
             )
 
@@ -164,37 +185,47 @@ def bw_track(
             left, right = bins, 0
         axs[i].set_xlim(left, right)
 
-        if min_y < min(plot_list):
+        if min_y > min(plot_list):
             min_y = min(plot_list)
 
         if max_y < max(plot_list):
             max_y = max(plot_list)
 
-    if minrange == None:
-        minrange = min_y
-    if maxrange == None:
-        maxrange = max_y
+    if vmin == None:
+        vmin = min_y
+    if vmax == None:
+        vmax = max_y
 
     for axi in axs:
         if invert_y:
-            axi.set_ylim(maxrange, minrange)
+            axi.set_ylim(vmax, vmin)
         else:
-            axi.set_ylim(minrange, maxrange)
+            axi.set_ylim(vmin, vmax)
     va = "top"
     if invert_y:
         va = "bottom"
-        ax.set_ylim(maxrange, minrange)
+        ax.set_ylim(vmax, vmin)
     else:
-        ax.set_ylim(minrange, maxrange)
+        ax.set_ylim(vmin, vmax)
 
-    ax.text(
-        0,
-        maxrange,
-        " [{0}, {1}]".format(tick_fl % minrange, tick_fl % maxrange),
-        verticalalignment=va,
-        fontsize=tick_fontsize,
-    )
+    if plot_bottom_line:
+        ax.text(
+            0,
+            vmax,
+            " [{0}, {1}]".format(tick_fl % vmin, tick_fl % vmax),
+            verticalalignment=va,
+            fontsize=tick_fontsize,
+        )
+        ax.set_yticks([])
+        ax.set_yticklabels("")
 
+    else:
+        ax.set_yticks([vmin, 0, vmax])
+        ax.set_yticklabels([f'{tick_fl % vmin}', '0', f'{tick_fl % vmax}'], fontsize=tick_fontsize)
+        if invert_y:
+            ax.set_yticks([vmax, 0, vmin])
+            ax.set_yticklabels([f'{tick_fl % vmax}', '0', f'{tick_fl % vmin}'], fontsize=tick_fontsize)
+            
     ax.set_ylabel(
         label,
         fontsize=label_fontsize,
@@ -206,16 +237,20 @@ def bw_track(
     if ax_on == False:
         spines = ["top", "bottom", "left", "right"]
         if invert_y == True:
-            del spines[0]
+            if plot_bottom_line==True:
+                del spines[0]
+            else:
+                del spines[2]
         else:
-            del spines[1]
+            if plot_bottom_line==True:
+                del spines[1]
+            else:
+                del spines[2]
         for i in spines:
             ax.spines[i].set_visible(False)
     ax.set_xticks([])
     ax.set_xticklabels("")
-    ax.set_yticks([])
-    ax.set_yticklabels("")
-
+    
 
 def bw_compartment(
     compartment_bw,

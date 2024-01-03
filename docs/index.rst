@@ -25,11 +25,11 @@ We are happy about any contributions! Welcome to talk at github issue.
 
    install
    available_tracks
-   guides/index
+   gallery/index
    api/index
    cli/index
    developer/index
-   others/index
+   ctutorial/index
    
 
 .. _github: https://github.com/seqyuan/trackc

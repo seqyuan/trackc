@@ -1,6 +1,6 @@
 import sys
 
-import click
+#import click
 import pandas as pd
 import yaml
 
@@ -95,7 +95,7 @@ def hicContactMap(Paras, ax):
             tc.pl.mapC(ax=ax, mat=mat, mat2=mat2, **Paras["mapC"])
         else:
             tc.pl.mapC(ax=ax, mat=mat, **Paras["mapC"])
-
+"""
 
 @click.command()
 @click.argument("config", metavar="<trackc-conf.yml>")
@@ -116,6 +116,7 @@ def hicContactMap(Paras, ax):
     help='base figsize: width,height. default="6,1"\
               The height option in the config.yml is relative to the base figsize height',
 )
+"""
 def cli(config, regions, outfile, basefigsize):
     conf = _get_yaml_data(config)
     fs = basefigsize.split(",")

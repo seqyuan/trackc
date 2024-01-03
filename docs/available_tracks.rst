@@ -30,16 +30,6 @@ Quick start
    :class: sphx-glr-single-img
 
 
-Input File Formats
-==================
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Input File Formats:
-
-   tutorials/fileformats/bed12
-   tutorials/fileformats/mcool
-
 GridSpec
 ========
 The visualization of multi-omics data in a genomic region often requires a combination of multiple tracks. 

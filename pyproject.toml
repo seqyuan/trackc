@@ -41,8 +41,7 @@ sphinx-copybutton = "^0.5.2"
 pydata-sphinx-theme = "^0.14.4"
 
 [tool.poetry.scripts]
-trackc = 'trackc.scripts.trackc_cli:cli'
-gtf2bed4trackc = 'trackc.scripts.gtf2bed12:_main'
+trackc = 'trackc.scripts.cli:main'
 
 [tool.black]
 include = '\.pyi?$'

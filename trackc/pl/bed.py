@@ -12,14 +12,15 @@ from matplotlib.patches import Polygon
 from trackc.pl.bigwig import _make_multi_region_ax
 from trackc.pl.links import _plot_loop_arc
 from trackc.tl._getRegionsCmat import GenomeRegion
-
+from matplotlib.colors import TwoSlopeNorm
 
 def bed_track(
     ax: Optional[Axes] = None,
     bed: Union[pd.DataFrame, str, None] = None,
     regions: Union[Sequence[str], str, None] = None,
     style: Union[str, None] = "bar",
-    color: Union[Sequence[str], None] = "tab:blue",
+    primary_col: Union[Sequence[str], None] = "#3271B2",
+    secondary_col: Union[Sequence[str], None] = "#FBD23C",
     cmap: Union[Colormap, str, None] = None,
     intervals: Union[int, None] = 1,
     # show_names: Union[bool, None] = False,
@@ -28,8 +29,8 @@ def bed_track(
     label: Union[str, None] = None,
     label_fontsize: Union[int, None] = 12,
     label_rotation: Union[int, None] = 0,
-    ymin: Optional[float] = None,
-    ymax: Optional[float] = None,
+    vmin: Optional[float] = None,
+    vmax: Optional[float] = None,
     tick_fontsize: Optional[int] = 8,
     tick_fl: Optional[str] = "%0.2f",
     score_label_size: Union[int, None] = 7,
@@ -70,8 +71,10 @@ def bed_track(
         which means you want to get the reverse region
     style: `str`
         bed blocks style,  opions in ['line', 'bar', 'link', 'tri', 'rec']
-    color: `str` or `list`
-        the color of line/tri/rec, if color is color list, the block will set by regions
+    primary_col: `str`
+        the color of line/tri/rec, if color is color list, the block color will set by regions
+    secondary_col: `str`
+        the color of line/tri/rec for negative values
     cmap: `str` | `matplotlib.colors.Colormap`
         the colormap of the plot except style:line
     intervals: `int`
@@ -87,11 +90,16 @@ def bed_track(
 
     axs = _make_multi_region_ax(ax, line_GenomeRegions)
     line_GenomeRegions = line_GenomeRegions.reset_index()
-    if isinstance(color, list) == False:
-        color = [color]
-    if len(color) < line_GenomeRegions.shape[0]:
-        repeat_times = (line_GenomeRegions.shape[0] + len(color) - 1) // len(color)
-        color = (color * repeat_times)[: line_GenomeRegions.shape[0]]
+    if isinstance(primary_col, list) == False:
+        primary_col = [primary_col]
+    if len(primary_col) < line_GenomeRegions.shape[0]:
+        repeat_times = (line_GenomeRegions.shape[0] + len(primary_col) - 1) // len(primary_col)
+        primary_col = (primary_col * repeat_times)[: line_GenomeRegions.shape[0]]
+    if isinstance(secondary_col, list) == False:
+        secondary_col = [secondary_col]
+    if len(secondary_col) < line_GenomeRegions.shape[0]:
+        repeat_times = (line_GenomeRegions.shape[0] + len(secondary_col) - 1) // len(secondary_col)
+        secondary_col = (secondary_col * repeat_times)[: line_GenomeRegions.shape[0]]
 
     if isinstance(cmap, list) == False:
         cmap = [cmap]
@@ -102,7 +110,7 @@ def bed_track(
     ax.set_ylabel(
         label, fontsize=label_fontsize, rotation=label_rotation, ha="right", va="center"
     )
-    spines = ["top", "right", "left"]
+    spines = ["top", "right", "left", "bottom"]
     for i in spines:
         ax.spines[i].set_visible(False)
     ax.set_xticks([])
@@ -112,7 +120,8 @@ def bed_track(
 
     if isinstance(bed, str) == True:
         bed = pd.read_table(bed, sep="\t", header=None)
-
+    else:
+        bed = bed.copy()
     score_label = ""
     if bed.shape[1] == 3:
         bed.columns = ["chrom", "start", "end"]
@@ -138,7 +147,7 @@ def bed_track(
             & (bed["end"] >= row["fetch_start"])
             & (bed["start"] <= row["fetch_end"])
         ]
-        if style in ["line", "bar"] or bed.shape[1] >= 5:
+        if style in ["line", "bar"] or bed.shape[1] >= 4:
             if min_y == None:
                 min_y = bed2plot["score"].min(skipna=True, numeric_only=True)
             else:
@@ -157,10 +166,10 @@ def bed_track(
         if max_len < maxlength:
             max_len = maxlength
 
-    if ymin == None:
-        ymin = min_y
-    if ymax == None:
-        ymax = max_y
+    if vmin == None:
+        vmin = min_y
+    if vmax == None:
+        vmax = max_y
 
     for ix, row in line_GenomeRegions.iterrows():
         bed2plot = bed[
@@ -179,7 +188,8 @@ def bed_track(
                 row["fetch_end"],
                 needReverse=row["isReverse"],
                 style="line",
-                color=color[ix],
+                pri_col=primary_col[ix],
+                #5sec_col=secondary_col[ix],
                 alpha=alpha,
             )
 
@@ -191,7 +201,8 @@ def bed_track(
                 row["fetch_end"],
                 needReverse=row["isReverse"],
                 style="bar",
-                color=color[ix],
+                pri_col=primary_col[ix],
+                sec_col=secondary_col[ix],
                 alpha=alpha,
             )
 
@@ -203,11 +214,11 @@ def bed_track(
                 row["fetch_start"],
                 row["fetch_end"],
                 needReverse=row["isReverse"],
-                color=color[ix],
+                color=primary_col[ix],
                 cname=cmap[ix],
                 alpha=alpha,
-                min=ymin,
-                max=ymax,
+                vmin=vmin,
+                vmax=vmax,
                 score_label=score_label,
                 intervals=intervals,
                 score_label_size=score_label_size,
@@ -221,11 +232,11 @@ def bed_track(
                 row["fetch_start"],
                 row["fetch_end"],
                 needReverse=row["isReverse"],
-                color=color[ix],
+                color=primary_col[ix],
                 cname=cmap[ix],
                 alpha=alpha,
-                min=ymin,
-                max=ymax,
+                vmin=vmin,
+                vmax=vmax,
                 score_label=score_label,
                 score_label_size=score_label_size,
             )
@@ -243,7 +254,7 @@ def bed_track(
                 end=row["fetch_end"],
                 needReverse=row["isReverse"],
                 invert_y=invert_y,
-                color=color[ix],
+                color=primary_col[ix],
                 cmap=cmap[ix],
                 alpha=alpha,
             )
@@ -251,22 +262,22 @@ def bed_track(
     if style in ["line", "bar"]:
         for axi in axs:
             if invert_y:
-                axi.set_ylim(ymax, ymin)
+                axi.set_ylim(vmax, vmin)
             else:
-                axi.set_ylim(ymin, ymax)
+                axi.set_ylim(vmin, vmax)
 
         if invert_y:
-            ax.set_ylim(ymax, ymin)
+            ax.set_ylim(vmax, vmin)
         else:
-            ax.set_ylim(ymin, ymax)
+            ax.set_ylim(vmin, vmax)
 
-        text_label_y_pos = ymax
+        text_label_y_pos = vmax
         if invert_y:
-            text_label_y_pos = ymin
+            text_label_y_pos = vmin
             ax.text(
                 0,
-                ymax,
-                " [{1}, {0}]".format(tick_fl % ymin, tick_fl % ymax),
+                vmax,
+                " [{1}, {0}]".format(tick_fl % vmin, tick_fl % vmax),
                 va="bottom",
                 fontsize=tick_fontsize,
             )
@@ -274,7 +285,7 @@ def bed_track(
             ax.text(
                 0,
                 text_label_y_pos,
-                " [{0}, {1}]".format(tick_fl % ymin, tick_fl % ymax),
+                " [{0}, {1}]".format(tick_fl % vmin, tick_fl % vmax),
                 va="top",
                 fontsize=tick_fontsize,
             )
@@ -297,8 +308,8 @@ def _plot_bed_tri(
     color,
     cname,
     alpha,
-    min,
-    max,
+    vmin,
+    vmax,
     score_label=None,
     score_label_size=8,
 ):
@@ -311,7 +322,10 @@ def _plot_bed_tri(
             map_vir = cname
 
         # 因为 y 大到一定程度超过临界数值后颜色就会饱和不变(不使用循环colormap)。
-        norm = plt.Normalize(min, max)
+        norm = plt.Normalize(vmin, vmax)
+        if vmin<0 and vmax>0:
+            norm = TwoSlopeNorm(vmin=vmin, vcenter=0, vmax=vmax)
+        
         # matplotlib.colors.Normalize 对象，可以作为参数传入到绘图方法里
         # 也可给其传入数值直接计算归一化的结果
         norm_y = norm(bed["score"])
@@ -355,8 +369,8 @@ def _plot_bed_rec(
     color,
     cname,
     alpha,
-    min,
-    max,
+    vmin,
+    vmax,
     score_label=None,
     intervals=1,
     score_label_size=8,
@@ -369,7 +383,10 @@ def _plot_bed_rec(
             map_vir = cname
 
         # 因为 y 大到一定程度超过临界数值后颜色就会饱和不变(不使用循环colormap)。
-        norm = plt.Normalize(min, max)
+        norm = plt.Normalize(vmin, vmax)
+        if vmin<0 and vmax>0:
+            norm = TwoSlopeNorm(vmin=vmin, vcenter=0, vmax=vmax)
+        
         # matplotlib.colors.Normalize 对象，可以作为参数传入到绘图方法里
         # 也可给其传入数值直接计算归一化的结果
         norm_y = norm(bed["score"])
@@ -402,28 +419,43 @@ def _plot_bed_rec(
         xlim_e = start
     ax.set_xlim(xlim_s, xlim_e)
     if cname != None:
+        #sm = cm.ScalarMappable(norm=norm, cmap=map_vir)
         sm = cm.ScalarMappable(norm=norm, cmap=map_vir)
-        cax = mainAX.inset_axes([1.01, 0, 0.01, 1])
+        cax = mainAX.inset_axes([1.01, 0, 0.01, 0.9])
         cb = plt.colorbar(sm, ax=mainAX, cax=cax, label=score_label)
+        cb.set_ticks([vmin, vmax])
         cb.set_label(score_label, fontsize=score_label_size)
 
 
 def _plot_bed_bar_l(
-    ax, bed, start, end, needReverse, style="bar", color="tab:blue", alpha=1
+    ax, bed, start, end, needReverse, style="bar", pri_col="#3271B2", sec_col="#FBD23C", alpha=1
 ):
+    plot_bottom_line = True
     if style == "bar":
+        bed_pos = bed.query('score>=0')
+        bed_neg = bed.query('score<0')
+        if bed_neg.shape[0] >0 :
+            plot_bottom_line=False
         ax.bar(
-            x=bed["start"],
-            width=bed["end"] - bed["start"],
-            height=bed["score"],
-            color=color,
+            x=bed_pos["start"],
+            width=bed_pos["end"] - bed_pos["start"],
+            height=bed_pos["score"],
+            color=pri_col,
+            alpha=alpha,
+            align="edge",
+        )
+        ax.bar(
+            x=bed_neg["start"],
+            width=bed_neg["end"] - bed_neg["start"],
+            height=bed_neg["score"],
+            color=sec_col,
             alpha=alpha,
             align="edge",
         )
 
     if style == "line":
         ax.plot(
-            bed["start"], bed["score"], color=color, alpha=alpha, solid_capstyle="butt"
+            bed["start"], bed["score"], color=pri_col, alpha=alpha, solid_capstyle="butt"
         )
 
     xlim_s = start
@@ -433,11 +465,26 @@ def _plot_bed_bar_l(
         xlim_e = start
     ax.set_xlim(xlim_s, xlim_e)
 
+    spines = ["top", "bottom", "left", "right"]
+    if needReverse == True:
+        if plot_bottom_line==True:
+            del spines[0]
+    else:
+        if plot_bottom_line==True:
+            del spines[1]
+
+    """
     for i in ["top", "right", "left"]:
         ax.spines[i].set_color("none")
         ax.spines[i].set_linewidth(0)
-    ax.spines["bottom"].set_color("black")
-    ax.spines["bottom"].set_linewidth(1)
+
+    if plot_bottom_line:
+        ax.spines["bottom"].set_color("black")
+        ax.spines["bottom"].set_linewidth(1)
+    else:
+        ax.spines['bottom'].set_color("none")
+        ax.spines['bottom'].set_linewidth(0)
+    """
     # ax.tick_params(bottom =True,top=False,left=False,right=False)
     # ax.set_xticklabels("")
     # ax.set_yticklabels("")

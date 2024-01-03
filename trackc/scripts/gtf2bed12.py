@@ -88,70 +88,10 @@ def _bedcol9_2dic(bedcol9, split=";"):
     return col9dic
 
 
-def _parse_arguments(args=None):
-    """
-    get command line arguments
-    """
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-        add_help=False,
-        description="Converts the GTF to bed12 or bed13",
-    )
-
-    parserRequired = parser.add_argument_group("Required arguments")
-
-    # define the arguments
-    parserRequired.add_argument(
-        "--gtf", "-g", help="input file. GTF format gene annotation.", required=True
-    )
-
-    parserRequired.add_argument(
-        "--outFileName",
-        "-o",
-        help="File name of gene annotation bed12 format.",
-        required=True,
-    )
-
-    parserOpt = parser.add_argument_group("Optional arguments")
-    parserOpt.add_argument(
-        "--sep", "-s", help="tags of GTF sepration by which str", default=";"
-    )
-    parserOpt.add_argument(
-        "--gene_name_tag", "-nt", help="tags of GTF gene_name", default="gene_name"
-    )
-    parserOpt.add_argument(
-        "--gene_id_tag", "-it", help="tags of GTF gene_id", default="gene_id"
-    )
-    parserOpt.add_argument(
-        "--gene_biotype_tag",
-        "-bt",
-        help="tags of GTF gene_biotype",
-        default="gene_biotype",
-    )
-    parserOpt.add_argument(
-        "--biotype2bed13",
-        "-bed13",
-        help="if this arg is set, the out file columns 13 will add gene's biotype",
-        action="store_true",
-    )
-    parserOpt.add_argument(
-        "-h", "--help", action="help", help="show this help message and exit"
-    )
-
-    return parser
-
-
-def _main(args=None):
-    args = _parse_arguments().parse_args(args)
-    gene_name_tag = args.gene_name_tag
-    gene_id_tag = args.gene_id_tag
-    gene_biotype_tag = args.gene_biotype_tag
-    sep = args.sep
-    biotype2bed13 = args.biotype2bed13
-
+def gtf2bed(gtf, outfile, sep, gene_name_tag, gene_id_tag, gene_biotype_tag, biotype2bed13):
     gene = None
-    gtf_hand = open(args.gtf, "r")
-    gtf2bed = open(args.outFileName, "w")
+    gtf_hand = open(gtf, "r")
+    gtf2bed = open(outfile, "w")
 
     for line in gtf_hand:
         bedtab = line.rstrip().split("\t")

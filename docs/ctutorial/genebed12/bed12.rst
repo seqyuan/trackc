@@ -7,14 +7,15 @@ The `trackc.pl.gene_track` method input formats is `BED12 <https://bedtools.read
 Bed12 file description can be found from the link below: `https://bedtools.readthedocs.io/en/latest/content/general-usage.html#genome-file-format <https://bedtools.readthedocs.io/en/latest/content/general-usage.html#genome-file-format/>`_.
 
 
-gtf2bed4trackc
+trackc gtf2bed
 ==============
-If you have installed `trackc`, you can conver GTF to bed12 using `gtf2bed4trackc` command.
+If you have installed `trackc`, you can conver GTF to bed12 using `trackc gtf2bed` command.
 the `column-4` of outfile is `gene name`
 
 .. code-block:: shell
 
-    gtf2bed4trackc -g GRCh38.84.gtf -o GRCh38.84.bed12
+    trackc gtf2bed GRCh38.84.gtf -o GRCh38.84.bed12
+
 
 .. csv-table:: bed12-gene-name
    :file: GRCh38.84.bed12
@@ -45,7 +46,7 @@ please note that, the bed12 from gtf2bed.pl is based on transcript id, each row 
 read bed12
 ===========
 
-read bed12 file to pd.DataFrame for `trackc.pl.gene_track` input data
+read bed12 file to `pd.DataFrame`` for `trackc.pl.gene_track` input data
 
 .. code-block:: python
 

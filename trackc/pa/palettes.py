@@ -5,12 +5,12 @@ from matplotlib import cm, colors
 trackcl_9 = [
     "#EC6F5D",
     "#73C8DB",
-    "#4EB4A2",
     "#6676A0",
     "#F5AE9B",
     "#9EA7C6",
     "#A7DBCC",
     "#E63634",
+    "#4EB4A2",
     "#9B806E",
 ]
 trackcl_11 = [
