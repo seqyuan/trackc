@@ -23,6 +23,9 @@ Tool
 GrigSpec
 ~~~~~~~~~
 
+.. module:: trackc
+.. currentmodule:: trackc
+
 .. autosummary::
    :toctree: generated
    :nosignatures:
@@ -43,16 +46,24 @@ Plotting
    pl.scale_track
    pl.multi_scale_track
    pl.bed_track
+   pl.bdgmat_track
    pl.bw_track
-   pl.bw_compartment
    pl.virtual4C
    pl.links_track
    pl.zoomin
    pl.mapc_markline
    pl.gene_track
-   pl.getData2Map
    pl.mapC
+   pl.vhighlight
 
+SaveFig
+~~~~~~~~~
+
+.. autosummary::
+   :toctree: generated
+   :nosignatures:
+
+   trackc.savefig
 
 Palettes
 ~~~~~~~~~

@@ -20,8 +20,8 @@ trackc's key applications
 Available track types
 ---------------------
 
-.. list-table:: Frozen Delights!
-   :widths: 15 15 15
+.. list-table:: tracks
+   :widths: 12 14 15
    :header-rows: 1
 
    * - track
