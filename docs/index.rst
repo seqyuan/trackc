@@ -28,9 +28,8 @@ We are happy about any contributions! Welcome to talk at github issue.
    gallery/index
    api/index
    cli/index
-   developer/index
    ctutorial/index
-   
+   developer/index
 
 .. _github: https://github.com/seqyuan/trackc
 

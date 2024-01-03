@@ -2,10 +2,6 @@
 CLI
 ####
 
-
-gallarys
-=========
-
 .. toctree::
    :maxdepth: 2
    :caption: CLI gallary:
