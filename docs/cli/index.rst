@@ -4,7 +4,7 @@ CLI
 
 .. nbgallery::
     :caption: heatmaps
-    :name: rst-gallery2
+    :name: rst-gallery1
     :glob:
 
     heatmap-1

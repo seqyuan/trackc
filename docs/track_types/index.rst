@@ -74,6 +74,7 @@ This section contains various quick tutorials showcasing omics data visualizatio
    gene
    bigwig
    bed
+   bdgmat
    links
    zoomin
    highlight_line
