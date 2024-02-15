@@ -161,7 +161,7 @@ html_theme_options = {
     #'navbar_end': ['theme-switcher', 'version-switcher', 'navbar-icon-links'],
     "logo": {
         "text": None,
-        "image_light": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
+        "image_light": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png",
         "image_dark": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
     },
     #'switcher': dict(
