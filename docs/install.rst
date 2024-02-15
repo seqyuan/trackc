@@ -1,5 +1,5 @@
 #############
-Installation
+Install
 #############
 
 trackc requires Python version >= 3.8 to run.

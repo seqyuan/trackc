@@ -24,11 +24,11 @@ We are happy about any contributions! Welcome to talk at github issue.
    :maxdepth: 1
 
    install
-   available_tracks
+   track_types/index
    gallery/index
    api/index
    cli/index
-   ctutorial/index
+   analysis_guide/index
    developer/index
 
 .. _github: https://github.com/seqyuan/trackc

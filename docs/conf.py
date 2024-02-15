@@ -161,8 +161,8 @@ html_theme_options = {
     #'navbar_end': ['theme-switcher', 'version-switcher', 'navbar-icon-links'],
     "logo": {
         "text": None,
-        "image_light": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png",
-        "image_dark": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
+        "image_light": "./logo/trackc-low-resolution-logo-color-on-transparent-background.png",
+        "image_dark": "./logo/trackc-low-resolution-logo-color-on-transparent-background.png"
     },
     #'switcher': dict(
     #    json_url='https://sphinx-gallery.github.io/dev/_static/switcher.json',

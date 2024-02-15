@@ -24,7 +24,7 @@ Here are some flexible practical examples of trackc
 
 .. nbgallery::
     :caption: AML 3DGenome
-    :name: rst-gallery2
+    :name: rst-gallery3
     :glob:
 
-    ../tutorials/Virtual4C
+    ../track_types/Virtual4C

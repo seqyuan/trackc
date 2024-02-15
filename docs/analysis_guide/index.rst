@@ -1,12 +1,12 @@
-##########
-C tutorial
-##########
+###############
+analysis guide
+###############
 
-3D genome analysis notebooks
+3D genome data analysis guides
 
 .. nbgallery::
     :caption: file formats convert
-    :name: rst-gallery2
+    :name: rst-gallery1
     :glob:
 
    bedGraph2bw
@@ -23,7 +23,7 @@ C tutorial
 
 .. nbgallery::
     :caption: Domain Calling
-    :name: rst-gallery2
+    :name: rst-gallery3
     :glob:
 
    compartment_calling
@@ -32,7 +32,7 @@ C tutorial
 
 .. nbgallery::
     :caption: color map
-    :name: rst-gallery2
+    :name: rst-gallery4
     :glob:
 
    custom_cmap

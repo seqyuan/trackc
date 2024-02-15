@@ -1,5 +1,5 @@
 #################
-Available Tracks
+Available tracks
 #################
 
 
@@ -66,14 +66,14 @@ This section contains various quick tutorials showcasing omics data visualizatio
    :maxdepth: 2
    :caption: Available Track Types:
 
-   tutorials/grid_spec
-   tutorials/scalebar
-   tutorials/mapC
-   tutorials/mapc_markline
-   tutorials/Virtual4C
-   tutorials/gene
-   tutorials/bigwig
-   tutorials/bed
-   tutorials/links
-   tutorials/zoomin
-   tutorials/highlight_line
+   grid_spec
+   scalebar
+   mapC
+   mapc_markline
+   Virtual4C
+   gene
+   bigwig
+   bed
+   links
+   zoomin
+   highlight_line
