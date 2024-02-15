@@ -8,8 +8,8 @@ trackc
 
 Track view of chromosome conformation and multi-omics data
 ===========================================================
-**trackc** is a python package to flexible visualization of 3D genome and multi-omics data.
-It builds on top of `matplotlib`, from which it allow for flexible adjustments.
+**trackc** is a python package for flexible visualization of rearrangement 3D genome and multi-omics data.
+It builds on top of `matplotlib`, which allows for flexible adjustments.
 
 trackc's key applications
 --------------------------
@@ -46,7 +46,7 @@ Available track types
    * - bigwig
      - bigwig_track
      - support multi-regions and reverse regions
-   * - bedgraph_matrix
+   * - bedgraph matrix
      - bdgmat_track
      - support multi-regions and reverse regions,
        styles [heatmap, line] 
@@ -67,7 +67,7 @@ Available track types
      - support multi-regions and reverse regions
 
 
-Here is an example of du_dynamic_2022 article diagram implemented by trackc.
+Here is an example of `du_dynamic_2022 <https://doi.org/10.1002/advs.202200818>`_ article diagram implemented by trackc.
 
 .. image:: gallery_rearranged_interactions.png
 
@@ -102,17 +102,17 @@ conf.yml content
 .. code-block:: yaml
 
     trackc:
-    - ax: t7
+      - ax: l1
         height: 1.25
         track_type: hicmap
         track_para:
-        mat:
+          mat:
             method: extractContactRegions
             clr: ./github/seqyuan/trackc_data/examples/BxPC3.chr18.mcool::/resolutions/25000
             balance: False
             row_regions:
-            - 18:47400000-48280000
-            - 18:75280000-74030000
+              - 18:47400000-48280000
+              - 18:75280000-74030000
         mapC:
             map_type: tri
             label: neo tad
@@ -122,39 +122,39 @@ conf.yml content
             maxrange: 200
             minrange: 10
 
-    - ax: t8
+      - ax: l2
         height: 0.5
         track_type: bw_track
         track_para:
-        bw: ./github/seqyuan/trackc_data/examples/GSM3178671_BxPC3_H3K27ac.bigwig
-        regions:
+          bw: ./github/seqyuan/trackc_data/examples/GSM3178671_BxPC3_H3K27ac.bigwig
+          regions:
             - 18:47400000-48280000
             - 18:75280000-74030000
-        label: H3K27ac
-        binsize: 2000
-        color:
-        - '#5B7695'
-    - ax: t6
+          label: H3K27ac
+          binsize: 2000
+          color:
+            - '#5B7695'
+      - ax: l3
         height: 0.4
         track_type: multi_scale_track
         track_para:
-        regions:
+          regions:
             - 18:47400000-48280000
             - 18:75280000-74030000
-        scale_adjust: Mb
-        intervals: 2
-        tick_fontsize: 7
+          scale_adjust: Mb
+          intervals: 2
+          tick_fontsize: 7
 
-    - ax: t9
+      - ax: l4
         height: 2.8
         track_type: gene_track
         track_para:
-        bed12: ./github/seqyuan/trackc_data/examples/hg19_chr18.gene.bed12
-        regions:
+          bed12: ./github/seqyuan/trackc_data/examples/hg19_chr18.gene.bed12
+          regions:
             - 18:47400000-48280000
             - 18:75280000-74030000
-        line: 12
-        gene_fontszie: 8
+          line: 12
+          gene_fontszie: 8
 
 
 Documentation
