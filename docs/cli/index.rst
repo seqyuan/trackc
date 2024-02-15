@@ -25,7 +25,7 @@ CLI
 
 .. nbgallery::
     :caption: Virtual 4C
-    :name: rst-gallery2
+    :name: rst-gallery3
     :glob:
 
     cli-4C
