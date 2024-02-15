@@ -1,3 +1,4 @@
+import sys
 from matplotlib.axes import Axes
 from typing import Union, Optional, Sequence
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
@@ -15,11 +16,12 @@ def bdgmat_track(ax: Optional[Axes] = None,
             logdata: bool = False, 
             minrange: Optional[float] = None,
             maxrange: Optional[float] = None,
-            color: Union[Sequence[str], None] = 'tab:silver',
+            color: Union[Sequence[str], None] = 'silver',
             cmap: Union[Colormap, str, None] = fruitpunch,
             alpha: Union[float, None] = 1,
             label: Union[str, None] = None,
             label_fontsize: Union[int, None] = 8,
+            ticks_on: bool=True,
             tick_fontsize: Optional[int] = 7,
             tick_fl: Optional[str] = "%0.2f",
             line_lg_ncol: Optional[int] = 1
@@ -84,11 +86,24 @@ def bdgmat_track(ax: Optional[Axes] = None,
             else:
                 pass
 
+
     bed['chrom'] = bed['chrom'].astype(str)
     
     df2plot = pd.DataFrame()
     bed = bed.fillna(0)
+    chromos = bed['chrom'].unique()
     for ix, row in line_GenomeRegions.iterrows(): 
+        raw_chr = row["chrom"]
+        if row["chrom"] not in chromos:
+            if row["chrom"].startswith('chr'):
+                row["chrom"] = row["chrom"].lstrip('chr')
+            else:
+                row["chrom"] = 'chr' + row["chrom"]
+            if row["chrom"] not in chromos:
+                print(f'{raw_chr} not in begmat chroms!')
+                #sys.exit(0)
+                return
+
         bed2plot = bed[(bed['chrom']==row['chrom']) & (bed['end']>=row['fetch_start']) & (bed['start']<=row['fetch_end'])]
         if row['isReverse']==True:
             bed2plot = bed2plot.iloc[::-1]
@@ -117,7 +132,11 @@ def bdgmat_track(ax: Optional[Axes] = None,
         ax.set_xticklabels([])  # 隐藏刻度标签
         #if
         ax.set_yticks([i+0.5 for i in range(0, df2plot.shape[0])])  # 隐藏刻度
-        ax.set_yticklabels(df2plot.index, fontsize=tick_fontsize)  # 隐藏刻度标签
+        if ticks_on:
+            ax.set_yticklabels(df2plot.index, fontsize=tick_fontsize)  # 隐藏刻度标签
+        else:
+            ax.set_yticklabels([])
+            ax.set_yticks([])
     elif style=="line":
         #print(df2plot)
         #import sys
@@ -125,6 +144,11 @@ def bdgmat_track(ax: Optional[Axes] = None,
         df2plot = df2plot.reset_index()
         del df2plot['index']
         line = ax.plot(df2plot)
+
+        if len(color) < df2plot.shape[1]:
+            repeat_times = (df2plot.shape[1] + len(color) - 1) // len(color)
+            color = (color * repeat_times)
+
         for i,v in enumerate(line):
             v.set_label(df2plot.columns[i])
             v.set(color=color[i])
@@ -136,7 +160,8 @@ def bdgmat_track(ax: Optional[Axes] = None,
         ax.set_ylim([minrange, maxrange])
         ax.set_yticks([minrange, maxrange])
         ax.set_yticklabels([f'{tick_fl % minrange}', f'{tick_fl % maxrange}'], fontsize=tick_fontsize)  # 隐藏刻度标签
-        ax.legend(loc='best', bbox_to_anchor=(1, 0, 0, 1), fontsize=tick_fontsize, ncol=line_lg_ncol)
+        if ticks_on:
+            ax.legend(loc='best', bbox_to_anchor=(1, 0, 0, 1), fontsize=tick_fontsize, ncol=line_lg_ncol)
 
     ax.set_ylabel(label, fontsize=label_fontsize)
 

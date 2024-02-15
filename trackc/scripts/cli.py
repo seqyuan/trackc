@@ -33,7 +33,6 @@ def main():
               The height option in the config.yml is relative to the base figsize height')
 
 def cli(config, regions, outfile, basefigsize):
-    print(config)
     track(config, regions, outfile, basefigsize)
 
 

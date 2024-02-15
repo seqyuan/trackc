@@ -1,6 +1,6 @@
 from trackc.pl.bed import bed_track
 from trackc.pl.bedgraph_matrix import bdgmat_track
-from trackc.pl.bigwig import bw_compartment, bw_track
+from trackc.pl.bigwig import bw_track
 from trackc.pl.gene import gene_track
 from trackc.pl.links import links_track
 from trackc.pl.mapc import getData2Map, mapC

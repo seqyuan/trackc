@@ -12,7 +12,7 @@ def _get_yaml_data(yaml_file):
     file_data = file.read()
     file.close()
 
-    data = yaml.load(file_data)
+    data = yaml.safe_load(file_data)
     return data
 
 
@@ -140,6 +140,7 @@ def cli(config, regions, outfile, basefigsize):
         "virtual4C",
         "links_track",
         "gene_track",
+        "bdgmat_track",
     ]
     region_type = ["scale_track"]
 
@@ -182,7 +183,7 @@ def cli(config, regions, outfile, basefigsize):
 
             if "mat2" in paras.keys():
                 if paras["mat2"]["method"] == "extractCisContact":
-                    if "region" not in paras["mat"].keys():
+                    if "region" not in paras["mat2"].keys():
                         paras["mat2"]["region"] = regions
                 elif paras["mat2"]["method"] == "extractContactRegions":
                     if (
@@ -221,5 +222,8 @@ def cli(config, regions, outfile, basefigsize):
 
         if track_type == "zoomin":
             tc.pl.zoomin(**paras, ax=ax)
+
+        if track_type == "bdgmat_track":
+            tc.pl.bdgmat_track(**paras, ax=ax)
 
     tc.savefig(outfile)

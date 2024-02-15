@@ -171,6 +171,19 @@ def links_track(
     data["chr1"] = data["chr1"].astype(str)
     data["chr2"] = data["chr2"].astype(str)
 
+
+    chromos = data['chr1'].unique()
+    chrchrom = line_GenomeRegions.loc[0, 'chrom']
+    if chrchrom not in chromos:
+        if chrchrom.startswith('chr'):
+            chrchrom = chrchrom.lstrip('chr')
+            if chrchrom in chromos:
+                line_GenomeRegions['chrom'] = line_GenomeRegions['chrom'].str.lstrip('chr')
+        else:
+            chrchrom = 'chr' + chrchrom
+            if chrchrom in chromos:
+                line_GenomeRegions['chrom'] = 'chr' + line_GenomeRegions['chrom']
+
     for ix, row in line_GenomeRegions.iterrows():
         loop_bed_plot = data[data["chr1"] == row["chrom"]]
 

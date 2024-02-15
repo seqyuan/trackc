@@ -124,8 +124,19 @@ def gene_track(
     bed12["blockSizes"] = bed12["blockSizes"].str.rstrip(",")
     bed12["blockStarts"] = bed12["blockStarts"].str.rstrip(",")
     bed12["chrom"] = bed12["chrom"].astype(str)
-
+    chrom_names = bed12["chrom"].unique()
+    
     for ix, row in line_GenomeRegions.iterrows():
+        if row["chrom"] not in chrom_names:
+            raw_chr = row["chrom"]
+            if row["chrom"].startswith('chr'):
+                row["chrom"] = row["chrom"].lstrip('chr')
+            else:
+                row["chrom"] = 'chr' + row["chrom"]
+            if row["chrom"] not in chrom_names:
+                print(f'{raw_chr} not in bigwig chroms!')
+                return
+
         if track_type == "gene":
             _plot_gene(
                 axs[ix],

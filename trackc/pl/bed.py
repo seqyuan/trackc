@@ -2,6 +2,7 @@ from typing import Optional, Sequence, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 import pandas as pd
 from matplotlib import cm
 from matplotlib.axes import Axes
@@ -122,6 +123,8 @@ def bed_track(
         bed = pd.read_table(bed, sep="\t", header=None)
     else:
         bed = bed.copy()
+
+    bed = bed.fillna(0)
     score_label = ""
     if bed.shape[1] == 3:
         bed.columns = ["chrom", "start", "end"]
@@ -141,12 +144,26 @@ def bed_track(
     max_y = None
     max_len = 0
 
+    chromos = bed['chrom'].unique()
     for ix, row in line_GenomeRegions.iterrows():
+        raw_chr = row["chrom"]
+        if row["chrom"] not in chromos:
+            if row["chrom"].startswith('chr'):
+                row["chrom"] = row["chrom"].lstrip('chr')
+            else:
+                row["chrom"] = 'chr' + row["chrom"]
+
+            if row["chrom"] not in chromos:
+                print(f'{raw_chr} not in beg chroms!')
+                sys.exit(0)
+
         bed2plot = bed[
             (bed["chrom"] == row["chrom"])
             & (bed["end"] >= row["fetch_start"])
             & (bed["start"] <= row["fetch_end"])
         ]
+
+
         if style in ["line", "bar"] or bed.shape[1] >= 4:
             if min_y == None:
                 min_y = bed2plot["score"].min(skipna=True, numeric_only=True)
@@ -172,6 +189,17 @@ def bed_track(
         vmax = max_y
 
     for ix, row in line_GenomeRegions.iterrows():
+        raw_chr = row["chrom"]
+        if row["chrom"] not in chromos:
+            if row["chrom"].startswith('chr'):
+                row["chrom"] = row["chrom"].lstrip('chr')
+            else:
+                row["chrom"] = 'chr' + row["chrom"]
+
+            if row["chrom"] not in chromos:
+                print(f'{raw_chr} not in beg chroms!')
+                sys.exit(0)
+                
         bed2plot = bed[
             (bed["chrom"] == row["chrom"])
             & (bed["end"] >= row["fetch_start"])

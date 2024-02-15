@@ -148,7 +148,7 @@ def bw_track(
                 row["chrom"] = 'chr' + row["chrom"]
             if row["chrom"] not in bw.chroms():
                 print(f'{raw_chr} not in bigwig chroms!')
-                sys.exit(1)
+                return
         plot_list = bw.stats(row["chrom"], int(row["fetch_start"]), int(row["fetch_end"]),  type=summary_type, nBins=bins)
         plot_list = [0 if v is None else v for v in plot_list]
         if style == "line":
