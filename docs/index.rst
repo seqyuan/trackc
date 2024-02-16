@@ -39,7 +39,7 @@ Below are the currently integrated functional modules:
 - trackc insulationscore
 
 
-`Hi-C data analysis guides </analysis_guide/index>` Common Hi-C data analysis tutorials provide input files that can be used for plotting with TrackC.
+:doc:`Hi-C data analysis guides </analysis_guide/index>` Common Hi-C data analysis tutorials provide input files that can be used for plotting with TrackC.
 
 
 Contributing to trackc
