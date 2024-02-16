@@ -19,9 +19,9 @@ CLI
     :name: rst-gallery2
     :glob:
 
-    rearranged_interactions-1
-    rearranged_interactions-2
-    rearranged_interactions-3
+    ectopic_interactions-1
+    ectopic_interactions-2
+    ectopic_interactions-3
 
 .. nbgallery::
     :caption: Virtual 4C

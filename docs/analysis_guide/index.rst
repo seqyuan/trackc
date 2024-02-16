@@ -1,5 +1,5 @@
 ###############
-analysis guide
+Analysis guide
 ###############
 
 3D genome data analysis guides

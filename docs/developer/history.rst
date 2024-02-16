@@ -12,7 +12,7 @@ pcolormesh to implement the triangular heatmap instead of the original layered m
 The implementation method for the triangular heatmap from HiTC was initially converted to Python by Lixiang Ma 
 one our team member.
 
-which project useed trackc
+which project used trackc
 ---------------------------
 
 - https://doi.org/10.1016/j.jare.2023.04.015
