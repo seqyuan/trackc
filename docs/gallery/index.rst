@@ -1,5 +1,5 @@
 ########
-Gallary
+Gallery
 ########
 
 Here are some flexible practical examples of trackc
