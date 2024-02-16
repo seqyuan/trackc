@@ -14,6 +14,26 @@ Getting started with trackc
 ----------------------------
 - Browse :doc:`Available track-types </track_types/index>` and :doc:`examples </cli/index>`.
 
+you can used command line or used api directly.
+trackc提供了两种使用模式，1. command line， 2. api
+
+cli可以通过配置文件的方式使用，安装trackc之后，用户可以直接使用trackc命令来调用command line工具
+除画图功能之外，trackc集成了常见的Hi-C数据处理命令
+
+可以通过trackc --help来查看
+
+目前集成的功能模块见下
+* trackc cli
+* trackc gtf2bed
+* trackc tadscore
+* trackc fa2GC
+* trackc compartment
+* trackc insulationscore
+
+
+`Hi-C data analysis guides </analysis_guide/index>`总结了常见Hi-C数据分析教程，可以作为trackc画图的输入文件。
+
+
 
 Contributing to trackc
 -----------------------
