@@ -257,7 +257,7 @@ html_show_sourcelink = False
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "Trackc-Gallerydoc"
+htmlhelp_basename = "trackc-gallerydoc"
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -368,3 +368,12 @@ warnings.filterwarnings(
     message="Matplotlib is currently using agg, which is a"
     " non-GUI backend, so cannot show the figure.",
 )
+
+
+nbsphinx_thumbnails = {
+    'cli/ectopic_interactions-1': '_static/guides/ectopic-i-1.png',
+    'cli/ectopic_interactions-2': '_static/guides/ectopic-i-2.png',
+    'cli/ectopic_interactions-3': '_static/guides/ectopic-i-3.png',
+}
+
+

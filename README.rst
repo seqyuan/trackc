@@ -37,6 +37,9 @@ Available track types
    * - Virtual4C
      - Virtual4C
      - support multi-regions and reverse regions
+   * - loop links
+     - links_track
+     - support multi-regions and reverse regions
    * - bed
      - bed_track
      - support multi-regions and reverse regions,
