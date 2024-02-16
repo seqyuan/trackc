@@ -374,6 +374,11 @@ nbsphinx_thumbnails = {
     'cli/ectopic_interactions-1': '_static/guides/ectopic-i-1.png',
     'cli/ectopic_interactions-2': '_static/guides/ectopic-i-2.png',
     'cli/ectopic_interactions-3': '_static/guides/ectopic-i-3.png',
+    'analysis_guide/genebed12/bed12': '_static/analysis/bedtools.swiss.png',
+    'analysis_guide/bedGraph2bw': '_static/analysis/bdg2bw.png',
+    'analysis_guide/subset_bigwig': '_static/analysis/bedtools.swiss.png',
+    'analysis_guide/extract_cool': '_static/analysis/cooler_logo.png',
+    'analysis_guide/mcool': '_static/analysis/cooler_logo.png',
 }
 
 
