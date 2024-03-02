@@ -16,10 +16,10 @@ import sys
 import warnings
 from datetime import date
 
-from sphinx_gallery.notebook import add_code_cell, add_markdown_cell
+#from sphinx_gallery.notebook import add_code_cell, add_markdown_cell
 
 # import sphinx_gallery
-from sphinx_gallery.sorting import FileNameSortKey
+#from sphinx_gallery.sorting import FileNameSortKey
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 package_dir = os.path.join(HERE, "..", "src")
