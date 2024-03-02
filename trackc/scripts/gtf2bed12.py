@@ -39,7 +39,7 @@ class _genebed12(object):
                 blockStarts = blockStarts + "," + tmp[0]
 
         obj_str = (
-            "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}".format(
+            "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}".format(
                 self.chrom,
                 self.start,
                 self.end,
@@ -55,9 +55,9 @@ class _genebed12(object):
                 self.gene_biotype,
             )
         )
-        if biotype2bed13 == False:
+        if biotype2bed13 == True:
             obj_str = (
-                "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}".format(
+                "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}".format(
                     self.chrom,
                     self.start,
                     self.end,

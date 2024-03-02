@@ -80,6 +80,10 @@ def zoomin(
     if colors == None:
         colors = trackcl_11
 
+
+    if len(colors) < zoomin_GRs.shape[0]:
+    	colors = colors * (int(zoomin_GRs.shape[0]/len(colors)) + 1)
+    	print(len(colors))
     for i, row in zoomin_GRs.iterrows():
         x = row[["ps", "pe", "ore", "ors"]]
         y = [0, 0, 1, 1]

@@ -20,6 +20,7 @@ Here are some flexible practical examples of trackc
     :glob:
 
     rearranged_interactions
+    neo_domain
     
 
 .. nbgallery::
@@ -28,3 +29,11 @@ Here are some flexible practical examples of trackc
     :glob:
 
     ../track_types/Virtual4C
+
+.. nbgallery::
+    :caption: 
+    :name: rst-gallery4
+    :glob 
+
+    scaffold_contig_reorder
+    genome_denovo_scaffolding

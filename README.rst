@@ -1,7 +1,3 @@
-.. image:: https://zenodo.org/badge/572302042.svg
-   :target: https://zenodo.org/badge/latestdoi/572302042
-
-
 =======
 trackc
 =======
@@ -100,7 +96,7 @@ trackc support both api and cli. Here is a cli example:
 
 .. image:: neo-domain.png
 
-conf.yml content
+**conf.yml** content
 
 .. code-block:: yaml
 
@@ -116,7 +112,7 @@ conf.yml content
             row_regions:
               - 18:47400000-48280000
               - 18:75280000-74030000
-        mapC:
+          mapC:
             map_type: tri
             label: neo tad
             cmap: PuBu

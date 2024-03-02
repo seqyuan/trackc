@@ -73,7 +73,7 @@ def hicContactMap(Paras, ax):
     if "mat2" in Paras.keys():
         if Paras["mat2"]["method"] == "extractCisContact":
             del Paras["mat2"]["method"]
-            mat = tc.tl.extractCisContact(**Paras["mat2"])
+            mat2 = tc.tl.extractCisContact(**Paras["mat2"])
 
         elif Paras["mat2"]["method"] == "extractContactRegions":
             if (
@@ -84,7 +84,7 @@ def hicContactMap(Paras, ax):
                 mat_obj = tc.tl.extractContactRegions(
                     clr=Paras["mat2"]["clr"], row_regions=region
                 )
-                mat = mat_obj.cmat
+                mat2 = mat_obj.cmat
         else:
             pass
 
@@ -150,6 +150,9 @@ def cli(config, regions, outfile, basefigsize):
             ax = ten.axs(axs_pre.loc[tt["ax"], "rank_u"])
             ax.set_axis_off()
             continue
+        
+        print('ax: ', tt["ax"])
+
         paras = tt["track_para"]
         if track_type in regions_type:
             if "regions" not in paras.keys():
