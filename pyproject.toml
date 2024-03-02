@@ -19,6 +19,7 @@ cooler = "^0.9.1"
 pybigwig = "^0.3.18"
 click = "^7.1.2"
 colorlog = "^6.7.0"
+sphinx-gallery = "^0.15.0"
 
 [tool.poetry.group.docs.dependencies]
 livereload = "^2.6.3"
