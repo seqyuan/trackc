@@ -4,7 +4,7 @@ import numpy as np
 import sys
 import pandas as pd
 from matplotlib.axes import Axes
-import pyBigWig
+
 from trackc._utils import LOGGER
 from trackc.tl._getRegionsCmat import GenomeRegion
 import warnings
@@ -117,6 +117,15 @@ def bw_track(
         line_GenomeRegions = GenomeRegion(regions).GenomeRegion2df()
 
     if isinstance(bw, str) == True:
+        try:
+            import pyBigWig
+        except ImportError as e:
+            LOGGER.error(
+                "\nAn error occurred when importing the pyBigWig package\n"
+                + "The core reason is that the dependencies of pyBigWig are not installed\n"
+                + "The specific error message is as follows:",
+            )
+            raise
         bw = pyBigWig.open(bw)
 
     axs = _make_multi_region_ax(ax, line_GenomeRegions)

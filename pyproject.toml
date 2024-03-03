@@ -9,7 +9,7 @@ repository = "https://github.com/seqyuan/trackc"
 
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8.1"
 matplotlib = "^3.6.2"
 pandas = "^1.5.3"
 numpy = "^1.23.5"
@@ -17,8 +17,18 @@ seaborn = "^0.12.2"
 bioframe = "^0.3.3"
 cooler = "^0.9.1"
 pybigwig = "^0.3.18"
-click = "^7.1.2"
+click = ">=8.0.0"
 colorlog = "^6.7.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.0.0"
+black = "^24.2.0"
+flake8-black = "^0.3.6"
+isort = "^5.13.2"
+flake8-isort = "^6.1.1"
+nbqa = "^1.7.1"
+pytest-cov = "^4.1.0"
+poethepoet = "^0.25.0"
 
 [tool.poetry.group.docs.dependencies]
 livereload = "^2.6.3"

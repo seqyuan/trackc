@@ -46,7 +46,6 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
     "sphinx.ext.todo",
-    'sphinx_gallery',
     "sphinx.ext.coverage",
     "sphinx_gallery.load_style",
     "sphinx.ext.graphviz",
