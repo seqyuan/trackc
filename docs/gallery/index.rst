@@ -31,7 +31,7 @@ Here are some flexible practical examples of trackc
     ../track_types/Virtual4C
 
 .. nbgallery::
-    :caption: 
+    :caption: genome assembly, contigs reorder
     :name: rst-gallery4
     :glob:
 
