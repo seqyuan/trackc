@@ -33,7 +33,7 @@ Here are some flexible practical examples of trackc
 .. nbgallery::
     :caption: 
     :name: rst-gallery4
-    :glob 
+    :glob:
 
     scaffold_contig_reorder
     genome_denovo_scaffolding
