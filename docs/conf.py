@@ -378,6 +378,7 @@ nbsphinx_thumbnails = {
     'analysis_guide/subset_bigwig': '_static/analysis/bedtools.swiss.png',
     'analysis_guide/extract_cool': '_static/analysis/cooler_logo.png',
     'analysis_guide/mcool': '_static/analysis/cooler_logo.png',
+    'gallery/embryos': '_static/guides/embryos.png',
 }
 
 
