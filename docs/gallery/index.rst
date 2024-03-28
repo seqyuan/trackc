@@ -12,6 +12,7 @@ Here are some flexible practical examples of trackc
 
     mapc_eg
     long_range_interact
+    embryos
     
 
 .. nbgallery::
