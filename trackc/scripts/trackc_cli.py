@@ -64,7 +64,7 @@ def hicContactMap(Paras, ax):
             ):
                 del Paras["mat"]["method"]
                 mat_obj = tc.tl.extractContactRegions(
-                    clr=Paras["mat"]["clr"], row_regions=region
+                    **Paras["mat"]["clr"]
                 )
                 mat = mat_obj.cmat
         else:
@@ -82,7 +82,7 @@ def hicContactMap(Paras, ax):
             ):
                 del Paras["mat2"]["method"]
                 mat_obj = tc.tl.extractContactRegions(
-                    clr=Paras["mat2"]["clr"], row_regions=region
+                    **Paras["mat2"]["clr"]
                 )
                 mat2 = mat_obj.cmat
         else:
