@@ -14,7 +14,7 @@ trackc's key applications
 - Flexible and convenient layout for multi-track 
 
 Available track types
----------------------
+-----------------------
 
 .. list-table:: tracks
    :widths: 12 14 15
