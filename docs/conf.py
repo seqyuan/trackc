@@ -16,10 +16,10 @@ import sys
 import warnings
 from datetime import date
 
-#from sphinx_gallery.notebook import add_code_cell, add_markdown_cell
+# from sphinx_gallery.notebook import add_code_cell, add_markdown_cell
 
 # import sphinx_gallery
-#from sphinx_gallery.sorting import FileNameSortKey
+# from sphinx_gallery.sorting import FileNameSortKey
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 package_dir = os.path.join(HERE, "..", "src")
@@ -132,6 +132,7 @@ nitpick_ignore = [("", "Pygments lexer name 'ipython' is not known")]
 master_doc = "index"
 html_theme = "pydata_sphinx_theme"
 autosummary_generate = True
+autodoc_mock_imports = ["pyBigWig"]
 html_show_sphinx = False
 pygments_style = "sphinx"
 highlight_language = "python3"
@@ -161,8 +162,8 @@ html_theme_options = {
     "logo": {
         "text": None,
         "alt_text": None,
-        #"image_light": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png",
-        #"image_dark": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
+        # "image_light": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png",
+        # "image_dark": "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
     },
     #'switcher': dict(
     #    json_url='https://sphinx-gallery.github.io/dev/_static/switcher.json',
@@ -190,12 +191,14 @@ html_theme_options = {
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-'''
+"""
 html_logo = (
     "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
 )
-'''
-html_logo = "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
+"""
+html_logo = (
+    "_static/logo/trackc-low-resolution-logo-color-on-transparent-background.png"
+)
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
@@ -370,15 +373,13 @@ warnings.filterwarnings(
 
 
 nbsphinx_thumbnails = {
-    'cli/ectopic_interactions-1': '_static/guides/ectopic-i-1.png',
-    'cli/ectopic_interactions-2': '_static/guides/ectopic-i-2.png',
-    'cli/ectopic_interactions-3': '_static/guides/ectopic-i-3.png',
-    'analysis_guide/genebed12/bed12': '_static/analysis/bedtools.swiss.png',
-    'analysis_guide/bedGraph2bw': '_static/analysis/bdg2bw.png',
-    'analysis_guide/subset_bigwig': '_static/analysis/bedtools.swiss.png',
-    'analysis_guide/extract_cool': '_static/analysis/cooler_logo.png',
-    'analysis_guide/mcool': '_static/analysis/cooler_logo.png',
-    'gallery/embryos': '_static/guides/embryos.png',
+    "cli/ectopic_interactions-1": "_static/guides/ectopic-i-1.png",
+    "cli/ectopic_interactions-2": "_static/guides/ectopic-i-2.png",
+    "cli/ectopic_interactions-3": "_static/guides/ectopic-i-3.png",
+    "analysis_guide/genebed12/bed12": "_static/analysis/bedtools.swiss.png",
+    "analysis_guide/bedGraph2bw": "_static/analysis/bdg2bw.png",
+    "analysis_guide/subset_bigwig": "_static/analysis/bedtools.swiss.png",
+    "analysis_guide/extract_cool": "_static/analysis/cooler_logo.png",
+    "analysis_guide/mcool": "_static/analysis/cooler_logo.png",
+    "gallery/embryos": "_static/guides/embryos.png",
 }
-
-

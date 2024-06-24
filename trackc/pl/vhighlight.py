@@ -3,7 +3,7 @@ from typing import Sequence, Union
 import bioframe as bf
 from matplotlib.axes import Axes
 
-from .zoomin import _region_pos
+from trackc.pl.zoomin import _region_pos
 
 
 def vhighlight(

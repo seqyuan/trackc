@@ -1,14 +1,15 @@
+import sys
+import warnings
 from typing import Any, Callable, List, Mapping, Optional, Sequence, Tuple, Union
 
-import numpy as np
-import sys
 import pandas as pd
-from matplotlib.axes import Axes
 import pyBigWig
-from trackc._utils import LOGGER
+from matplotlib.axes import Axes
+
 from trackc.tl._getRegionsCmat import GenomeRegion
-import warnings
+
 warnings.filterwarnings("ignore")
+
 
 def _make_multi_region_ax(ax, lineGenomeRegions):
     lineGenomeRegions["len"] = (
@@ -125,13 +126,17 @@ def bw_track(
     if isinstance(primary_col, list) == False:
         primary_col = [primary_col]
     if len(primary_col) < line_GenomeRegions.shape[0]:
-        repeat_times = (line_GenomeRegions.shape[0] + len(primary_col) - 1) // len(primary_col)
+        repeat_times = (line_GenomeRegions.shape[0] + len(primary_col) - 1) // len(
+            primary_col
+        )
         primary_col = (primary_col * repeat_times)[: line_GenomeRegions.shape[0]]
 
     if isinstance(secondary_col, list) == False:
         secondary_col = [secondary_col]
     if len(secondary_col) < line_GenomeRegions.shape[0]:
-        repeat_times = (line_GenomeRegions.shape[0] + len(secondary_col) - 1) // len(secondary_col)
+        repeat_times = (line_GenomeRegions.shape[0] + len(secondary_col) - 1) // len(
+            secondary_col
+        )
         secondary_col = (secondary_col * repeat_times)[: line_GenomeRegions.shape[0]]
 
     min_y = 0
@@ -142,41 +147,47 @@ def bw_track(
         bins = int(row["len"] / binsize)
         if row["chrom"] not in bw.chroms():
             raw_chr = row["chrom"]
-            if row["chrom"].startswith('chr'):
-                row["chrom"] = row["chrom"].lstrip('chr')
+            if row["chrom"].startswith("chr"):
+                row["chrom"] = row["chrom"].lstrip("chr")
             else:
-                row["chrom"] = 'chr' + row["chrom"]
+                row["chrom"] = "chr" + row["chrom"]
             if row["chrom"] not in bw.chroms():
-                print(f'{raw_chr} not in bigwig chroms!')
+                print(f"{raw_chr} not in bigwig chroms!")
                 return
-        plot_list = bw.stats(row["chrom"], int(row["fetch_start"]), int(row["fetch_end"]),  type=summary_type, nBins=bins)
+        plot_list = bw.stats(
+            row["chrom"],
+            int(row["fetch_start"]),
+            int(row["fetch_end"]),
+            type=summary_type,
+            nBins=bins,
+        )
         plot_list = [0 if v is None else v for v in plot_list]
         if style == "line":
             axs[i].plot(range(0, bins), plot_list, color=primary_col[i], alpha=alpha)
         else:
-            plotvalues = pd.DataFrame({'v':plot_list}, index=range(0, bins))
-            pos_value = plotvalues.query('v>=0')
-            neg_value = plotvalues.query('v<0')
-            if neg_value.shape[0]>0:
-                plot_bottom_line = False 
+            plotvalues = pd.DataFrame({"v": plot_list}, index=range(0, bins))
+            pos_value = plotvalues.query("v>=0")
+            neg_value = plotvalues.query("v<0")
+            if neg_value.shape[0] > 0:
+                plot_bottom_line = False
 
             axs[i].bar(
                 x=pos_value.index,
-                height=pos_value['v'],
+                height=pos_value["v"],
                 width=1,
-                #bottom=[0] * (pos_value.shape[0]),
+                # bottom=[0] * (pos_value.shape[0]),
                 bottom=0,
                 color=primary_col[i],
                 align="edge",
                 edgecolor=None,
                 alpha=alpha,
             )
-            
+
             axs[i].bar(
                 x=neg_value.index,
-                height=neg_value['v'],
+                height=neg_value["v"],
                 width=1,
-                #bottom=[0] * (neg_value.shape[0]),
+                # bottom=[0] * (neg_value.shape[0]),
                 bottom=0,
                 color=secondary_col[i],
                 align="edge",
@@ -225,11 +236,15 @@ def bw_track(
 
     else:
         ax.set_yticks([vmin, 0, vmax])
-        ax.set_yticklabels([f'{tick_fl % vmin}', '0', f'{tick_fl % vmax}'], fontsize=tick_fontsize)
+        ax.set_yticklabels(
+            [f"{tick_fl % vmin}", "0", f"{tick_fl % vmax}"], fontsize=tick_fontsize
+        )
         if invert_y:
             ax.set_yticks([vmax, 0, vmin])
-            ax.set_yticklabels([f'{tick_fl % vmax}', '0', f'{tick_fl % vmin}'], fontsize=tick_fontsize)
-            
+            ax.set_yticklabels(
+                [f"{tick_fl % vmax}", "0", f"{tick_fl % vmin}"], fontsize=tick_fontsize
+            )
+
     ax.set_ylabel(
         label,
         fontsize=label_fontsize,
@@ -241,12 +256,12 @@ def bw_track(
     if ax_on == False:
         spines = ["top", "bottom", "left", "right"]
         if invert_y == True:
-            if plot_bottom_line==True:
+            if plot_bottom_line == True:
                 del spines[0]
             else:
                 del spines[2]
         else:
-            if plot_bottom_line==True:
+            if plot_bottom_line == True:
                 del spines[1]
             else:
                 del spines[2]
@@ -254,6 +269,3 @@ def bw_track(
             ax.spines[i].set_visible(False)
     ax.set_xticks([])
     ax.set_xticklabels("")
-    
-
-

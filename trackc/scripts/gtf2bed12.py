@@ -38,8 +38,23 @@ class _genebed12(object):
                 blockSizes = blockSizes + "," + "{0}".format(int(tmp[1]) - int(tmp[0]))
                 blockStarts = blockStarts + "," + tmp[0]
 
-        obj_str = (
-            "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}".format(
+        obj_str = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}".format(
+            self.chrom,
+            self.start,
+            self.end,
+            self.name,
+            self.score,
+            self.strand,
+            self.thickStart,
+            self.thickEnd,
+            self.itemRgb,
+            blockCount,
+            blockSizes,
+            blockStarts,
+            self.gene_biotype,
+        )
+        if biotype2bed13 == True:
+            obj_str = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}".format(
                 self.chrom,
                 self.start,
                 self.end,
@@ -52,25 +67,6 @@ class _genebed12(object):
                 blockCount,
                 blockSizes,
                 blockStarts,
-                self.gene_biotype,
-            )
-        )
-        if biotype2bed13 == True:
-            obj_str = (
-                "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}".format(
-                    self.chrom,
-                    self.start,
-                    self.end,
-                    self.name,
-                    self.score,
-                    self.strand,
-                    self.thickStart,
-                    self.thickEnd,
-                    self.itemRgb,
-                    blockCount,
-                    blockSizes,
-                    blockStarts,
-                )
             )
         return obj_str
 
@@ -88,7 +84,9 @@ def _bedcol9_2dic(bedcol9, split=";"):
     return col9dic
 
 
-def gtf2bed(gtf, outfile, sep, gene_name_tag, gene_id_tag, gene_biotype_tag, biotype2bed13):
+def gtf2bed(
+    gtf, outfile, sep, gene_name_tag, gene_id_tag, gene_biotype_tag, biotype2bed13
+):
     gene = None
     gtf_hand = open(gtf, "r")
     gtf2bed = open(outfile, "w")
