@@ -1,19 +1,19 @@
+import sys
 from typing import Optional, Sequence, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
 import pandas as pd
 from matplotlib import cm
 from matplotlib.axes import Axes
 from matplotlib.collections import PatchCollection
-from matplotlib.colors import Colormap
+from matplotlib.colors import Colormap, TwoSlopeNorm
 from matplotlib.patches import Polygon
 
 from trackc.pl.bigwig import _make_multi_region_ax
 from trackc.pl.links import _plot_loop_arc
 from trackc.tl._getRegionsCmat import GenomeRegion
-from matplotlib.colors import TwoSlopeNorm
+
 
 def bed_track(
     ax: Optional[Axes] = None,
@@ -94,12 +94,16 @@ def bed_track(
     if isinstance(primary_col, list) == False:
         primary_col = [primary_col]
     if len(primary_col) < line_GenomeRegions.shape[0]:
-        repeat_times = (line_GenomeRegions.shape[0] + len(primary_col) - 1) // len(primary_col)
+        repeat_times = (line_GenomeRegions.shape[0] + len(primary_col) - 1) // len(
+            primary_col
+        )
         primary_col = (primary_col * repeat_times)[: line_GenomeRegions.shape[0]]
     if isinstance(secondary_col, list) == False:
         secondary_col = [secondary_col]
     if len(secondary_col) < line_GenomeRegions.shape[0]:
-        repeat_times = (line_GenomeRegions.shape[0] + len(secondary_col) - 1) // len(secondary_col)
+        repeat_times = (line_GenomeRegions.shape[0] + len(secondary_col) - 1) // len(
+            secondary_col
+        )
         secondary_col = (secondary_col * repeat_times)[: line_GenomeRegions.shape[0]]
 
     if isinstance(cmap, list) == False:
@@ -144,17 +148,17 @@ def bed_track(
     max_y = None
     max_len = 0
 
-    chromos = bed['chrom'].unique()
+    chromos = bed["chrom"].unique()
     for ix, row in line_GenomeRegions.iterrows():
         raw_chr = row["chrom"]
         if row["chrom"] not in chromos:
-            if row["chrom"].startswith('chr'):
-                row["chrom"] = row["chrom"].lstrip('chr')
+            if row["chrom"].startswith("chr"):
+                row["chrom"] = row["chrom"].lstrip("chr")
             else:
-                row["chrom"] = 'chr' + row["chrom"]
+                row["chrom"] = "chr" + row["chrom"]
 
             if row["chrom"] not in chromos:
-                print(f'{raw_chr} not in beg chroms!')
+                print(f"{raw_chr} not in beg chroms!")
                 sys.exit(0)
 
         bed2plot = bed[
@@ -162,7 +166,6 @@ def bed_track(
             & (bed["end"] >= row["fetch_start"])
             & (bed["start"] <= row["fetch_end"])
         ]
-
 
         if style in ["line", "bar"] or bed.shape[1] >= 4:
             if min_y == None:
@@ -191,15 +194,15 @@ def bed_track(
     for ix, row in line_GenomeRegions.iterrows():
         raw_chr = row["chrom"]
         if row["chrom"] not in chromos:
-            if row["chrom"].startswith('chr'):
-                row["chrom"] = row["chrom"].lstrip('chr')
+            if row["chrom"].startswith("chr"):
+                row["chrom"] = row["chrom"].lstrip("chr")
             else:
-                row["chrom"] = 'chr' + row["chrom"]
+                row["chrom"] = "chr" + row["chrom"]
 
             if row["chrom"] not in chromos:
-                print(f'{raw_chr} not in beg chroms!')
+                print(f"{raw_chr} not in beg chroms!")
                 sys.exit(0)
-                
+
         bed2plot = bed[
             (bed["chrom"] == row["chrom"])
             & (bed["end"] >= row["fetch_start"])
@@ -217,7 +220,7 @@ def bed_track(
                 needReverse=row["isReverse"],
                 style="line",
                 pri_col=primary_col[ix],
-                #5sec_col=secondary_col[ix],
+                # 5sec_col=secondary_col[ix],
                 alpha=alpha,
             )
 
@@ -351,9 +354,9 @@ def _plot_bed_tri(
 
         # 因为 y 大到一定程度超过临界数值后颜色就会饱和不变(不使用循环colormap)。
         norm = plt.Normalize(vmin, vmax)
-        if vmin<0 and vmax>0:
+        if vmin < 0 and vmax > 0:
             norm = TwoSlopeNorm(vmin=vmin, vcenter=0, vmax=vmax)
-        
+
         # matplotlib.colors.Normalize 对象，可以作为参数传入到绘图方法里
         # 也可给其传入数值直接计算归一化的结果
         norm_y = norm(bed["score"])
@@ -412,9 +415,9 @@ def _plot_bed_rec(
 
         # 因为 y 大到一定程度超过临界数值后颜色就会饱和不变(不使用循环colormap)。
         norm = plt.Normalize(vmin, vmax)
-        if vmin<0 and vmax>0:
+        if vmin < 0 and vmax > 0:
             norm = TwoSlopeNorm(vmin=vmin, vcenter=0, vmax=vmax)
-        
+
         # matplotlib.colors.Normalize 对象，可以作为参数传入到绘图方法里
         # 也可给其传入数值直接计算归一化的结果
         norm_y = norm(bed["score"])
@@ -447,7 +450,7 @@ def _plot_bed_rec(
         xlim_e = start
     ax.set_xlim(xlim_s, xlim_e)
     if cname != None:
-        #sm = cm.ScalarMappable(norm=norm, cmap=map_vir)
+        # sm = cm.ScalarMappable(norm=norm, cmap=map_vir)
         sm = cm.ScalarMappable(norm=norm, cmap=map_vir)
         cax = mainAX.inset_axes([1.01, 0, 0.01, 0.9])
         cb = plt.colorbar(sm, ax=mainAX, cax=cax, label=score_label)
@@ -456,14 +459,22 @@ def _plot_bed_rec(
 
 
 def _plot_bed_bar_l(
-    ax, bed, start, end, needReverse, style="bar", pri_col="#3271B2", sec_col="#FBD23C", alpha=1
+    ax,
+    bed,
+    start,
+    end,
+    needReverse,
+    style="bar",
+    pri_col="#3271B2",
+    sec_col="#FBD23C",
+    alpha=1,
 ):
     plot_bottom_line = True
     if style == "bar":
-        bed_pos = bed.query('score>=0')
-        bed_neg = bed.query('score<0')
-        if bed_neg.shape[0] >0 :
-            plot_bottom_line=False
+        bed_pos = bed.query("score>=0")
+        bed_neg = bed.query("score<0")
+        if bed_neg.shape[0] > 0:
+            plot_bottom_line = False
         ax.bar(
             x=bed_pos["start"],
             width=bed_pos["end"] - bed_pos["start"],
@@ -483,7 +494,11 @@ def _plot_bed_bar_l(
 
     if style == "line":
         ax.plot(
-            bed["start"], bed["score"], color=pri_col, alpha=alpha, solid_capstyle="butt"
+            bed["start"],
+            bed["score"],
+            color=pri_col,
+            alpha=alpha,
+            solid_capstyle="butt",
         )
 
     xlim_s = start
@@ -495,10 +510,10 @@ def _plot_bed_bar_l(
 
     spines = ["top", "bottom", "left", "right"]
     if needReverse == True:
-        if plot_bottom_line==True:
+        if plot_bottom_line == True:
             del spines[0]
     else:
-        if plot_bottom_line==True:
+        if plot_bottom_line == True:
             del spines[1]
 
     """

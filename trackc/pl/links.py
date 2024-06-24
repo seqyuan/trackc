@@ -4,9 +4,8 @@ import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
 
+from trackc.pl.bigwig import _make_multi_region_ax
 from trackc.tl._getRegionsCmat import GenomeRegion
-
-from .bigwig import _make_multi_region_ax
 
 
 def _two_degree_bc(x_l=10, x_r=90, y_lr=0, y2=10, dots_num=100):
@@ -171,18 +170,19 @@ def links_track(
     data["chr1"] = data["chr1"].astype(str)
     data["chr2"] = data["chr2"].astype(str)
 
-
-    chromos = data['chr1'].unique()
-    chrchrom = line_GenomeRegions.loc[0, 'chrom']
+    chromos = data["chr1"].unique()
+    chrchrom = line_GenomeRegions.loc[0, "chrom"]
     if chrchrom not in chromos:
-        if chrchrom.startswith('chr'):
-            chrchrom = chrchrom.lstrip('chr')
+        if chrchrom.startswith("chr"):
+            chrchrom = chrchrom.lstrip("chr")
             if chrchrom in chromos:
-                line_GenomeRegions['chrom'] = line_GenomeRegions['chrom'].str.lstrip('chr')
+                line_GenomeRegions["chrom"] = line_GenomeRegions["chrom"].str.lstrip(
+                    "chr"
+                )
         else:
-            chrchrom = 'chr' + chrchrom
+            chrchrom = "chr" + chrchrom
             if chrchrom in chromos:
-                line_GenomeRegions['chrom'] = 'chr' + line_GenomeRegions['chrom']
+                line_GenomeRegions["chrom"] = "chr" + line_GenomeRegions["chrom"]
 
     for ix, row in line_GenomeRegions.iterrows():
         loop_bed_plot = data[data["chr1"] == row["chrom"]]
