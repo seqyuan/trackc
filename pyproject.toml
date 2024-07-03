@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "trackc"
-version = "0.0.17"
+version = "0.0.18"
 description = ""
 authors = ["seqyuan <ahworld07@gmail.com>", "Minghong Li <lmh0066@outlook.com>"]
 readme = "README.rst"
