@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from matplotlib.cm import get_cmap
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap
+from matplotlib.pyplot import get_cmap
 
 
 def hex2rgb(value):

@@ -3,9 +3,8 @@ from typing import Optional, Sequence, Union
 import pandas as pd
 from matplotlib.axes import Axes
 
+from trackc.pl.bigwig import _make_multi_region_ax
 from trackc.tl._getRegionsCmat import GenomeRegion
-
-from .bigwig import _make_multi_region_ax
 
 
 def gene_track(
@@ -125,16 +124,16 @@ def gene_track(
     bed12["blockStarts"] = bed12["blockStarts"].str.rstrip(",")
     bed12["chrom"] = bed12["chrom"].astype(str)
     chrom_names = bed12["chrom"].unique()
-    
+
     for ix, row in line_GenomeRegions.iterrows():
         if row["chrom"] not in chrom_names:
             raw_chr = row["chrom"]
-            if row["chrom"].startswith('chr'):
-                row["chrom"] = row["chrom"].lstrip('chr')
+            if row["chrom"].startswith("chr"):
+                row["chrom"] = row["chrom"].lstrip("chr")
             else:
-                row["chrom"] = 'chr' + row["chrom"]
+                row["chrom"] = "chr" + row["chrom"]
             if row["chrom"] not in chrom_names:
-                print(f'{raw_chr} not in bigwig chroms!')
+                print(f"{raw_chr} not in bigwig chroms!")
                 return
 
         if track_type == "gene":

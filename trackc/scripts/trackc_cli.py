@@ -1,6 +1,5 @@
 import sys
 
-#import click
 import pandas as pd
 import yaml
 
@@ -95,6 +94,8 @@ def hicContactMap(Paras, ax):
             tc.pl.mapC(ax=ax, mat=mat, mat2=mat2, **Paras["mapC"])
         else:
             tc.pl.mapC(ax=ax, mat=mat, **Paras["mapC"])
+
+
 """
 
 @click.command()
@@ -117,6 +118,8 @@ def hicContactMap(Paras, ax):
               The height option in the config.yml is relative to the base figsize height',
 )
 """
+
+
 def cli(config, regions, outfile, basefigsize):
     conf = _get_yaml_data(config)
     fs = basefigsize.split(",")
@@ -150,8 +153,8 @@ def cli(config, regions, outfile, basefigsize):
             ax = ten.axs(axs_pre.loc[tt["ax"], "rank_u"])
             ax.set_axis_off()
             continue
-        
-        print('ax: ', tt["ax"])
+
+        print("ax: ", tt["ax"])
 
         paras = tt["track_para"]
         if track_type in regions_type:
