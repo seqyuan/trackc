@@ -30,8 +30,8 @@ def gene_track(
     ax: :class:`matplotlib.axes.Axes` object
     bed12: `pd.DataFrame` | `str`
         gene annotation bed12 format `DataFrame` or `filepath`
-        Bed12 files can be converted from GTF using `gtf2bed4trackc`.
-        https://trackc.readthedocs.io/en/latest/tutorials/fileformats/bed12.html#gtf2bed4trackc
+        Bed12 files can be converted from GTF using `trackc gtf2bed`.
+        https://trackc.readthedocs.io/en/latest/analysis_guide/genebed12/bed12.html
     regions: `str` | `str list`
         genome regions, format: `chrom:start-end`.
         e.g. ``['chr18:47950000-48280000', 'chr18:75280000-74850000']`` or ``"chr18:45000000-78077248"``.

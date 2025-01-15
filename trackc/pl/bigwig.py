@@ -105,7 +105,7 @@ def bw_track(
     >>> ten.add(pos='bottom', height=1, hspace=0.2)
 
     >>> regions = ['chr8:127000000-129200000', 'chr14:96500000-99300000']
-    >>> tc.pl.bw_track(H3K27ac, ten.axs(0), regions=regions, vmax=20, label='H3K27ac', binsize=10000, color='tab:blue')
+    >>> tc.pl.bw_track(H3K27ac, ten.axs(0), regions=regions, vmax=20, label='H3K27ac', binsize=10000, primary_col='tab:blue')
     >>> tc.pl.bw_track(H3K27ac, ten.axs(1), regions=regions, vmax=5, label='H3K27ac', binsize=10000, invert_y=True, ax_on=True)
     >>> tc.savefig('trackc_bigwig_track.pdf')
     """
