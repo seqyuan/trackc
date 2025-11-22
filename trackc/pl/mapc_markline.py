@@ -427,7 +427,7 @@ def mapc_markline(
         mark line style
     linecolor: `str`
         mark line color
-    linewidth: `str`
+    linewidth: `int`
         mark line width
     show_regions_edge: `bool`
         Whether to display the spliced region as input from the `row_regions` parameter

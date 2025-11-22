@@ -18,7 +18,7 @@ def vhighlight(
 
     Parameters
     ----------
-    ax: :class:`matplotlib.axes.Axes` object
+    axs: :class:`matplotlib.axes.Axes` object
     regions: `str` | `str list`
         The raw genome regions, some of these regions will be selected to zoom in.
         e.g. ``"chr6:1000000-2000000"`` or ``["chr6:1000000-2000000", "chr3:5000000-4000000", "chr5"]``
@@ -30,6 +30,7 @@ def vhighlight(
     colors: `str list`
         the colors of the light_regions
     alpha: `float`
+        alpha of plot color
 
     Example
     -------

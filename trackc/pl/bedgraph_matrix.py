@@ -59,7 +59,20 @@ def bdgmat_track(
         the color of the plot for style: line, if color is a list, the line color will be set by matrix columns order
     cmap: `str` | `matplotlib.colors.Colormap`
         the colormap of the plot for style: heatmap
-    show_h
+    alpha: `float`
+        alpha of plot color
+    label: `str`
+        the title of the track, will show on the left
+    label_fontsize: `int`
+        the label text fontsize
+    ticks_on: `bool`
+        whether show the ticks
+    tick_fontsize: `int`
+        ticks text fontsize
+    tick_fl: `str`
+        ticks retains a few decimal places
+    line_lg_ncol: `int`
+        the number of columns of legend for style: line
     """
 
     if isinstance(regions, list):

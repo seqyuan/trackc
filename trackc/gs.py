@@ -23,15 +23,15 @@ def make_spec(
     figsize : 2-tuple of floats, default: `figure.figsize`
             Figure dimension ``(width, height)`` in inches.
             ``Whole Figure Size``
+    height_ratios : `array-like`
+        Defines the relative heights of the rows. Each row gets a
+        relative height of ``height_ratios[i] / sum(height_ratios)``.
+        If not given, all rows will have the same height.
     width_ratios : `array-like`
         if `height_ratios` is setting, this parameter will ignore.
         Defines the relative widths of the columns. Each column gets a
         relative width of ``width_ratios[i] / sum(width_ratios)``.
         If not given, all columns will have the same width.
-    height_ratios : `array-like`
-        Defines the relative heights of the rows. Each row gets a
-        relative height of ``height_ratios[i] / sum(height_ratios)``.
-        If not given, all rows will have the same height.
     wspace, hspace : `float`, default: 0
         The amount of width/height reserved for space between subfigures,
         expressed as a fraction of the average subfigure width/height.

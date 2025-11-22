@@ -357,7 +357,7 @@ def mapC(
         the title of the track, will show on the left
     label_fontsize: `int`
         the label text fontsize
-    label_color: `int`
+    label_color: `str`
         the label text color
     logdata: `bool` | `bool list`
         do you want to log the data before plotting the heatmap

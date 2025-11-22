@@ -80,6 +80,26 @@ def bed_track(
         the colormap of the plot except style:line
     intervals: `int`
         if style is one of [tri, rec], the row number distribution for triangle or rectangle blocks
+    alpha: `float`
+        alpha of plot color
+    invert_y: `bool`
+        whether reverse the y-axis
+    label: `str`
+        the title of the track, will show on the left
+    label_fontsize: `int`
+        the label text fontsize
+    label_rotation: `int`
+        the label text rotation
+    vmin: `float`
+        the minimum range of values used to define the ylim
+    vmax: `float`
+        the maximum range of values used to define the ylim
+    tick_fontsize: `int`
+        values range ticks text fontsize
+    tick_fl: `str`
+        values range ticks retains a few decimal places
+    score_label_size: `int`
+        score colorbar label fontsize
     """
 
     if isinstance(regions, list):

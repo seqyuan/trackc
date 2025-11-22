@@ -33,6 +33,7 @@ def zoomin(
     colors: `str list`
         the colors of the zoomin_regions
     alpha: `float`
+        alpha of plot color
     line_on: `bool`
         Whether to display the line of zoomin plots
     fill: `bool`

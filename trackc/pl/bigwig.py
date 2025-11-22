@@ -65,7 +65,7 @@ def bw_track(
         which means the reverse region
     binsize: `int`
         binsize divided to computing signal summary statistics
-    type: `str`
+    style: `str`
         plot type, default='bar', options=['bar', 'line']
     summary_type: `str`
         Summary type (mean, min, max, coverage, std), default 'mean'.
