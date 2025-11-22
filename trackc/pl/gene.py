@@ -50,7 +50,7 @@ def gene_track(
     line: `int`
         rows occupied by the genes in the region plotted
     gene_fontsize: `int`
-        gene label fontszie
+        gene label fontsize
     label: `str`
         the title of the track, will show on the left
     label_rotation: `int`
@@ -148,7 +148,7 @@ def gene_track(
                 pos_strand_gene_color=pos_strand_gene_color,
                 neg_strand_gene_color=neg_strand_gene_color,
                 line=line,
-                fontszie=gene_fontsize,
+                fontsize=gene_fontsize,
                 ax_on=ax_on,
             )
         if track_type == "density":
@@ -168,7 +168,7 @@ def _plot_gene(
     pos_strand_gene_color="#3366CC",
     neg_strand_gene_color="#EECFA1",
     line=1,
-    fontszie=5,
+    fontsize=5,
     ax_on=False,
 ):
     gene_bed = gene_bed[gene_bed["chrom"] == chrom]
@@ -276,7 +276,7 @@ def _plot_gene(
                 ha=ha,
                 va="center",
                 color=text_col,
-                fontsize=fontszie,
+                fontsize=fontsize,
             )
         else:
             ha = "left"
@@ -299,7 +299,7 @@ def _plot_gene(
                 ha=ha,
                 va="center",
                 color=text_col,
-                fontsize=fontszie,
+                fontsize=fontsize,
             )
 
         ii += 1
