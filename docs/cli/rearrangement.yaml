@@ -20,8 +20,8 @@ trackc:
     track_para:
       bed12: /Users/yuanzan/Documents/github/seqyuan/trackc_data/tutorials/4C/GRCh38.gene.chr8chr14.bed12
       line: 3
-      gene_fontszie: 10
-      show_label: 
+      gene_fontsize: 10
+      show_label:
         - MYC
   - ax: t3
     height: 0.7
@@ -50,10 +50,3 @@ trackc:
       scale_adjust: Mb
       intervals: 1
       tick_fontsize: 8
-
-      
-
-
-
-
-

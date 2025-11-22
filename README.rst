@@ -11,7 +11,7 @@ trackc's key applications
 --------------------------
 - Mark the abnormal interaction formed by the structural variation of the genome.
 - Show the 3Dgenome interaction and multi-omics data after rearrangement.
-- Flexible and convenient layout for multi-track 
+- Flexible and convenient layout for multi-track
 
 Available track types
 ---------------------
@@ -48,7 +48,7 @@ Available track types
    * - bedgraph matrix
      - bdgmat_track
      - support multi-regions and reverse regions,
-       styles [heatmap, line] 
+       styles [heatmap, line]
    * - zoomin visualization
      - zoomin
      - support multi-regions and reverse regions
@@ -153,7 +153,7 @@ trackc support both api and cli. Here is a cli example:
             - 18:47400000-48280000
             - 18:75280000-74030000
           line: 12
-          gene_fontszie: 8
+          gene_fontsize: 8
 
 
 Documentation

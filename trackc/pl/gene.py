@@ -16,7 +16,7 @@ def gene_track(
     pos_strand_gene_color: Union[str, None] = "#3366CC",
     neg_strand_gene_color: Union[str, None] = "#EECFA1",
     line: Union[int, None] = 1,
-    gene_fontszie: Union[int, None] = 7,
+    gene_fontsize: Union[int, None] = 7,
     label: Optional[str] = None,
     label_rotation: Union[int, None] = 0,
     label_fontsize: Optional[int] = 12,
@@ -49,7 +49,7 @@ def gene_track(
         negative strand gene name color
     line: `int`
         rows occupied by the genes in the region plotted
-    gene_fontszie: `int`
+    gene_fontsize: `int`
         gene label fontszie
     label: `str`
         the title of the track, will show on the left
@@ -148,7 +148,7 @@ def gene_track(
                 pos_strand_gene_color=pos_strand_gene_color,
                 neg_strand_gene_color=neg_strand_gene_color,
                 line=line,
-                fontszie=gene_fontszie,
+                fontszie=gene_fontsize,
                 ax_on=ax_on,
             )
         if track_type == "density":
