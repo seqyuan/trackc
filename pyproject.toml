@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "trackc"
-version = "0.0.19"
+version = "0.0.22"
 description = ""
 authors = ["seqyuan <ahworld07@gmail.com>", "Minghong Li <lmh0066@outlook.com>"]
 readme = "README.rst"
@@ -110,4 +110,3 @@ line_length = 88
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
