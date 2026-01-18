@@ -4,7 +4,6 @@
 import warnings
 
 import click
-import yaml
 
 warnings.filterwarnings("ignore")
 
@@ -67,7 +66,7 @@ def cli(config, regions, outfile, basefigsize):
     "--gene_biotype_tag", "-bt", default="gene_biotype", help="tags of GTF gene_biotype"
 )
 @click.option(
-    "--biotype2bed13",
+    "--biotype2bed13/--no-biotype2bed13",
     "-bed13",
     is_flag=True,
     show_default=True,

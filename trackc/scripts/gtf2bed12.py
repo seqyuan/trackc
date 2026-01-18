@@ -1,6 +1,3 @@
-import argparse
-
-
 class _genebed12(object):
     """bed12 object"""
 
@@ -31,7 +28,7 @@ class _genebed12(object):
 
         for i, v in self.exon_site.items():
             tmp = i.split("-")
-            if blockSizes == None:
+            if blockSizes is None:
                 blockSizes = str(int(tmp[1]) - int(tmp[0]))
                 blockStarts = tmp[0]
             else:
@@ -51,23 +48,9 @@ class _genebed12(object):
             blockCount,
             blockSizes,
             blockStarts,
-            self.gene_biotype,
         )
-        if biotype2bed13 == True:
-            obj_str = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}\t{12}".format(
-                self.chrom,
-                self.start,
-                self.end,
-                self.name,
-                self.score,
-                self.strand,
-                self.thickStart,
-                self.thickEnd,
-                self.itemRgb,
-                blockCount,
-                blockSizes,
-                blockStarts,
-            )
+        if biotype2bed13:
+            obj_str += "\t{0}".format(self.gene_biotype)
         return obj_str
 
 
@@ -106,7 +89,7 @@ def gtf2bed(
         # print(gene)
 
         if bedtab[2] == "gene":
-            if gene != None:
+            if gene is not None:
                 gtf2bed.write(gene.tostr(biotype2bed13) + "\n")
             Gene_name = "xx"
             Gene_biotype = "yy"
@@ -129,7 +112,7 @@ def gtf2bed(
             )
 
         elif bedtab[2] == "exon":
-            if gene != None:
+            if gene is not None:
                 gene.add_exon_block(bedtab[3], bedtab[4])
         else:
             pass
