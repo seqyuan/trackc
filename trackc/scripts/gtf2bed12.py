@@ -1,124 +1,120 @@
-class _genebed12(object):
-    """bed12 object"""
+class BedBuilder:
+    __slots__ = (
+        "chrom",
+        "start",
+        "end",
+        "name",
+        "score",
+        "strand",
+        "thick_start",
+        "thick_end",
+        "rgb",
+        "block_count",
+        "exons",
+        "biotype",
+    )
 
-    def __init__(self, chrom, start, end, name, strand, gene_biotype):
+    def __init__(self, chrom, start, end, name, strand, biotype):
         self.chrom = chrom
-        self.start = start
-        self.end = end
+        self.start = int(start)
+        self.end = int(end)
         self.name = name
         self.score = 0
         self.strand = strand
-        self.thickStart = end
-        self.thickEnd = end
-        self.itemRgb = 0
-        self.blockCount = 0
-        self.exon_site = {}
-        self.gene_biotype = gene_biotype
-        # self.blockSizes = {}
-        # self.blockStarts = {}
+        self.thick_start = "."
+        self.thick_end = "."
+        self.rgb = 0
+        self.block_count = 0
+        self.exons = []
+        self.biotype = biotype
 
-    def add_exon_block(self, s, e):
-        # self.blockCount += 1
-        self.exon_site["{0}-{1}".format(s, e)] = 0
+    def add_exon(self, start, end):
+        self.exons.append((int(start), int(end)))
 
-    def tostr(self, biotype2bed13):
-        blockSizes = None
-        blockStarts = None
-        blockCount = len(self.exon_site)
+    def to_string(self, include_biotype):
+        if not self.exons:
+            return ""
 
-        for i, v in self.exon_site.items():
-            tmp = i.split("-")
-            if blockSizes is None:
-                blockSizes = str(int(tmp[1]) - int(tmp[0]))
-                blockStarts = tmp[0]
-            else:
-                blockSizes = blockSizes + "," + "{0}".format(int(tmp[1]) - int(tmp[0]))
-                blockStarts = blockStarts + "," + tmp[0]
+        block_count = len(self.exons)
+        self.exons.sort()
+        block_sizes = [str(e[1] - e[0]) for e in self.exons]
+        block_starts = [str(e[0]) for e in self.exons]
 
-        obj_str = "{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}".format(
+        cols = [
             self.chrom,
-            self.start,
-            self.end,
+            str(self.start),
+            str(self.end),
             self.name,
-            self.score,
+            str(self.score),
             self.strand,
-            self.thickStart,
-            self.thickEnd,
-            self.itemRgb,
-            blockCount,
-            blockSizes,
-            blockStarts,
-        )
-        if biotype2bed13:
-            obj_str += "\t{0}".format(self.gene_biotype)
-        return obj_str
+            str(self.thick_start),
+            str(self.thick_end),
+            str(self.rgb),
+            str(block_count),
+            ",".join(block_sizes),
+            ",".join(block_starts),
+        ]
+        if include_biotype:
+            cols.append(self.biotype)
+
+        return "\t".join(cols)
 
 
-def _bedcol9_2dic(bedcol9, split=";"):
-    tmp = bedcol9.split(split)
-    col9dic = {}
-    for i in tmp:
-        i = i.strip()
-        ii = i.split(" ")
-        if len(ii) < 2:
+def parse_attributes(attr_str, sep=";"):
+    attrs = {}
+    for item in attr_str.split(sep):
+        if not item:
             continue
-        val = ii[1].strip('"')
-        col9dic[ii[0]] = val
-    return col9dic
+        parts = item.strip().split(" ", 1)
+        if len(parts) == 2:
+            attrs[parts[0]] = parts[1].strip('"')
+    return attrs
 
 
 def gtf2bed(
-    gtf, outfile, sep, gene_name_tag, gene_id_tag, gene_biotype_tag, biotype2bed13
+    gtf_file,
+    outfile,
+    sep=";",
+    gene_name_tag="gene_name",
+    gene_id_tag="gene_id",
+    gene_biotype_tag="gene_biotype",
+    biotype2bed13=False,
 ):
-    gene = None
-    gtf_hand = open(gtf, "r")
-    gtf2bed = open(outfile, "w")
+    current_gene = None
+    with open(gtf_file, "r") as f_in, open(outfile, "w") as f_out:
+        for line in f_in:
+            if line.startswith("#"):
+                continue
 
-    for line in gtf_hand:
-        bedtab = line.rstrip().split("\t")
-        if len(bedtab) < 9:
-            continue
+            parts = line.strip().split("\t")
+            feature_type = parts[2]
 
-        # if re.match('chr', bedtab[0]) == None:
-        #    continue
+            if feature_type == "gene":
+                if current_gene:
+                    f_out.write(current_gene.to_string(biotype2bed13) + "\n")
 
-        # if re.match('chrM', bedtab[0]) != None:
-        #    continue
+                attrs = parse_attributes(parts[8], sep)
 
-        # print(bedtab)
-        # print(gene)
+                name = attrs.get(gene_name_tag) or attrs.get(gene_id_tag) or "."
+                if name == ".":
+                    print(f"Warning: No name found for line: {parts[8]}")
 
-        if bedtab[2] == "gene":
-            if gene is not None:
-                gtf2bed.write(gene.tostr(biotype2bed13) + "\n")
-            Gene_name = "xx"
-            Gene_biotype = "yy"
+                biotype = attrs.get(gene_biotype_tag) or attrs.get("gene_type") or "."
 
-            col9dic = _bedcol9_2dic(bedtab[8], split=sep)
-            if gene_name_tag in col9dic.keys():
-                Gene_name = col9dic[gene_name_tag]
-            elif gene_id_tag in col9dic.keys():
-                Gene_name = col9dic[gene_id_tag]
-            else:
-                print(bedtab[8], " have no {0}, xx instead".format(gene_name_tag))
+                current_gene = BedBuilder(
+                    chrom=parts[0],
+                    start=parts[3],
+                    end=parts[4],
+                    name=name,
+                    strand=parts[6],
+                    biotype=biotype,
+                )
 
-            if gene_biotype_tag in col9dic.keys():
-                Gene_biotype = col9dic[gene_biotype_tag]
-            else:
-                print(bedtab[8], " have no {0}, yy instead".format(gene_biotype_tag))
+            elif feature_type == "exon":
+                if current_gene:
+                    current_gene.add_exon(parts[3], parts[4])
 
-            gene = _genebed12(
-                bedtab[0], bedtab[3], bedtab[4], Gene_name, bedtab[6], Gene_biotype
-            )
+        if current_gene:
+            f_out.write(current_gene.to_string(biotype2bed13) + "\n")
 
-        elif bedtab[2] == "exon":
-            if gene is not None:
-                gene.add_exon_block(bedtab[3], bedtab[4])
-        else:
-            pass
-
-    # 最后一行没有输出
-
-    gtf_hand.close()
-    gtf2bed.close()
     print("gtf2bed finished")

@@ -10,11 +10,13 @@ Bed12 file description can be found from the link below: `https://bedtools.readt
 trackc gtf2bed
 ==============
 If you have installed `trackc`, you can conver GTF to bed12 using `trackc gtf2bed` command.
-the `column-4` of outfile is `gene name`
+By default, the `column-4` of the output BED12 file will be the gene identifier, typically `gene_name` or `gene_id` from the GTF attributes. If you wish to include the `gene_biotype` as a 13th column (BED13 format), you can use the `--biotype2bed13` flag.
 
 .. code-block:: shell
 
     trackc gtf2bed GRCh38.84.gtf -o GRCh38.84.bed12
+    # To include gene biotype as a 13th column:
+    # trackc gtf2bed GRCh38.84.gtf -o GRCh38.84.bed13 --biotype2bed13
 
 
 .. csv-table:: bed12-gene-name
@@ -51,7 +53,7 @@ read bed12 file to `pd.DataFrame`` for `trackc.pl.gene_track` input data
 .. code-block:: python
 
     gene_bed12 = pd.read_table("GRCh38.84.bed12", sep="\t", header=None)
-    # The naming of chromosomes may be different for different multi-group data. 
+    # The naming of chromosomes may be different for different multi-group data.
     # If you want to keep the naming of chromosomes consistent, please refer to one of the following code
     #gene_bed12[0] = gene_bed12[0].str.lstrip('chr')
     #gene_bed12[0] = 'chr' + gene_bed12[0].astype(str)

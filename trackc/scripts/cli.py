@@ -63,14 +63,17 @@ def cli(config, regions, outfile, basefigsize):
 )
 @click.option("--gene_id_tag", "-it", default="gene_id", help="tags of GTF gene_id")
 @click.option(
-    "--gene_biotype_tag", "-bt", default="gene_biotype", help="tags of GTF gene_biotype"
+    "--gene_biotype_tag",
+    "-bt",
+    default="gene_biotype",
+    help="tags of GTF gene_biotype (default: gene_biotype, fallback: gene_type)",
 )
 @click.option(
     "--biotype2bed13/--no-biotype2bed13",
     "-bed13",
     is_flag=True,
     show_default=True,
-    default=True,
+    default=False,
     help="if this arg is set, the out file columns 13 will add gene's biotype",
 )
 def mode2(
