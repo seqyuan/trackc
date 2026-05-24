@@ -222,7 +222,7 @@ class tenon:
         return self.mortises[index].ax
 
 
-def savefig(outfile):
+def savefig(outfile, **kwargs):
     """
     Save the figure.
     Parameters
@@ -231,7 +231,8 @@ def savefig(outfile):
         out file path
     """
     # plt.tight_layout()
-    plt.savefig(outfile, bbox_inches="tight")
+    kwargs.setdefault("bbox_inches", "tight")
+    plt.savefig(outfile, **kwargs)
     # plt.savefig(outfile)
 
 
