@@ -2,7 +2,7 @@
 Install
 #############
 
-trackc requires Python version >= 3.8 to run.
+trackc requires Python version >= 3.10 to run.
 
 **PyPI**
 
@@ -30,4 +30,3 @@ run this pip command to specify the version and installation source:
 To install trackc from GitHub, run::
 
     pip install git+https://github.com/seqyuan/trackc@main
-
