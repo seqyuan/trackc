@@ -17,6 +17,8 @@ def gene_track(
     neg_strand_gene_color: Union[str, None] = "#EECFA1",
     line: Union[int, None] = 1,
     gene_fontsize: Union[int, None] = 7,
+    max_labels: Optional[int] = 60,
+    all_labels_inside: bool = False,
     label: Optional[str] = None,
     label_rotation: Union[int, None] = 0,
     label_fontsize: Optional[int] = 12,
@@ -51,6 +53,13 @@ def gene_track(
         rows occupied by the genes in the region plotted
     gene_fontsize: `int`
         gene label fontsize
+    max_labels: `int` | `None`
+        Maximum number of genes for automatic label display. The effective
+        automatic limit also considers `line` to avoid dense-label plots.
+        Set to `None` to disable this limit. Explicit `show_label` gene names
+        are not limited.
+    all_labels_inside: `bool`
+        If True, place labels inside the plotting region when possible.
     label: `str`
         the title of the track, will show on the left
     label_rotation: `int`
@@ -149,6 +158,8 @@ def gene_track(
                 neg_strand_gene_color=neg_strand_gene_color,
                 line=line,
                 fontsize=gene_fontsize,
+                max_labels=max_labels,
+                all_labels_inside=all_labels_inside,
                 ax_on=ax_on,
             )
         if track_type == "density":
@@ -169,22 +180,32 @@ def _plot_gene(
     neg_strand_gene_color="#EECFA1",
     line=1,
     fontsize=5,
+    max_labels=60,
+    all_labels_inside=False,
     ax_on=False,
 ):
     gene_bed = gene_bed[gene_bed["chrom"] == chrom]
+    region_start = min(start, end)
+    region_end = max(start, end)
     gene_bed_plot = gene_bed[
-        ((gene_bed["start"] >= start) & (gene_bed["start"] <= end))
-        | ((gene_bed["end"] >= start) & (gene_bed["end"] <= end))
+        (gene_bed["start"] <= region_end) & (gene_bed["end"] >= region_start)
     ]
-    gene_bed_plot = gene_bed_plot.sort_values(by="end")
+    gene_bed_plot = gene_bed_plot.sort_values(by=["start", "end"])
     # print(gene_bed_plot
 
     plot_gene_num = gene_bed_plot.shape[0]
 
-    ii = 0
-    head_length = (abs(end - start) / (line + 2)) / 5
-    if line <= 3:
-        head_length = (abs(end - start) / (line * 3)) / 10
+    line = max(int(line), 1)
+    region_width = abs(end - start)
+    head_length = _get_arrow_head_length(region_width, line)
+    row_last_position = []
+    label_padding = region_width * 0.01
+    label_unit = _estimate_label_unit(ax, start, end, fontsize)
+    explicit_labels = not isinstance(show_label, bool)
+    auto_label_limit = _get_auto_label_limit(max_labels, line)
+    display_auto_labels = (
+        auto_label_limit is None or explicit_labels or plot_gene_num <= auto_label_limit
+    )
 
     for i, row in gene_bed_plot.iterrows():
         # col = pos_strand_gene_color
@@ -194,11 +215,66 @@ def _plot_gene(
             # col = neg_strand_gene_color
             text_col = neg_strand_gene_color
 
-        # text_col = col
-        plot_y = ii % line
+        gene_start = max(row["start"], region_start)
+        gene_end = min(row["end"], region_end)
+        body_left = min(gene_start, gene_end)
+        body_right = max(gene_start, gene_end)
+        wants_label = _should_show_gene_label(
+            show_label, row["name"], display_auto_labels
+        )
+        label_side, label_left, label_right = _get_gene_label_extent(
+            row["name"],
+            gene_start,
+            gene_end,
+            start,
+            end,
+            needReverse,
+            wants_label,
+            label_unit,
+            label_padding,
+            all_labels_inside,
+            center_label=line == 1,
+        )
+        show_this_label = wants_label
+        if wants_label:
+            layout_left = min(body_left, label_left)
+            layout_right = max(body_right, label_right)
+            _, label_fits = _get_free_gene_row(
+                row_last_position,
+                layout_left,
+                layout_right,
+                line,
+                label_padding,
+                commit=False,
+            )
+            if label_fits or explicit_labels:
+                plot_y, _ = _get_free_gene_row(
+                    row_last_position,
+                    layout_left,
+                    layout_right,
+                    line,
+                    label_padding,
+                )
+            else:
+                plot_y, _ = _get_free_gene_row(
+                    row_last_position,
+                    body_left,
+                    body_right,
+                    line,
+                    label_padding,
+                )
+                show_this_label = False
+        else:
+            plot_y, _ = _get_free_gene_row(
+                row_last_position,
+                body_left,
+                body_right,
+                line,
+                label_padding,
+            )
 
         ax.plot(
-            (row["start"], row["end"]),
+            (gene_start, gene_end),
             (plot_y + 0.5, plot_y + 0.5),
             color="k",
             linewidth=1,
@@ -218,15 +294,10 @@ def _plot_gene(
             color="k",
         )
 
-        if row["start"] < start:
-            row["start"] = start
-        if row["end"] > end:
-            row["end"] = end
-
-        arrow_s = row["end"]
+        arrow_s = gene_end
         dx = 0.3
         if row["strand"] == "-":
-            arrow_s = row["start"]
+            arrow_s = gene_start
             dx = -0.1
         ax.arrow(
             arrow_s,
@@ -241,68 +312,33 @@ def _plot_gene(
             color=text_col,
             linewidth=0.5,
         )
-        if isinstance(show_label, bool):
-            if show_label == False:
-                ii += 1
-                continue
-        if isinstance(show_label, str):
-            if row["name"] != show_label:
-                ii += 1
-                continue
-        if isinstance(show_label, list):
-            if row["name"] not in show_label:
-                ii += 1
-                continue
+        if not show_this_label:
+            continue
 
-        if (row["name"] in gene_bed_plot.iloc[-4:, :]["name"]) or (
-            int(line / (ii + 1)) < 2
-        ):
-            ha = "right"
-            genename = row["name"] + "  "
-            xpos = row["start"]
-            if needReverse:
-                ha = "left"
-                genename = "  " + row["name"]
-                # xpos = row['end']
-            ypos = plot_y + 0.5
+        label_text = row["name"]
+        if label_side == "center":
+            ha = "center"
+            xpos = gene_start + abs(gene_start - gene_end) / 2
             if line == 1:
-                xpos = row["start"] + abs(row["start"] - row["end"]) / 2
-                ypos = 0.8
-                ha = "center"
-            ax.text(
-                xpos,
-                ypos,
-                genename + "  ",
-                ha=ha,
-                va="center",
-                color=text_col,
-                fontsize=fontsize,
-            )
+                plot_y = 0.3
+        elif label_side == "left":
+            ha = "right"
+            xpos = gene_start - label_padding
+            label_text = row["name"] + "  "
         else:
             ha = "left"
-            genename = "  " + row["name"]
-            xpos = row["end"]
-            if needReverse:
-                ha = "right"
-                genename = row["name"] + "  "
-                # xpos = row['start']
-
-            ypos = plot_y + 0.5
-            if line == 1:
-                xpos = row["start"] + abs(row["start"] - row["end"]) / 2
-                ypos = 0.8
-                ha = "center"
-            ax.text(
-                xpos,
-                ypos,
-                genename,
-                ha=ha,
-                va="center",
-                color=text_col,
-                fontsize=fontsize,
-            )
-
-        ii += 1
+            xpos = gene_end + label_padding
+            label_text = "  " + row["name"]
+        ax.text(
+            xpos,
+            plot_y + 0.5,
+            label_text,
+            ha=ha,
+            va="center",
+            color=text_col,
+            fontsize=fontsize,
+            clip_on=all_labels_inside,
+        )
 
     xlim_s = start
     xlim_e = end
@@ -327,3 +363,102 @@ def _plot_gene(
     ax.tick_params(bottom=True, top=False, left=False, right=False)
     ax.set_xticklabels("")
     ax.set_yticklabels("")
+
+
+def _estimate_label_unit(ax, start, end, fontsize):
+    fig_width = ax.figure.get_figwidth() or 1
+    axis_width = ax.get_position().width or 1
+    region_width = abs(end - start)
+    # Approximate one character as 0.6 em and convert inches to genomic units.
+    char_width_in = fontsize / 72 * 0.6
+    return region_width * char_width_in / (fig_width * axis_width)
+
+
+def _get_arrow_head_length(region_width, line):
+    if region_width <= 0:
+        return 0
+    nominal = region_width / max(line + 2, 3) / 8
+    return min(nominal, region_width * 0.01)
+
+
+def _should_show_gene_label(show_label, gene_name, display_auto_labels):
+    if isinstance(show_label, bool):
+        return show_label and display_auto_labels
+    if isinstance(show_label, str):
+        return gene_name == show_label
+    if isinstance(show_label, (list, tuple, set)):
+        return gene_name in show_label
+    return bool(show_label)
+
+
+def _get_gene_label_extent(
+    gene_name,
+    gene_start,
+    gene_end,
+    region_start,
+    region_end,
+    need_reverse,
+    show_label,
+    label_unit,
+    label_padding,
+    all_labels_inside,
+    center_label=False,
+):
+    label_width = (len(str(gene_name)) + 2) * label_unit if show_label else 0
+    region_left = min(region_start, region_end)
+    region_right = max(region_start, region_end)
+    gene_left = min(gene_start, gene_end)
+    gene_right = max(gene_start, gene_end)
+
+    if not show_label:
+        return "none", gene_left, gene_right + 2 * label_padding
+
+    if center_label or (
+        label_width >= max(gene_right - gene_left, label_padding) and all_labels_inside
+    ):
+        center = gene_left + (gene_right - gene_left) / 2
+        return "center", center - label_width / 2, center + label_width / 2
+
+    label_side = "left" if need_reverse else "right"
+    if label_side == "right":
+        label_left = gene_right
+        label_right = gene_right + label_padding + label_width
+        if all_labels_inside and label_right > region_right:
+            left_start = gene_left - label_padding - label_width
+            if left_start >= region_left:
+                return "left", left_start, gene_right
+            center = gene_left + (gene_right - gene_left) / 2
+            return "center", center - label_width / 2, center + label_width / 2
+    else:
+        label_left = gene_left - label_padding - label_width
+        label_right = gene_left
+        if all_labels_inside and label_left < region_left:
+            right_end = gene_right + label_padding + label_width
+            if right_end <= region_right:
+                return "right", gene_left, right_end
+            center = gene_left + (gene_right - gene_left) / 2
+            return "center", center - label_width / 2, center + label_width / 2
+
+    return label_side, label_left, label_right
+
+
+def _get_auto_label_limit(max_labels, line):
+    if max_labels is None:
+        return None
+    return min(int(max_labels), max(int(line) * 4, 4))
+
+
+def _get_free_gene_row(row_last_position, left, right, max_rows, padding, commit=True):
+    for row_idx, row_end in enumerate(row_last_position):
+        if left > row_end + padding:
+            if commit:
+                row_last_position[row_idx] = right
+            return row_idx, True
+    if len(row_last_position) < max_rows:
+        if commit:
+            row_last_position.append(right)
+        return len(row_last_position), True
+    row_idx = min(range(max_rows), key=lambda idx: row_last_position[idx])
+    if commit:
+        row_last_position[row_idx] = max(row_last_position[row_idx], right)
+    return row_idx, False
